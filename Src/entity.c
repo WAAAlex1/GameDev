@@ -37,4 +37,3 @@ void initEntity(entity_t * ptr, uint8_t spriteIndex){
 void toggleActive(entity_t * ptr){
 	ptr->setActive = ptr->setActive = 0 ? 1 : 0;
 }
-

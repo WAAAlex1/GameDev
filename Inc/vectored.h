@@ -12,6 +12,4 @@ typedef struct {
 
 void initVector(vector_t *v, int16_t x1, int16_t y1);
 
-void rotateVectorByReference(vector_t *v, int16_t angle);
-
 #endif /* VECTORED_H_ */
