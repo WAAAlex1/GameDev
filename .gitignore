@@ -53,3 +53,6 @@ dkms.conf
 
 # CubeIDE problems
 .settings/
+cmsis/
+SPL/
+Startup/
