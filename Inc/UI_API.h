@@ -5,8 +5,8 @@
  *      Author: alexa
  */
 
-#ifndef SPRITES_H_
-#define SPRITES_H_
+#ifndef UI_API_H_
+#define UI_API_H_
 
 // INCLUDES:
 
@@ -18,8 +18,8 @@
 // DEFINES:
 
 
-void drawSprite(uint8_t index, uint8_t FGC, uint8_t BGC);
+void ui_draw_sprite(uint8_t index, uint8_t FGC, uint8_t BGC);
 
 
 
-#endif /* SPRITES_H_ */
+#endif /* UI_API_H_ */
