@@ -1,4 +1,5 @@
 #include "joystick.h"
+#include "LCD.h"
 
 void initJoystick(){
 
@@ -43,7 +44,6 @@ void initJoystick(){
 }
 
 uint8_t readJS(){
-
 	uint8_t values = 0;
 	values |= (GPIOA->IDR & (0x0001 << 4)) >> 4; //Read from pin PA4, shift 0(UP)
 	values |= (GPIOB->IDR & (0x0001 << 0)) << 1; //Read from pin PB0, shift 1(DOWN)
@@ -90,6 +90,7 @@ void clearLED(){
 void setLED(uint8_t x1, uint8_t x2, uint8_t x3){
 	//clear registers
 	clearLED();
+
 	//set registers
 	if(!x1){GPIOB->ODR |= 0x0001 << 4;} //pin PB4 (RED)
 	if(!x2){GPIOC->ODR |= 0x0001 << 7;} //pin PC7 (GREEN)
@@ -122,3 +123,31 @@ void RGBJoystick(uint8_t val){
 			setLED(0,0,0);
 	}
 }
+
+void turnOffLED(){
+	static uint16_t counter = 0;
+
+	if(lcd_update()){
+		if(!(GPIOB->ODR & (0x0001 << 4)) && !(GPIOB->ODR & (0x0001 << 7)) && !(GPIOB->ODR & (0x0001 << 9))){ //If any LED is on
+			counter++;
+		}
+	}
+
+	if (counter == 20){ //Wait for 200 ms
+		counter = 0;
+		setLED(0, 0, 0);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "stm32f30x_conf.h" // STM32 config
 #include "30010_io.h"  // Input/output library for this course
+#include "LCD.h"
 
 void initJoystick();
 uint8_t readJS();
@@ -12,6 +13,7 @@ void initLED();
 void clearLED();
 void setLED(uint8_t x1, uint8_t x2, uint8_t x3);
 void RGBJoystick(uint8_t val);
+void turnOffLED();
 
 #endif	// JOYSTICK_H
 
