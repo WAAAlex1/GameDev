@@ -1,3 +1,4 @@
+#include <UI_API.h>
 #include "stm32f30x_conf.h" // STM32 config
 #include "30010_io.h" // Input/output library for this course
 #include "ansi.h"
@@ -6,7 +7,6 @@
 #include "joystick.h"
 #include "serialRead.h"
 #include "stopwatch.h"
-#include "sprites.h"
 
 void sineTest();
 void rotateTest();
