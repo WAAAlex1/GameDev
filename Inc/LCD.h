@@ -16,6 +16,7 @@
 #include "charset.h"
 #include "stopwatch.h"
 #include "lcdSprites.h"
+#include "vec.h"
 //lcd_reset() will reboot and reconfigure the LCD
 //lcd_transmit_bye() is used to send data and commands to the display, but shouldn't be used unless I understand it
 //lcd_push_buffer() transmits a byte array of size 512 to the LCD and shows the data. This is what I will use to update the display
@@ -31,6 +32,5 @@ void lcd_clear_all(uint8_t * LCDbuffer,uint8_t byte);
 int32_t lcd_getVecY(uint8_t slice);
 int32_t lcd_getVecX(int8_t dir);
 int16_t puttyPosToLCD(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY, vector_t * outVec);
-s
 
 #endif /* LCD_H_ */

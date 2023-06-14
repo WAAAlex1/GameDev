@@ -12,12 +12,13 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include "entity.h"
 
 // DEFINES
 
 typedef struct{
 
-	entity_t entityArray[][];
+	entity_t entityArray[80][46];
 
 } entityHandler_t;
 
