@@ -16,8 +16,8 @@
 int32_t con_getVecY(uint8_t slice);
 int32_t con_getVecX(int8_t dir);
 int8_t con_getDistanceX(uint8_t playerX, uint8_t entX);
-uint8_t con_inCone(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY, int8_t gunside);
-int16_t con_posToSlice(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY);
+uint8_t con_inCone(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY);
+int16_t con_posToSlice(uint16_t playerX, uint16_t playerY, uint16_t entX, uint16_t entY);
 
 
 #endif /* PUTTYLCDCONVERTER_H_ */

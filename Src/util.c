@@ -15,9 +15,13 @@
 int32_t getRandomInterval(int32_t min, int32_t max)
 {
 	int32_t ran = rand() >> 16;
-	return ((ran * (max-min)) / (RAND_MAX >> 16)) + min;
+	return mapInterval(0,RAND_MAX >> 16,min,max,ran);
 }
 
+int32_t mapInterval(int32_t minOld, int32_t max1Old,int32_t minNew, int32_t maxNew,int32_t value)
+{
+	return (value-minOld) * (maxNew-minNew) / (maxOld-minOld) + minNew;
+}
 
 int32_t absolute(int32_t x)
 {

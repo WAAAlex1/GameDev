@@ -74,7 +74,7 @@ int8_t con_getDistanceX(uint8_t playerX, uint8_t entX)
  */
 uint8_t con_inCone(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY, int8_t gunside)
 {
-	if(playerX - entX <= CONE_VIEW_LENGTH * gunside && absolute(playerY - entY)) //in progress code here
+	if(playerX - entX <= CONE_VIEW_LENGTH * gunside && absolute(playerY - entY) <= ((CONE_VIEW_WIDTH * absolute(playerX - entX)) / (2*CONE_VIEW_LENGTH)) + 2)
 	{
 		return 1;
 	}
@@ -86,10 +86,22 @@ uint8_t con_inCone(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY,
  * returns the slice for the entity to be drawn on
  *
  * can return slices outside of [0:128] so that entities on their way into the cone view can be drawn smoothly moving in
+ *
+ *Should probably only return the interval [-39;128]
+ *
+ * Parameters:
+ * 		gunside = 1 for left and = -1 for right
  */
-int16_t con_posToSlice(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY)
+int16_t con_posToSlice(uint16_t playerX, uint16_t playerY, uint16_t entX, uint16_t entY)
 {
-
+	return (((((CONE_VIEW_WIDTH * absolute(playerX - entX)) / (2*CONE_VIEW_LENGTH)) + 2) * 2) * absolute(playerY - entY)) / 128;
+	return mapInterval(0,((CONE_VIEW_WIDTH * absolute(playerX - entX)) / (2*CONE_VIEW_LENGTH)) * 2,0,128); //minOld should be something else here to allow negative slices
+	/*
+	 * continue here
+	 *
+	 * return statement nummer 2 var det jeg var igang med,
+	 * men problemet er at value for den map skal være [0;32] for entity der bevæger sig fra toppen til bunden af keglen
+	 */
 }
 
 
