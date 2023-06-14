@@ -19,23 +19,23 @@ int8_t pickItems(char key, uint8_t activeItem){
 
 void printItems(uint8_t activeItem){
 	//TITLE
-	goToXY(38, 5);
+	gotoxy(38, 5);
 	printf("Cosmic Boardside Battle");
 
 	//MENU ITEMS
-	goToXY(10, 10);
+	gotoxy(10, 10);
 	if(activeItem == 0){ inverse(1); } else { inverse(0); }
 	printf(" Singleplayer ");
 
-	goToXY(10, 15);
+	gotoxy(10, 15);
 	if(activeItem == 1){ inverse(1); } else { inverse(0); }
 	printf(" Multiplayer ");
 
-	goToXY(10, 20);
+	gotoxy(10, 20);
 	if(activeItem == 2){ inverse(1); } else { inverse(0); }
 	printf(" Help ");
 
-	goToXY(10, 25);
+	gotoxy(10, 25);
 	if(activeItem == 3){ inverse(1); } else { inverse(0); }
 	printf(" Exit ");
 
@@ -52,17 +52,17 @@ void printScores(){
 	char *highName4 = readHighscoreName(4);
 
 	//Print highscores
-	goToXY(75, 10);
+	gotoxy(75, 10);
 	printf("HIGHSCORES");
-	goToXY(72, 12);
+	gotoxy(72, 12);
 	printf("%s: %010lu", highName0, readHighscore(0));
-	goToXY(72, 14);
+	gotoxy(72, 14);
 	printf("%s: %010lu", highName1, readHighscore(1));
-	goToXY(72, 16);
+	gotoxy(72, 16);
 	printf("%s: %010lu", highName2, readHighscore(2));
-	goToXY(72, 18);
+	gotoxy(72, 18);
 	printf("%s: %010lu", highName3, readHighscore(3));
-	goToXY(72, 20);
+	gotoxy(72, 20);
 	printf("%s: %010lu", highName4, readHighscore(4));
 
 	//Free memory

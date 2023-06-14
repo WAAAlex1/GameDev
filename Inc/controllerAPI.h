@@ -9,6 +9,7 @@
 #define CONTROLLERAPI_H_
 
 #include "stdint.h"
+#include "controller.h"
 
 uint8_t readJoystick();
 uint8_t readButton1();
