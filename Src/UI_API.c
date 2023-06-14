@@ -1,4 +1,4 @@
-#include "sprites.h"
+#include <UI_API.h>
 
 
 /*  sprites:
@@ -60,7 +60,7 @@ const char spriteArray[8][4][5] = {
 
 };
 ///sadasd
-void drawSprite(uint8_t index, uint8_t FGC, uint8_t BGC){
+void ui_draw_sprite(uint8_t index, uint8_t FGC, uint8_t BGC){
 	for(uint8_t i = 0; i <= 3; i++){
 		for(uint8_t j = 0; j <= 4; j++){
 			color(FGC, BGC);
