@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 #include "ansi.h"
-#include "UI_API.h"
+#include "PuTTYSprites.h"
 
 typedef struct {
 	uint8_t x;
