@@ -68,10 +68,13 @@ int8_t con_getDistanceX(uint8_t playerX, uint8_t entX)
  * (also returns 1 if the entities position is outside the cone but part of its sprite could be inside)
  *
  * Returns 0 if the entity is NOT viewable inside the coneview
+ *
+ * Parameters:
+ * 		gunside = 1 for left and = -1 for right
  */
-uint8_t con_inCone(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY)
+uint8_t con_inCone(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY, int8_t gunside)
 {
-	if(abs(playerX - entX) <= 40 && abs(playerY - entY) ) //in progress code here
+	if(playerX - entX <= CONE_VIEW_LENGTH * gunside && absolute(playerY - entY)) //in progress code here
 	{
 		return 1;
 	}
