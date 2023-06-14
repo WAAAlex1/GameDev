@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "stm32f30x_conf.h" // STM32 config
 #include "30010_io.h"  // Input/output library for this course
-#include "vectored.h"
+#include "vec.h"
 
 // struct of type entity_t
 // contains standard fields that all entities will have

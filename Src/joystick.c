@@ -42,7 +42,7 @@ void initJoystick(){
 	GPIOB->PUPDR |= (0x00000002 << (5 * 2)); // Set push/pull register (0x02 - Pull-down)
 }
 
-uint8_t readJoystick(){
+uint8_t readJS(){
 
 	uint8_t values = 0;
 	values |= (GPIOA->IDR & (0x0001 << 4)) >> 4; //Read from pin PA4, shift 0(UP)

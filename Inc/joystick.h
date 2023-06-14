@@ -7,7 +7,7 @@
 #include "30010_io.h"  // Input/output library for this course
 
 void initJoystick();
-uint8_t readJoystick();
+uint8_t readJS();
 void initLED();
 void clearLED();
 void setLED(uint8_t x1, uint8_t x2, uint8_t x3);

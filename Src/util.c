@@ -10,12 +10,12 @@
 /*
  * Remember to initialize the PRNG with srand(int) before using this
  */
-int getRandomInterval(int32_t min, int32_t max)
+int32_t getRandomInterval(int32_t min, int32_t max)
 {
 	return rand() * (max-min) / RAND_MAX + min;
 }
 
-int abs(int32_t x)
+int32_t absolute(int32_t x)
 {
 	return x >= 0 ? x : -x;
 }

@@ -13,8 +13,8 @@
 #include "stdlib.h"
 #include "stdio.h"
 
-int getRandomInterval(int32_t min, int32_t max);
-int abs(int32_t x);
+int32_t getRandomInterval(int32_t min, int32_t max);
+int32_t absolute(int32_t x);
 int32_t getManDistance(int16_t x1, int16_t y1, int16_t x2, int16_t y2);
 
 
