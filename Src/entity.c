@@ -15,6 +15,15 @@ void updateVel(entity_t * ptr, int8_t x, int8_t y){
 	ptr->vel.y += y;
 }
 
+void setVel(entity_t * ptr, int8_t x, int8_t y){
+	ptr->vel.x = x;
+	ptr->vel.y = y;
+}
+void setPos(entity_t * ptr, int8_t x, int8_t y){
+	ptr->pos.x = x;
+	ptr->pos.y = y;
+}
+
 //function to deal damage to an entity
 //can also be used to "heal" an entity
 void damage(entity_t * ptr, int8_t x){
@@ -26,10 +35,8 @@ void damage(entity_t * ptr, int8_t x){
 //function to initialize the values of an entity struct and set its spriteindex.
 void initEntity(entity_t * ptr, uint8_t spriteIndex){
 	uint8_t temp;
-	ptr->pos.x = 0;
-	ptr->pos.y = 0;
-	ptr->vel.x = 0;
-	ptr->vel.y = 0;
+	setPos(0,0);
+	setVel(0,0);
 	ptr->setActive = 0;
 	ptr->height = getRandomInterval(0, 3);
 
