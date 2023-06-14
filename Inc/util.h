@@ -14,7 +14,8 @@
 #include "stdio.h"
 
 int getRandomInterval(int32_t min, int32_t max);
-int32_t getDistance(int16_t x1, int16_t y1, int16_t x2, int16_t y2);
+int abs(int32_t x);
+int32_t getManDistance(int16_t x1, int16_t y1, int16_t x2, int16_t y2);
 
 
 #endif /* UTIL_H_ */

@@ -6,10 +6,6 @@
  */
 #include "LCD.h"
 
-//for lcd_getVecX
-#define CONE_VIEW_WIDTH 32
-#define CONE_VIEW_LENGTH 40
-#define CONE_VIEW_ANGLE 44
 
 void initLCD()
 {
@@ -189,38 +185,5 @@ void lcd_draw_crosshair(uint8_t * LCDbuffer, uint8_t slice, uint8_t line)
 void lcd_clear_all(uint8_t * LCDbuffer,uint8_t byte)
 {
 	memset(LCDbuffer,byte,512);
-}
-
-/*
- * Returns the fixed point 18.14 y coordinate for the unitvector in the direction given by the LCD slice
- *
- * to be moved to its own lcd to putty manager api file?
- *
- * Remember to also move the defined constants if the function is moved
- */
-int32_t lcd_getVecY(uint8_t slice)
-{
-	//a bug might occur here if the (slice/4 - 16) is seen as 1 byte long instead of 4 bytes long.
-	return (((slice / 4) - 16) << 14) / CONE_VIEW_LENGTH;
-}
-
-/*
- * Returns the fixed point 18.14 x coordinate for the unitvector in the given gunner direction
- *
- * for left gunner direction set dir = -1;
- * for right gunnner direction set dir = 1;
- */
-int32_t lcd_getVecX(int8_t dir)
-{
-	return ((CONE_VIEW_LENGTH * dir) << 14) / CONE_VIEW_LENGTH;
-}
-
-/*
- * returns the slice for the entity to be drawn on
- */
-int16_t puttyPosToLCD(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY)
-{
-
-
 }
 

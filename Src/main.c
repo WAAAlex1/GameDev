@@ -1,181 +1,206 @@
 #include "stm32f30x_conf.h" // STM32 config
 #include "30010_io.h" // Input/output library for this course
 #include "ansi.h"
-#include "realLut.h"
-#include "vectored.h"
-#include "joystick.h"
-#include "serialRead.h"
+#include "sinLut.h"
+#include "vec.h"
+#include "ball.h"
 #include "stopwatch.h"
-#include "sprites.h"
+#include "joystick.h"
+#include "LCD.h"
+#include "stdlib.h"
+#include "stdio.h"
+#include "time.h"
+#include "util.h"
 
-void sineTest();
-void rotateTest();
-void rgbJoystickTest();
+void ballBouncing();
 void initStopwatch();
 void runStopwatch();
+void initLCDMain();
+void runLCDMain(char s[], uint8_t LCDbuffer[],uint16_t offset);
 
 int main(void)
 {
-	//initLED();
-	//initJoystick();
+	// Setup communication with the PC
 	uart_init(115200);
-	clrscrn();
-	char temp;
 
+
+	srand(time(0));
+
+	printf("%d", getRandomInterval(0,10));
+
+	initLCDMain();
+
+}
+
+void initLCDMain()
+{
+	uint8_t LCDbuffer[512];
+	uint8_t remainBytes[512];
+	char s[] = "ABCDEFG";
+	uint8_t tickCounter = 0;
+	uint8_t xPos = 0;
+
+	initTimerStuff(); //Comment to debug
+	initLCD();
+
+	lcd_clear_all(LCDbuffer,0x00);
+	lcd_clear_all(remainBytes,0xAA);
+	//lcd_write_string(s,10,1,LCDbuffer,remainBytes);
+
+
+	lcd_draw_sprite(LCDbuffer,30,1,0);
+	lcd_draw_sprite(LCDbuffer,70,0,1);
+	lcd_draw_sprite(LCDbuffer,20,2,2);
+	lcd_draw_sprite(LCDbuffer,0,0,3);
+	lcd_draw_sprite(LCDbuffer,55,1,4);
+	lcd_draw_sprite(LCDbuffer,-20,2,4);
+	//lcd_draw_sprite(LCDbuffer,80,0,5);
+	//lcd_draw_sprite(LCDbuffer,80,0,6);
+	//lcd_push_buffer(LCDbuffer);
+	//Spaceships:
 	/*
-	gotoxy(0,0);
-	drawSprite(0, 15, 0);
-	gotoxy(5,0);
-	drawSprite(1, 15, 0);
-	gotoxy(10,0);
-	drawSprite(2, 15, 0);
-	gotoxy(15,0);
-	drawSprite(3, 15, 0);
-	gotoxy(0,10);
-	drawSprite(4, 15, 0);
-	gotoxy(5,10);
-	drawSprite(5, 15, 0);
-	gotoxy(10,10);
-	drawSprite(6, 15, 0);
-	gotoxy(15,10);
-	drawSprite(7, 15, 0);
+	lcd_draw_sprite(LCDbuffer,0,3,7);
+	lcd_draw_sprite(LCDbuffer,5,3,8);
+	lcd_draw_sprite(LCDbuffer,16,3,9);
+	lcd_draw_sprite(LCDbuffer,37,2,10);
+	lcd_draw_sprite(LCDbuffer,81,0,11);
+
+	lcd_draw_crosshair(LCDbuffer,80,2);
 	*/
 
+	lcd_push_buffer(LCDbuffer);
 
-	gotoxy(1, 1);
-	uart_clear();
+	while(1)
+	{
 
+		/*
+		if(lcd_update())
+		{
+			tickCounter++;
+		}
 
-
-	while (1) {
-
+		if(tickCounter == 2)
+		{
+			lcd_clear_all(LCDbuffer,0x00);
+			lcd_draw_sprite(LCDbuffer,xPos,0,11);
+			xPos++;
+			lcd_push_buffer(LCDbuffer);
+			tickCounter = 0;
+		}
+		*/
 	}
+}
+
+void runLCDMain(char s[], uint8_t LCDbuffer[], uint16_t offset)
+{
+
 }
 
 void initStopwatch()
 {
-    initJoystick();
+	initJoystick();
 
-    resetStopwatch();
+	resetStopwatch();
 
-    clrscrn();
-    window(1,1,40,7,"Stopwatch",2);
-    printTime(stopwatch.hours,stopwatch.minutes,stopwatch.seconds,stopwatch.hundredsthsOfSeconds,3,3,"Time since start");
+	clrscr();
+	window(1,1,40,7,"Stopwatch",2);
+	printTime(stopwatch.hours,stopwatch.minutes,stopwatch.seconds,stopwatch.hundredsthsOfSeconds,3,3,"Time since start");
 
-    initTimerStuff();
+	initTimerStuff();
 }
 
 void runStopwatch()
 {
-    uint8_t preJoystick = readJoystick();
+	uint8_t preJoystick = readJoystick();
 
-    //printf("%d%d%d%d%d%d%d%d\n", (preJoystick & 64) >> 7, (preJoystick & 32) >> 6, (preJoystick & 32) >> 5, (preJoystick & 16) >> 4, (preJoystick & 8) >> 3, (preJoystick & 4) >> 2, (preJoystick & 2) >> 1, (preJoystick & 1) >> 0);
-    window(1,1,40,7,"Stopwatch",2);
-    printTime(stopwatch.hours,stopwatch.minutes,stopwatch.seconds,stopwatch.hundredsthsOfSeconds,3,3,"Time since start");
-
-
-    if(readJoystick() != preJoystick)
-    {
-        preJoystick = readJoystick();
-        switch(readJoystick())
-        {
-            case 2: //Down
-                stopTimer();
-                resetStopwatch();
-                printTime(stopwatch.hours,stopwatch.minutes,stopwatch.seconds,stopwatch.hundredsthsOfSeconds,3,3,"Time since start");
-                break;
-            case 4://Left
-                printTime(stopwatch.hours,stopwatch.minutes,stopwatch.seconds,stopwatch.hundredsthsOfSeconds,3,4,"Split time 1");
-                break;
-            case 8://Right
-                printTime(stopwatch.hours,stopwatch.minutes,stopwatch.seconds,stopwatch.hundredsthsOfSeconds,3,5,"Split time 2");
-                break;
-            case 16: //Center
-                toggleTimer();
-                break;
-            default:
-                break;
-        }
-    }
-}
+	//printf("%d%d%d%d%d%d%d%d\n", (preJoystick & 64) >> 7, (preJoystick & 32) >> 6, (preJoystick & 32) >> 5, (preJoystick & 16) >> 4, (preJoystick & 8) >> 3, (preJoystick & 4) >> 2, (preJoystick & 2) >> 1, (preJoystick & 1) >> 0);
+	window(1,1,40,7,"Stopwatch",2);
+	printTime(stopwatch.hours,stopwatch.minutes,stopwatch.seconds,stopwatch.hundredsthsOfSeconds,3,3,"Time since start");
 
 
-void rgbJoystickTest(){
-	uint8_t jsValold;
-	uint8_t jsValnew;
-
-	uart_init(9600);
-	clrscrn();
-
-	jsValold = readJoystick();
-
-	while(1){
-		jsValnew = readJoystick();
-		if(jsValold != jsValnew){
-			printf("%d%d%d%d%d%d%d%d\n", (jsValnew & 64) >> 7, (jsValnew & 32) >> 6, (jsValnew & 32) >> 5, (jsValnew & 16) >> 4, (jsValnew & 8) >> 3, (jsValnew & 4) >> 2, (jsValnew & 2) >> 1, (jsValnew & 1) >> 0);
-			RGBJoystick(jsValnew);
-			jsValold = jsValnew;
+	if(readJoystick() != preJoystick)
+	{
+		preJoystick = readJoystick();
+		switch(readJoystick())
+		{
+			case 2: //Down
+				stopTimer();
+				resetStopwatch();
+				printTime(stopwatch.hours,stopwatch.minutes,stopwatch.seconds,stopwatch.hundredsthsOfSeconds,3,3,"Time since start");
+				break;
+			case 4://Left
+				printTime(stopwatch.hours,stopwatch.minutes,stopwatch.seconds,stopwatch.hundredsthsOfSeconds,3,4,"Split time 1");
+				break;
+			case 8://Right
+				printTime(stopwatch.hours,stopwatch.minutes,stopwatch.seconds,stopwatch.hundredsthsOfSeconds,3,5,"Split time 2");
+				break;
+			case 16: //Center
+				toggleTimer();
+				break;
+			default:
+				break;
 		}
 	}
 }
 
-void rotateTest(){
-	uart_init(9600);
-	clrscrn();
-	vector_t vec;
-	initVector(&vec,1,2);
-	rotateVectorByReference(&vec,256);
-	printFix(expand(vec.x));
-	printf("\t");
-	printFix(expand(vec.y));
-	printf("\n");
-	initVector(&vec,6,4);
-	rotateVectorByReference(&vec,-14);
-	printFix(expand(vec.x));
-	printf("\t");
-	printFix(expand(vec.y));
-	printf("\n");
-	initVector(&vec,-4,-4);
-	rotateVectorByReference(&vec,1280);
-	printFix(expand(vec.x));
-	printf("\t");
-	printFix(expand(vec.y));
-	printf("\n");
-	initVector(&vec,-4,2);
-	rotateVectorByReference(&vec,-50);
-	printFix(expand(vec.x));
-	printf("\t");
-	printFix(expand(vec.y));
-	printf("\n");
 
-	while(1){}
+
+void ballBouncing()
+{
+	//Init ball:
+	ball_t ball;
+	initBall(&ball);
+	setPos(&ball,5,5);
+	setVel(&ball,2,2);
+
+	int32_t tickCounter = 0;
+	int32_t collisionCounter = 0;
+
+	while(1)
+	{
+		if(tickCounter == 1000000)//Based on a counter to slow it down after we rose the baud rate
+		{
+			clrscr();
+
+
+
+			//Draw hits window:
+			window(20,9,30,11,"",3);
+			gotoxy(21,10);
+			printf("Hits: %d", collisionCounter);
+
+			//Ball
+			updatePos(&ball,1);
+			drawBall(&ball);
+
+
+			//Draw window
+			window(1,1,50,19,"",3);
+
+			uint8_t normal = collision(&ball,1,1,50,19);
+
+			switch(normal)
+			{
+				case 0: //Nothing hit
+					break;
+				case 1: //Side-wall hit
+					ball.vel.x *= -1;
+					collisionCounter++;
+					break;
+				case 2: //Top or bottom -wall hit
+					ball.vel.y *= -1;
+					collisionCounter++;
+					break;
+				case 3: //corner hit
+					rotateVector(&(ball.vel), 256); //rotate by 180 degrees
+					collisionCounter++;
+					break;
+				default:
+					break;
+			}
+
+			tickCounter = 0;
+		}
+		tickCounter++;
+	}
 }
-
-
-void sineTest(){
-	uart_init(9600);
-	clrscrn();
-	printf("Sinus:\n");
-	printFix(expand(Sinosoid(0)));
-	printf("\n");
-	printFix(expand(Sinosoid(64)));
-	printf("\n");
-	printFix(expand(Sinosoid(-111)));
-	printf("\n");
-	printFix(expand(Sinosoid(923)));
-	printf("\n");
-	printf("Cosinus:\n");
-	printFix(expand(Cosinoid(0)));
-	printf("\n");
-	printFix(expand(Cosinoid(64)));
-	printf("\n");
-	printFix(expand(Cosinoid(-111)));
-	printf("\n");
-	printFix(expand(Cosinoid(923)));
-	printf("\n");
-
-	while(1){}
-}
-
-
-
