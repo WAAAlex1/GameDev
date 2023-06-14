@@ -9,11 +9,15 @@
 
 /*
  * Remember to initialize the PRNG with srand(int) before using this
+ *
+ * Returns a number from min to max. min is inclusive. max is exclusive.
  */
 int32_t getRandomInterval(int32_t min, int32_t max)
 {
-	return rand() * (max-min) / RAND_MAX + min;
+	int32_t ran = rand() >> 16;
+	return ((ran * (max-min)) / (RAND_MAX >> 16)) + min;
 }
+
 
 int32_t absolute(int32_t x)
 {
