@@ -7,6 +7,8 @@
 
 
 #include "PuttyLCDConverter.h"
+#include "util.h"
+
 #define CONE_VIEW_WIDTH 32
 #define CONE_VIEW_LENGTH 40
 #define CONE_VIEW_ANGLE 44
@@ -31,7 +33,13 @@ int32_t con_getVecX(int8_t dir)
 	return ((CONE_VIEW_LENGTH * dir) << 14) / CONE_VIEW_LENGTH;
 }
 
-int8_t con_get
+/*
+ *
+ */
+uint8_t con_getDistanceX(uint8_t playerX, uint8_t entX)
+{
+	return abs(playerX-entX);
+}
 
 
 /*
