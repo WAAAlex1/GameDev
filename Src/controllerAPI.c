@@ -14,6 +14,20 @@ uint8_t readJoystick(){
 	uint16_t pot1 = readPot1();
 	uint16_t pot2 = readPot2();
 
+	/*
+	 *  UP LEFT    = 0x80
+	 *  UP RIGHT   = 0x02
+	 *  UP         = 0x01
+	 *
+	 *  DOWN LEFT  = 0x20
+	 *  DOWN RIGHT = 0x08
+	 *  DOWN       = 0x10
+	 *
+	 *  LEFT       = 0x40
+	 *  RIGHT      = 0x04
+	 *  CENTER     = 0x00
+	 */
+
 	if(pot2 >= CENTER_Y + DEADZONE){
 		if(pot1 <= CENTER_X - DEADZONE){
 			return 0x80; //UP LEFT
@@ -44,10 +58,10 @@ uint8_t readJoystick(){
 }
 
 uint8_t readButton1(){
-
+	return readButtons() & 0x01;
 }
 
 uint8_t readButton2(){
-
+	return readButtons() >> 1;
 }
 
