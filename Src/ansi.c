@@ -1,4 +1,5 @@
 #include <ansi.h>
+#define ESC 0x1B
 
 void fgcolor(uint8_t foreground) {
 /*  Value      foreground     Value     foreground
@@ -24,7 +25,7 @@ void bgcolor(uint8_t background) {
 /* IMPORTANT:   When you first use this function you cannot get back to true white background in HyperTerminal.
    Why is that? Because ANSI does not support true white background (ANSI white is gray to most human eyes).
                 The designers of HyperTerminal, however, preferred black text on white background, which is why
-                the colors are initially like that, but when the background color is first changed there is no
+                the colors are initially like	 that, but when the background color is first changed there is no
  	              way comming back.
    Hint:        Use resetbgcolor(); clrscr(); to force HyperTerminal into gray text on black background.
 
@@ -39,7 +40,7 @@ void bgcolor(uint8_t background) {
       6        Cyan
       7        Gray
 */
-  printf("%c[%dmSS", ESC, background+40);
+  printf("%c[%dm", ESC, background+40);
 }
 
 void color(uint8_t foreground, uint8_t background) {
@@ -57,47 +58,42 @@ void resetbgcolor() {
   printf("%c[m", ESC);
 }
 
-void clrscrn(){
-	printf("%c[2J", ESC);
+void clrscr(){
+	//Clear screen and home cursor. (Doesnt home for putty 0.7)
+	printf("%c[2J",ESC);
 }
 
-void clrRLine(){
-	printf("%c[K", ESC);
+void clreol(){
+	printf("%c[2K",ESC);
 }
 
-void gotoxy(uint8_t X, uint8_t Y){
-	printf("%c[%d;%dH", ESC, Y, X);
+void gotoxy(uint8_t x, uint8_t y){
+	printf("%c[%d;%dH",ESC,y,x);
 }
 
-void toggleUnderline(uint8_t on){
-	printf("%c[%dH", ESC, on ? 04 : 24);
+void underline(uint8_t on){
+	if(on != 0){
+		printf("%c[4m",ESC);
+	}else{
+		printf("%c[24m",ESC);
+	}
 }
 
-void toggleInverse(uint8_t on){
-	printf("%c[%dH", ESC, on ? 07 : 27);
+void blink(uint8_t on){
+	if(on != 0){
+		printf("%c[5m",ESC);
+	}else{
+		printf("%c[25m",ESC);
+	}
 }
 
-void toggleBlink(uint8_t on){
-	printf("%c[%dH", ESC, on ? 05 : 25);
+void inverse(uint8_t on){
+	if(on != 0){
+		printf("%c[7m",ESC);
+	}else{
+		printf("%c[27m",ESC);
+	}
 }
-
-void moveCursorX(uint8_t X, uint8_t UP){ //GOING RIGHT/LEFT
-	printf("%c[%d%c", ESC, X,  UP ? 'C' : 'D');
-}
-
-void moveCursorY(uint8_t Y, uint8_t UP){ //GOING UP/DOWN
-	printf("%c[%d%c", ESC, Y,  UP ? 'A' : 'B');
-}
-
-void printTime(uint8_t hours, uint8_t minutes, uint8_t seconds, uint8_t hundredsthsOfSeconds,uint8_t x, uint8_t y, char title[])
-{
-    gotoxy(x,y);
-    printf("%s:",title);
-    gotoxy(x+20,y);
-    printf("%d:%02d:%02d:%02d",hours,minutes,seconds,hundredsthsOfSeconds);
-
-}
-
 
 void window(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, char title[], uint8_t style){
 	if(style == 1)
@@ -124,7 +120,7 @@ void window(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, char title[], uint8_
 		strcat(windowTekst, title);
 		strcat(windowTekst, " ");
 
-		toggleInverse(1);
+		inverse(1);
 		for(int i = 0; i < x2-x1-2; i++)
 		{
 			gotoxy(x1+2+i,y1);
@@ -132,14 +128,14 @@ void window(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, char title[], uint8_
 				printf("%c",windowTekst[i]);
 			}
 			else if(i == strlen(windowTekst)){
-				toggleInverse(0);
+				inverse(0);
 				printf("%c",204);
 			}
 			else{
 				printf("%c",205);
 			}
 		}
-		toggleInverse(0);
+		inverse(0);
 		for(int i = x1+1; i < x2; i++){
 			gotoxy(i,y2);
 			printf("%c",205);
@@ -176,7 +172,7 @@ void window(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, char title[], uint8_
 		strcat(windowTekst, title);
 		strcat(windowTekst, " ");
 
-		toggleInverse(1);
+		inverse(1);
 		for(int i = 0; i < x2-x1-3; i++)
 		{
 			gotoxy(x1+2+i,y1);
@@ -187,7 +183,7 @@ void window(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, char title[], uint8_
 				printf(" ");
 			}
 		}
-		toggleInverse(0);
+		inverse(0);
 		for(int i = x1+1; i < x2; i++){
 			gotoxy(i,y2);
 			printf("%c",196);
@@ -231,3 +227,23 @@ void window(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, char title[], uint8_
 		}
 	}
 }
+
+void printTime(uint8_t hours, uint8_t minutes, uint8_t seconds, uint8_t hundredsthsOfSeconds,uint8_t x, uint8_t y, char title[])
+{
+	gotoxy(x,y);
+	printf("%s:",title);
+	gotoxy(x+20,y);
+	printf("%d:%02d:%02d:%02d",hours,minutes,seconds,hundredsthsOfSeconds);
+
+}
+
+void moveCursorX(uint8_t X, uint8_t UP){ //GOING RIGHT/LEFT
+    printf("%c[%d%c", ESC, X,  UP ? 'C' : 'D');
+}
+
+void moveCursorY(uint8_t Y, uint8_t UP){ //GOING UP/DOWN
+    printf("%c[%d%c", ESC, Y,  UP ? 'A' : 'B');
+}
+
+
+

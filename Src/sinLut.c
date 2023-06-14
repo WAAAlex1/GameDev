@@ -1,5 +1,13 @@
-#include "realLUT.h"
+// =====================================================================
+//	  Look-Up Tables
+//		SIN: sin(x*pi/256)
+//
+//	Exported by Cearn's excellut v1.0
+//	(comments, kudos, flames to daytshen@hotmail.com)
+//
+// =====================================================================
 
+#include "sinLut.h"
 // -----------------------------------------------------------------------
 // SIN: a 512 long LUT of 16bit values in 2.14 format
 // sin(x*pi/256)
@@ -78,23 +86,17 @@ const signed short SIN[512]=
 	0xF9BA,0xFA82,0xFB4B,0xFC13,0xFCDC,0xFDA5,0xFE6E,0xFF37,
 };
 
-int32_t expand(int32_t i) {
+int32_t expand(int32_t i)
+{
 	// Converts an 18.14 fixed point number to 16.16
 	return i << 2;
 }
 
-int32_t Sinosoid(int16_t x){ //takes inputs based on 512 step circle (64 = 45*)
-	x &= 511;
-	return SIN[x];
-}
-
-int32_t Cosinoid(int16_t numba){
-	return Sinosoid(numba + 128) ;
-}
-
-void printFix(int32_t i) {
+void printFix(int32_t i)
+{
 	// Prints a signed 16.16 fixed point number
-	if ((i & 0x80000000) != 0) { // Handle negative numbers
+	if ((i & 0x80000000) != 0) // Handle negative numbers
+	{
 		printf("-");
 		i = ~i + 1;
 	}
@@ -102,4 +104,16 @@ void printFix(int32_t i) {
 	// Print a maximum of 4 decimal digits to avoid overflow
 }
 
+/*
+ * degrees not in 360 but in 512
+ * 45 real degrees = 45/360*512 = 64 for this method
+ */
+int lutSin(int degrees)
+{
+	return SIN[degrees & 0x1FF];
+}
 
+int lutCos(int degrees)
+{
+	return lutSin(degrees+128);
+}
