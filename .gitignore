@@ -57,4 +57,5 @@ cmsis/
 SPL/
 Startup/
 Debug/
-/Src/main.c
+/main.c
+Src/main.c
