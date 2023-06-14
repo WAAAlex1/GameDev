@@ -6,6 +6,7 @@
 #include "stm32f30x_conf.h" // STM32 config
 #include "30010_io.h"  // Input/output library for this course
 #include "vec.h"
+#include "util.h"
 
 // struct of type entity_t
 // contains standard fields that all entities will have
@@ -18,7 +19,16 @@ typedef struct{
 	uint8_t hp;
 	uint8_t spriteIndex;
 	uint8_t setActive;
+	uint8_t height;
+	uint8_t entityIndex;
 } entity_t;
+
+void move(entity_t * ptr);
+void updateVel(entity_t * ptr, int8_t x, int8_t y);
+void damage(entity_t * ptr, int8_t x);
+void isAlive(entity_t * ptr);
+void initEntity(entity_t * ptr, uint8_t spriteIndex);
+void toggleActive(entity_t * ptr);
 
 #endif	// JOYSTICK_H
 
