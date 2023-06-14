@@ -5,8 +5,8 @@
  *      Author: alexa
  */
 
-#ifndef UI_API_H_
-#define UI_API_H_
+#ifndef PUTTYSPRITES_H_
+#define PUTTYSPRITES_H_
 
 // INCLUDES:
 
@@ -20,4 +20,4 @@
 void ui_draw_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t y);
 
 
-#endif /* UI_API_H_ */
+#endif /* PUTTYSPRITES_H_ */

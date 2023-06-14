@@ -1,10 +1,3 @@
-/*
- * entityHandler.h
- *
- *  Created on: 13. jun. 2023
- *      Author: alexa
- */
-
 #ifndef ENTITYHANDLER_H_
 #define ENTITYHANDLER_H_
 
@@ -18,9 +11,14 @@
 
 typedef struct{
 
-	entity_t entityArray[80][46];
+	entity_t entityArray[128];
 
 } entityHandler_t;
+
+void updateEntities(entityHandler_t * ptr);
+void activateEntity(entityHandler_t * ptr1, uint8_t X_index, uint8_t Y_index);
+void spawnEnemies();
+
 
 
 #endif /* ENTITYHANDLER_H_ */
