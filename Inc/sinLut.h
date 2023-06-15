@@ -8,11 +8,11 @@
 #ifndef SINLUT_H
 #define SINLUT_H
 
-
 // === LUT SIZES ===
 #define SIN_SIZE 512
 
-
+#include "stdint.h"
+#include "stdio.h"
 
 int lutSin(int degrees);
 int lutCos(int degrees);

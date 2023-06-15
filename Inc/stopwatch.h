@@ -8,7 +8,10 @@
 #ifndef STOPWATCH_H_
 #define STOPWATCH_H_
 
-
+#include "stdint.h"
+#include "stdio.h"
+#include "stm32f30x_conf.h"
+#include "30010_io.h"
 
 typedef struct{
 	uint8_t hours;

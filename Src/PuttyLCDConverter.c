@@ -6,13 +6,8 @@
  */
 
 
-#include "util.h"
-#include "stdint.h"
-#include "stdio.h"
-#include "stm32f30x_conf.h"
-#include "30010_io.h"
 #include "PuttyLCDConverter.h"
-
+#include "util.h"
 
 #define CONE_VIEW_WIDTH 32
 #define CONE_VIEW_LENGTH 40
@@ -79,7 +74,7 @@ int8_t con_getDistanceX(uint8_t playerX, uint8_t entX)
  */
 uint8_t con_inCone(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY, int8_t gunside)
 {
-	if((gunside > 0 ? playerX > entX : entX > playerX) && absolute(playerX - entX) <= CONE_VIEW_LENGTH && absolute(playerY - entY) <= ((CONE_VIEW_WIDTH * absolute(playerX - entX)) / (2*CONE_VIEW_LENGTH)) + 2) //+2 to allow entities just outside to be drawn
+	if(playerX - entX <= CONE_VIEW_LENGTH * gunside && absolute(playerY - entY)) //in progress code here
 	{
 		return 1;
 	}
@@ -91,16 +86,10 @@ uint8_t con_inCone(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY,
  * returns the slice for the entity to be drawn on
  *
  * can return slices outside of [0:128] so that entities on their way into the cone view can be drawn smoothly moving in
- *
- *Should probably only return the interval [-39;128]
- *
- * Parameters:
- * 		gunside = 1 for left and = -1 for right
  */
-int16_t con_posToSlice(uint16_t playerX, uint16_t playerY, uint16_t entX, uint16_t entY)
+int16_t con_posToSlice(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY)
 {
-	int16_t coneY = ((CONE_VIEW_WIDTH * absolute(playerX - entX)) / (2*CONE_VIEW_LENGTH));
-	return mapInterval(-coneY-2,coneY+2,-(2*(128/coneY)),128+(2*(128/coneY)),(entY-playerY)); //-2 on minOld to allow ships slightly outside to be drawn smoothly in
+
 }
 
 

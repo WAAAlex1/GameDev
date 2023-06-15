@@ -1,8 +1,4 @@
-#include "stdint.h"
-#include "stdio.h"
-#include "sinLut.h"
 #include "vec.h"
-
 
 /*
  * Vector is given in fixed point 18.14 number representation

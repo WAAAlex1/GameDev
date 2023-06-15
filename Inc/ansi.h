@@ -9,6 +9,8 @@
 #define ANSI_H_
 
 #include "stdint.h"
+#include "stdio.h"
+#include "string.h"
 
 void printTime(uint8_t hours, uint8_t minutes, uint8_t seconds, uint8_t hundredsthsOfSeconds,uint8_t x, uint8_t y, char title[]);
 void fgcolor(uint8_t foreground);
