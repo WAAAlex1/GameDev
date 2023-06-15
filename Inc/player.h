@@ -9,18 +9,17 @@
 #define PLAYER_H_
 
 #include <stdint.h>
-#include "ansi.h"
-#include "PuTTYSprites.h"
+#include "vec.h"
+#include "entity.h"
 
 typedef struct {
-	uint8_t x;
-	uint8_t y;
+	entity_t entity;
 	uint8_t playerNum;
-	uint8_t gunSide;
+	int8_t gunSide;
 	uint8_t powerUp;
 } player_t;
 
-void initPlayer(player_t *player, uint8_t num);
+void initPlayer(entity_t *entity, player_t *player, uint8_t num);
 void changeGunside(player_t *player);
 void getPowerUp(player_t *player, uint8_t num);
 void drawPlayer(player_t *player);
