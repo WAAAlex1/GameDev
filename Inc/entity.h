@@ -27,7 +27,7 @@ void move(entity_t * ptr);
 void updateVel(entity_t * ptr, int8_t x, int8_t y);
 void setEntityVel(entity_t * ptr, int8_t x, int8_t y);
 void setEntityPos(entity_t * ptr, int8_t x, int8_t y);
-void damage(entity_t * ptr, int8_t x);
+void damageEntity(entity_t * ptr, int8_t x);
 void isAlive(entity_t * ptr);
 void initEntity(entity_t * ptr, uint8_t spriteIndex);
 void toggleActive(entity_t * ptr);

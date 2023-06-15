@@ -1,3 +1,6 @@
+#include <stdint.h>
+#include <stdio.h>
+#include "entity.h"
 #include "entityHandler.h"
 
 // for each entity in our entityHandler array - move the entity and hide it if it's dead (isAlive())

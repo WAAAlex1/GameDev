@@ -3,10 +3,6 @@
 
 // INCLUDES
 
-#include <stdint.h>
-#include <stdio.h>
-#include "entity.h"
-
 // DEFINES
 
 typedef struct{

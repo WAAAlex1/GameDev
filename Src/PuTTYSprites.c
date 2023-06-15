@@ -1,5 +1,7 @@
+#include "ansi.h"
+#include <stdint.h>
+#include <stdio.h>
 #include <PuTTYSprites.h>
-
 
 /*  sprites:
  * 	spriteArray[0] = player (GUN LEFT)
