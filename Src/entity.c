@@ -26,15 +26,14 @@ void setEntityPos(entity_t * ptr, int8_t x, int8_t y){
 
 //function to deal damage to an entity
 //can also be used to "heal" an entity
-void damageEntity(entity_t * ptr, int8_t x){
+void damage(entity_t * ptr, int8_t x){
 	ptr->hp -= x;
 	ptr->hp = ptr->hp > 0 ? ptr->hp : 0;
 	ptr->hp = ptr->hp > 3 ? 3 : ptr->hp;
 }
 
 //function to initialize the values of an entity struct and set its spriteindex.
-void initEntity(entity_t * ptr, uint8_t spriteIndex){
-	uint8_t temp;
+void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t x, uint8_t y){
 	setEntityPos(ptr,0,0);
 	setEntityVel(ptr,0,0);
 	ptr->setActive = 0;
@@ -52,4 +51,6 @@ void toggleActive(entity_t * ptr){
 	ptr->setActive = ptr->setActive = 0 ? 1 : 0;
 }
 
-
+void setSpriteIndex(entity_t * ptr, uint8_t index){
+	if(ptr->setActive >= 0 && ptr->setActive <= 7){ptr->spriteIndex = index;}
+}
