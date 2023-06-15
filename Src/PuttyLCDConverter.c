@@ -74,7 +74,7 @@ int8_t con_getDistanceX(uint8_t playerX, uint8_t entX)
  */
 uint8_t con_inCone(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY, int8_t gunside)
 {
-	if(playerX - entX <= CONE_VIEW_LENGTH * gunside && absolute(playerY - entY)) //in progress code here
+	if((gunside > 0 ? playerX > entX : entX > playerX) && absolute(playerX - entX) <= CONE_VIEW_LENGTH && absolute(playerY - entY) <= ((CONE_VIEW_WIDTH * absolute(playerX - entX)) / (2*CONE_VIEW_LENGTH)) + 2) //+2 to allow entities just outside to be drawn
 	{
 		return 1;
 	}
@@ -89,8 +89,8 @@ uint8_t con_inCone(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY,
  */
 int16_t con_posToSlice(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY)
 {
-
+	int16_t coneY = ((CONE_VIEW_WIDTH * absolute(playerX - entX)) / (2*CONE_VIEW_LENGTH));
+	return mapInterval(-coneY-2,coneY+2,-(2*(128/coneY)),128+(2*(128/coneY)),(entY-playerY)); //-2 on minOld to allow ships slightly outside to be drawn smoothly in
 }
-
 
 
