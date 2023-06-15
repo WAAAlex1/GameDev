@@ -1,3 +1,7 @@
+#include "stdint.h"
+#include "stdio.h"
+#include "vec.h"
+#include "ansi.h"
 #include "ball.h"
 
 void setPos(ball_t * ball,int32_t x, int32_t y)
