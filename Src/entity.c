@@ -26,7 +26,7 @@ void setEntityPos(entity_t * ptr, int8_t x, int8_t y){
 
 //function to deal damage to an entity
 //can also be used to "heal" an entity
-void damage(entity_t * ptr, int8_t x){
+void damageEntity(entity_t * ptr, int8_t x){
 	ptr->hp -= x;
 	ptr->hp = ptr->hp > 0 ? ptr->hp : 0;
 	ptr->hp = ptr->hp > 3 ? 3 : ptr->hp;

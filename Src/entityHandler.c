@@ -14,6 +14,8 @@ void updateEntities(entityHandler_t * ptr){
 	}
 }
 
+// to initialize our entityhandler we fill it with entities
+//
 void init_entityHandler(entityHandler_t * ptr){
 	uint8_t i;
 	entity_t temp;
