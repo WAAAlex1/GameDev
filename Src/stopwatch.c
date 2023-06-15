@@ -4,6 +4,9 @@
  *  Created on: 6. jun. 2023
  *      Author: georg
  */
+#include "stdio.h"
+#include "stm32f30x_conf.h"
+#include "30010_io.h"
 #include "stopwatch.h"
 
 volatile stopwatch_t stopwatch;

@@ -2,9 +2,6 @@
 #define BALL_H
 
 #include "stdint.h"
-#include "stdio.h"
-#include "vec.h"
-#include "ansi.h"
 
 typedef struct{
 	vector_t pos,vel;

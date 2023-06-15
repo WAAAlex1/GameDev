@@ -8,10 +8,7 @@
 #ifndef UTIL_H_
 #define UTIL_H_
 
-#include "stm32f30x_conf.h" // STM32 config
-#include "30010_io.h" // Input/output library for this course
-#include "stdlib.h"
-#include "stdio.h"
+#include "stdint.h"
 
 int32_t getRandomInterval(int32_t min, int32_t max);
 int32_t absolute(int32_t x);

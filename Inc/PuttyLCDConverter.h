@@ -9,9 +9,6 @@
 #define PUTTYLCDCONVERTER_H_
 
 #include "stdint.h"
-#include "stdio.h"
-#include "stm32f30x_conf.h"
-#include "30010_io.h"
 
 int32_t con_getVecY(uint8_t slice);
 int32_t con_getVecX(int8_t dir);
