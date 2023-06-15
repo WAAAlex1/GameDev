@@ -8,9 +8,7 @@
 #ifndef CONTROLLER_H_
 #define CONTROLLER_H_
 
-#include "stm32f30x_conf.h" // STM32 config
-#include "30010_io.h" // Input/output library for this course
-#include "stdint.h"
+#include <stdint.h>
 
 void initController();
 uint16_t readPot1();

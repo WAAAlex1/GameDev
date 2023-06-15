@@ -5,14 +5,19 @@
  *      Author: frede
  */
 
+#include <stdint.h>
+#include "ansi.h"
+#include "PuTTYSprites.h"
+#include "vec.h"
+#include "entity.h"
 #include "player.h"
 
-void initPlayer(player_t *player, uint8_t num){
+void initPlayer(entity_t *entity, player_t *player, uint8_t num){
+	player->entity = initEntity(entity, 0, 40, 23);
 	player->playerNum = num;
 	player->gunSide = 1; //1 = LEFT | -1 = RIGHT
 	player->powerUp = 0;
-	player->x = 40;
-	player->y = 23;
+
 }
 
 void changeGunside(player_t *player){
@@ -29,14 +34,18 @@ void getPowerUp(player_t *player, uint8_t num){
 
 void drawPlayer(player_t *player){
 	if(player->gunSide == 1){
-		ui_draw_sprite(0, 15, 0, player->x, player->y);
+		ui_draw_sprite(0, 15, 0, getXint(&(player->pos)), getYint(&(player->pos)));
 	} else {
-		ui_draw_sprite(1, 15, 0, player->x, player->y);
+		ui_draw_sprite(1, 15, 0, getXint(&(player->pos)), getYint(&(player->pos)));
 	}
-
 }
 
 void clearPlayer(player_t *player){
 
 }
+
+
+
+
+
 

@@ -3,10 +3,6 @@
 
 // INCLUDES
 
-#include <stdint.h>
-#include <stdio.h>
-#include "entity.h"
-
 // DEFINES
 
 typedef struct{
@@ -15,7 +11,7 @@ typedef struct{
 
 void updateEntities(entityHandler_t * ptr);
 void activateEntity(entityHandler_t * ptr1, uint8_t X_index, uint8_t Y_index);
-void pushEntity(entityHandler_t * ptr, uint8_t spriteIndex);
+void pushEntity(entityHandler_t * ptr, uint8_t spriteIndex, uint8_t x, uint8_t y);
 
 
 #endif /* ENTITYHANDLER_H_ */

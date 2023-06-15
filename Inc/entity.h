@@ -29,8 +29,9 @@ void setEntityVel(entity_t * ptr, int8_t x, int8_t y);
 void setEntityPos(entity_t * ptr, int8_t x, int8_t y);
 void damage(entity_t * ptr, int8_t x);
 void isAlive(entity_t * ptr);
-void initEntity(entity_t * ptr, uint8_t spriteIndex);
+void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t x, uint8_t y);
 void toggleActive(entity_t * ptr);
+void setSpriteIndex(entity_t * ptr, uint8_t index);
 
 #endif	// JOYSTICK_H
 
