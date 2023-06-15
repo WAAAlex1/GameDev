@@ -5,7 +5,9 @@
  *      Author: frede
  */
 
+#include "controller.h"
 #include "controllerAPI.h"
+
 #define DEADZONE 300
 #define CENTER_X 1230
 #define CENTER_Y 1310

@@ -5,8 +5,10 @@
  *      Author: frede
  */
 
+#include "stm32f30x_conf.h" // STM32 config
+#include "30010_io.h" // Input/output library for this course
+#include <string.h>
 #include "controller.h"
-#include "string.h"
 
 void initController(){
 	RCC->AHBENR |= RCC_AHBPeriph_GPIOA; // Enable clock for GPIO Port A
