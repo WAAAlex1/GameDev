@@ -4,8 +4,16 @@
  *  Created on: 7. jun. 2023
  *      Author: georg
  */
-#include "LCD.h"
 
+#include "stdint.h"
+#include "stdio.h"
+#include "string.h"
+#include "stm32f30x_conf.h"
+#include "30010_io.h"
+#include "charset.h"
+#include "stopwatch.h"
+#include "lcdSprites.h"
+#include "LCD.h"
 
 void initLCD()
 {

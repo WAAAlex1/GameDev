@@ -1,9 +1,6 @@
 #ifndef VEC_H
 #define VEC_H
 
-#include "stdint.h"
-#include "stdio.h"
-#include "sinLut.h"
 
 typedef struct{
 	int32_t x,y;

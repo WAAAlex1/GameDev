@@ -5,7 +5,10 @@
  *      Author: georg
  */
 
-
+#include "stdint.h"
+#include "stdio.h"
+#include "stm32f30x_conf.h"
+#include "30010_io.h"
 #include "lcdSprites.h"
 
 /* 0xF0 vil tegne en streg der er tom i de top 4 bits og fuld i de nederste 4. Det nederste er altså MSB

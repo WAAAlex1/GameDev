@@ -8,14 +8,8 @@
 #ifndef LCD_H_
 #define LCD_H_
 
-#include "stdint.h"
-#include "stdio.h"
-#include "string.h"
-#include "stm32f30x_conf.h"
-#include "30010_io.h"
-#include "charset.h"
-#include "stopwatch.h"
-#include "lcdSprites.h"
+
+
 //lcd_reset() will reboot and reconfigure the LCD
 //lcd_transmit_bye() is used to send data and commands to the display, but shouldn't be used unless I understand it
 //lcd_push_buffer() transmits a byte array of size 512 to the LCD and shows the data. This is what I will use to update the display

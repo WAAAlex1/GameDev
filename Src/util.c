@@ -5,7 +5,13 @@
  *      Author: georg
  */
 
+#include "stdint.h"
+#include "stm32f30x_conf.h" // STM32 config
+#include "30010_io.h" // Input/output library for this course
+#include "stdlib.h"
+#include "stdio.h"
 #include "util.h"
+
 
 /*
  * Remember to initialize the PRNG with srand(int) before using this
@@ -15,9 +21,13 @@
 int32_t getRandomInterval(int32_t min, int32_t max)
 {
 	int32_t ran = rand() >> 16;
-	return ((ran * (max-min)) / (RAND_MAX >> 16)) + min;
+	return mapInterval(0,RAND_MAX >> 16,min,max,ran);
 }
 
+int32_t mapInterval(int32_t minOld, int32_t maxOld,int32_t minNew, int32_t maxNew,int32_t value)
+{
+	return (value-minOld) * (maxNew-minNew) / (maxOld-minOld) + minNew;
+}
 
 int32_t absolute(int32_t x)
 {
