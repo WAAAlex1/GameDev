@@ -1,3 +1,5 @@
+#include "stdio.h"
+#include "sinLut.h"
 #include "vec.h"
 
 /*

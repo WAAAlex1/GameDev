@@ -5,9 +5,11 @@
  *      Author: georg
  */
 
-
-#include "PuttyLCDConverter.h"
+#include "stdio.h"
+#include "stm32f30x_conf.h"
+#include "30010_io.h"
 #include "util.h"
+#include "PuttyLCDConverter.h"
 
 #define CONE_VIEW_WIDTH 32
 #define CONE_VIEW_LENGTH 40
