@@ -10,9 +10,36 @@
 #include "entityHandler.h"
 #include "bulletManager.h"
 
-void spawnBullet(bulletManager_t *bulletManager, entityHandler_t *entHand,bullet_t *bullet, uint8_t x, uint8_t y, uint8_t bulletType, uint8_t height)
+void initBulletManager(bulletManager_t *bulletManager,entityHandler_t *entHand)
 {
-	entity_t temp;
-	pushEntity(entHand,&temp,6,x,y);
-	initBullet(bullet,&temp,bulletType,height);
+	entity_t tempEnt;
+	bullet_t tempBul;
+
+	for(int i = 0; i < BULLET_ARR_LENGTH; i++)
+	{
+		pushEntity(entHand,&tempEnt,6,0,0,0,0);
+		initBullet(&tempBul,&tempEnt,0,0);
+		bulletManager->bulletArray[i] = tempBul;
+	}
+}
+
+void spawnBullet(bulletManager_t *bulletManager, entityHandler_t *entHand, uint8_t xPos, uint8_t yPos,uint8_t xVel, uint8_t yVel,uint8_t bulletType, uint8_t height)
+{
+	bullet_t tempBul;
+	entity_t tempEnt;
+
+	initEntity(&tempEnt,6,xPos,yPos,xVel,yVel);
+	initBullet(&tempBul,&tempEnt,bulletType,height);
+	tempBul.entity->isActive = 1;
+
+	for(int i = 0; i < BULLET_ARR_LENGTH; i++)
+	{
+		if(bulletManager->bulletArray[i].entity->isActive)
+		{
+			bulletManager->bulletArray[i] = tempBul;
+			break;
+		}
+	}
+
+	//if no empty spot is found the new bullet is simply not spawned :)
 }

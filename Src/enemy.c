@@ -5,7 +5,10 @@
  *      Author: georg
  */
 
+#include "bulletManager.h"
+#include "entityHandler.h"
 #include "PuTTYSprites.h"
+#include "vec.h"
 #include "enemy.h"
 
 void initEnemy(entity_t * entity, enemy_t * enemy, uint8_t type, uint8_t height)
@@ -15,8 +18,8 @@ void initEnemy(entity_t * entity, enemy_t * enemy, uint8_t type, uint8_t height)
 	enemy->height = height;
 }
 
-void shoot(enemy_t * enemy) //needs spawn bullet function from bulletmanager
+void shoot(bulletManager_t *bulletManager,entityHandler_t *entHand,enemy_t * enemy)
 {
-
+	spawnBullet(bulletManager, entHand, getXint(&(enemy->entity->pos)), getYint(&(enemy->entity->pos)), 0, 1, 1, enemy->height);
 }
 
