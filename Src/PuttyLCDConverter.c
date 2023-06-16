@@ -88,11 +88,17 @@ uint8_t con_inCone(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY,
  * returns the slice for the entity to be drawn on
  *
  * can return slices outside of [0:128] so that entities on their way into the cone view can be drawn smoothly moving in
+ *
+ * Parameters:
+ * 		gunside = 1 for left and = -1 for right
  */
-int16_t con_posToSlice(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY)
+int16_t con_posToSlice(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY, int8_t gunside)
 {
 	int16_t coneY = ((CONE_VIEW_WIDTH * absolute(playerX - entX)) / (2*CONE_VIEW_LENGTH));
-	return mapInterval(-coneY-2,coneY+2,-(2*(128/coneY)),128+(2*(128/coneY)),(entY-playerY)); //-2 on minOld to allow ships slightly outside to be drawn smoothly in
+	return mapInterval(-coneY-2,coneY+2,(gunside < 0 ? -(256/coneY) : (128)+(256/coneY)),(gunside < 0 ? (128)+(256/coneY) : -(256/coneY)),(entY-playerY));
+	/*-2 on minOld to allow ships slightly outside to be drawn smoothly in
+	 * same reason for -256/coneY and the same for the max
+	*/
 }
 
 
