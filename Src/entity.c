@@ -34,7 +34,7 @@ void damage(entity_t * ptr, int8_t x){
 
 //function to initialize the values of an entity struct and set its spriteindex.
 void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t x, uint8_t y){
-	setEntityPos(ptr,0,0);
+	setEntityPos(ptr, x, y);
 	setEntityVel(ptr,0,0);
 	ptr->setActive = 0;
 	ptr->height = getRandomInterval(0, 3);
