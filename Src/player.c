@@ -34,18 +34,18 @@ void getPowerUp(player_t *player, uint8_t num){
 
 void drawPlayer(player_t *player){
 	if(player->gunSide == 1){
-		ui_draw_sprite(0, 15, 0, player->entity->pos.x, player->entity->pos.y);
+		ui_draw_sprite(0, 15, 0, getXint(&(player->entity->pos)), getYint(&(player->entity->pos)));
 	} else {
-		ui_draw_sprite(1, 15, 0, player->entity->pos.x, player->entity->pos.y);
+		ui_draw_sprite(1, 15, 0, getXint(&(player->entity->pos)), getYint(&(player->entity->pos)));
 	}
 }
 
 
 void clearPlayer(player_t *player){
 	if(player->gunSide == 1){
-		ui_clear_sprite(0, 15, 0, player->entity->pos.x, player->entity->pos.y);
+		ui_clear_sprite(0, 15, 0, getXint(&(player->entity->pos)), getYint(&(player->entity->pos)));
 	} else {
-		ui_clear_sprite(1, 15, 0, player->entity->pos.x, player->entity->pos.y);
+		ui_clear_sprite(1, 15, 0, getXint(&(player->entity->pos)), getYint(&(player->entity->pos)));
 	}
 }
 
