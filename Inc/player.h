@@ -13,7 +13,7 @@
 #include "entity.h"
 
 typedef struct {
-	entity_t entity;
+	entity_t *entity;
 	uint8_t playerNum;
 	int8_t gunSide;
 	uint8_t powerUp;
@@ -24,5 +24,6 @@ void changeGunside(player_t *player);
 void getPowerUp(player_t *player, uint8_t num);
 void drawPlayer(player_t *player);
 void clearPlayer(player_t *player);
+void updatePlayerVel(player_t *player, char input);
 
 #endif /* PLAYER_H_ */
