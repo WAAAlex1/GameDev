@@ -9,6 +9,7 @@
 #include "30010_io.h" // Input/output library for this course
 #include "stdlib.h"
 #include "stdio.h"
+#include "entity.h"
 #include "util.h"
 
 /*
@@ -27,7 +28,6 @@ int32_t absolute(int32_t x)
 {
 	return x >= 0 ? x : -x;
 }
-
 
 /*
  * returns the manhattan distance of the integers (unreliable distance)
