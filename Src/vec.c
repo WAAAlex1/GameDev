@@ -38,3 +38,9 @@ int16_t getYint(vector_t *v)
 {
 	return v->y >> 14;
 }
+
+void updateVectorInt(vector_t *v, int32_t x, int32_t y)
+{
+	v->x += (x << 14);
+	v->y += (y << 14);
+}

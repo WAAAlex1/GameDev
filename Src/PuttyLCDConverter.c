@@ -23,7 +23,7 @@
  */
 int32_t con_getVecY(uint8_t slice, int8_t gunside)
 {
-	return ((((slice+1) >> 2) - 16) << 14) / CONE_VIEW_LENGTH; //rightshift by 2 to divide by 4
+	return (-gunside)*(((((slice+1) >> 2) - 16) << 14) / CONE_VIEW_LENGTH); //rightshift by 2 to divide by 4
 }
 
 /*

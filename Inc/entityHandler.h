@@ -2,6 +2,7 @@
 #define ENTITYHANDLER_H_
 
 // INCLUDES
+#include "entity.h"
 
 // DEFINES
 
