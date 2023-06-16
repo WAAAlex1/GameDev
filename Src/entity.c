@@ -34,23 +34,22 @@ void damageEntity(entity_t * ptr, int8_t x){
 
 //function to initialize the values of an entity struct and set its spriteindex.
 void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t x, uint8_t y){
-	setEntityPos(ptr,0,0);
+	setEntityPos(ptr,x,y);
 	setEntityVel(ptr,0,0);
-	ptr->setActive = 0;
-	ptr->height = getRandomInterval(0, 3);
+	ptr->isActive = 1;
 
 	if(spriteIndex >= 0 && spriteIndex <= 7){ptr->spriteIndex = spriteIndex;}
 }
 
 void isAlive(entity_t * ptr){
-	if(ptr->hp < 1 && ptr->setActive) toggleActive(ptr);
+	if(ptr->hp < 1 && ptr->isActive) toggleActive(ptr);
 }
 
-//function to activate or deactivate an entity
-void toggleActive(entity_t * ptr){
-	ptr->setActive = ptr->setActive = 0 ? 1 : 0;
+//function to "destroy" an entity by setting it inactive.
+void destroyEntity(entity_t * ptr){
+	ptr->isActive = 0;
 }
 
 void setSpriteIndex(entity_t * ptr, uint8_t index){
-	if(ptr->setActive >= 0 && ptr->setActive <= 7){ptr->spriteIndex = index;}
+	if(ptr->isActive >= 0 && ptr->isActive <= 7){ptr->spriteIndex = index;}
 }

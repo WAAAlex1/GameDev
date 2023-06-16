@@ -16,10 +16,8 @@
 typedef struct{
 	vector_t pos;
 	vector_t vel;
-	uint8_t hp;
 	uint8_t spriteIndex;
-	uint8_t setActive;
-	uint8_t height;
+	uint8_t isActive;
 	uint8_t entityIndex;
 } entity_t;
 
@@ -30,7 +28,7 @@ void setEntityPos(entity_t * ptr, int8_t x, int8_t y);
 void damageEntity(entity_t * ptr, int8_t x);
 void isAlive(entity_t * ptr);
 void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t x, uint8_t y);
-void toggleActive(entity_t * ptr);
+void destroyEntity(entity_t * ptr);
 void setSpriteIndex(entity_t * ptr, uint8_t index);
 
 #endif	// JOYSTICK_H

@@ -26,7 +26,7 @@ void init_entityHandler(entityHandler_t * ptr){
 		}
 }
 
-//Overwrites the first entity found in our entityArray with a new entity
+//Overwrites the first inactive entity found in our entityArray with a new entity
 //where setActive = 1 and spriteIndex can be set.
 void pushEntity(entityHandler_t * ptr, uint8_t spriteIndex, uint8_t x, uint8_t y){
 	uint8_t i;
