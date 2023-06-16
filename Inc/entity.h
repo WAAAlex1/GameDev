@@ -31,6 +31,7 @@ void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t x, uint8_t y);
 void destroyEntity(entity_t * ptr);
 void setSpriteIndex(entity_t * ptr, uint8_t index);
 
+
 #endif	// JOYSTICK_H
 
 

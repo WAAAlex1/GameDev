@@ -29,7 +29,7 @@ void changeGunside(player_t *player){
 }
 
 void getPowerUp(player_t *player, uint8_t num){
-	player->powerUp = num;
+	if(num != 0){player->powerUp = num;}
 }
 
 void drawPlayer(player_t *player){
@@ -40,12 +40,25 @@ void drawPlayer(player_t *player){
 	}
 }
 
+
 void clearPlayer(player_t *player){
 	if(player->gunSide == 1){
 		ui_clear_sprite(0, 15, 0, player->entity->pos.x, player->entity->pos.y);
 	} else {
 		ui_clear_sprite(1, 15, 0, player->entity->pos.x, player->entity->pos.y);
 	}
+}
+
+void isAlive(player_t *player){
+	if(player->HP < 1) player->entity->isActive = 0;
+}
+
+//function to deal damage to an entity
+//can also be used to "heal" an entity
+void damagePlayer(player_t *ptr, int8_t x){
+	ptr->HP -= x;
+	ptr->HP = ptr->HP > 0 ? ptr->HP : 0;
+	ptr->HP = ptr->HP > 3 ? 3 : ptr->HP;
 }
 
 void updatePlayerVel(player_t *player, char input){
