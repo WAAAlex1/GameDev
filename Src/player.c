@@ -17,6 +17,7 @@ void initPlayer(entity_t *entity, player_t *player, uint8_t num){
 	player->playerNum = num;
 	player->gunSide = 1; //1 = LEFT | -1 = RIGHT
 	player->powerUp = 0;
+	player->entity->isActive = 1;
 
 }
 

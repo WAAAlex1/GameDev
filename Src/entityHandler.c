@@ -9,10 +9,7 @@ void init_entityHandler(entityHandler_t * ptr){
 	uint8_t i;
 	entity_t temp;
 	initEntity(&temp, 0, 0, 0);
-	for(i = 0; i < 128; i++)
-		{
-		ptr->entityArray[i] = temp;
-		}
+	for(i = 0; i < 128; i++){ptr->entityArray[i] = temp;}
 }
 
 // for each entity in our entityHandler array - move the entity and hide it if it's dead
@@ -37,7 +34,6 @@ void pushEntity(entityHandler_t * ptr, entity_t * temp, uint8_t spriteIndex, uin
 			ptr->entityArray[i] = *temp;
 			break;
 		}
-		else{ptr++;}
 	}
 }
 

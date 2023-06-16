@@ -13,8 +13,8 @@
 
 #include "stdint.h"
 
-int lutSin(int degrees);
-int lutCos(int degrees);
+int16_t lutSin(int16_t degrees);
+int16_t lutCos(int16_t degrees);
 int32_t expand(int32_t i);
 void printFix(int32_t i);
 

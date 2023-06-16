@@ -11,6 +11,7 @@ typedef struct{
 	entity_t entityArray[ENTITY_ARR_LEN];
 } entityHandler_t;
 
+void init_entityHandler(entityHandler_t * ptr);
 void updateEntities(entityHandler_t * ptr);
 void activateEntity(entityHandler_t * ptr1, uint8_t X_index, uint8_t Y_index);
 void pushEntity(entityHandler_t * ptr, entity_t * temp, uint8_t spriteIndex, uint8_t x, uint8_t y);
