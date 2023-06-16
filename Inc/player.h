@@ -13,7 +13,7 @@
 #include "entity.h"
 
 typedef struct {
-	entity_t entity;
+	entity_t *entity;
 	uint8_t playerNum;
 	int8_t gunSide;
 	uint8_t powerUp;

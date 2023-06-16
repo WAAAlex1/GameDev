@@ -80,3 +80,20 @@ void ui_draw_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t 
 		moveCursorX(5,0);
 	}
 }
+
+void ui_clear_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t y){
+	gotoxy(x, y);
+
+	for(uint8_t i = 0; i <= 3; i++){
+		for(uint8_t j = 0; j <= 4; j++){
+			color(FGC, BGC);
+			if(x+j > 0 && x+j < 81 && y+i > 0 && y+i < 47){
+				spriteArray[index][i][j] == 0x3F ? moveCursorX(1,1) : printf(" ");
+			} else {
+				moveCursorX(1,1);
+			}
+		}
+		moveCursorY(1,0);
+		moveCursorX(5,0);
+	}
+}
