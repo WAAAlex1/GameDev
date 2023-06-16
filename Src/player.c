@@ -21,8 +21,8 @@ void initPlayer(entity_t *entity, player_t *player, uint8_t num){
 }
 
 void changeGunside(player_t *player){
-	if(player->gunSide){
-		player->gunSide = 0;
+	if(player->gunSide == 1){
+		player->gunSide = -1;
 	} else {
 		player->gunSide = 1;
 	}
