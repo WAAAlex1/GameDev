@@ -8,8 +8,11 @@
 void init_entityHandler(entityHandler_t * ptr){
 	uint8_t i;
 	entity_t temp;
-	initEntity(&temp, 0, 0, 0);
-	for(i = 0; i < 128; i++){ptr->entityArray[i] = temp;}
+	initEntity(&temp, 0, 0, 0,0,0);
+	for(i = 0; i < 128; i++)
+		{
+		ptr->entityArray[i] = temp;
+		}
 }
 
 // for each entity in our entityHandler array - move the entity and hide it if it's dead
@@ -25,13 +28,14 @@ void updateEntities(entityHandler_t * ptr){
 
 //Overwrites the first inactive entity found in our entityArray with a new entity
 //where setActive = 1 and spriteIndex can be set.
-void pushEntity(entityHandler_t * ptr, entity_t * temp, uint8_t spriteIndex, uint8_t x, uint8_t y){
+void pushEntity(entityHandler_t * ptr, entity_t * temp, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,uint8_t xVel, uint8_t yVel){
 	uint8_t i;
-	initEntity(&temp, spriteIndex, x, y);
+	initEntity(&temp, spriteIndex, xPos, yPos,xVel,yVel);
 	for(i = 0; i < 128; i++){
 		if(ptr->entityArray[i].isActive == 0){
 			temp->entityIndex = i;
 			ptr->entityArray[i] = *temp;
+			temp = &(ptr->entityArray[i]);
 			break;
 		}
 	}

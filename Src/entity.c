@@ -17,11 +17,11 @@ void updateVel(entity_t * ptr, int8_t x, int8_t y){
 // MAINLY USED FOR INIT: --------------------------------------------------
 
 //function to initialize the values of an entity struct and set its spriteindex.
-void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t x, uint8_t y){
-	setEntityPos(ptr,x,y);
-	setEntityVel(ptr,0,0);
+void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,uint8_t xVel,uint8_t yVel){
+	setEntityPos(ptr,xPos,yPos);
+	setEntityVel(ptr,xVel,yVel);
 	setSpriteIndex(ptr, spriteIndex);
-	ptr->isActive = 1;
+	ptr->isActive = 0;
 }
 
 void setEntityVel(entity_t * ptr, int8_t x, int8_t y){
