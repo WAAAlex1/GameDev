@@ -41,3 +41,9 @@ int32_t mapInterval(int32_t minOld, int32_t maxOld,int32_t minNew, int32_t maxNe
 {
 	return (value-minOld) * (maxNew-minNew) / (maxOld-minOld) + minNew;
 }
+
+int32_t capInterval(int32_t value, int32_t min, int32_t max)
+{
+	return  value > max ? max : (value < min ? min : value);
+}
+

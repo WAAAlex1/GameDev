@@ -17,22 +17,24 @@
 
 /*
  * Returns the fixed point 18.14 y coordinate for the unitvector in the direction given by the LCD slice
+ *
+ * for left gunside = 1;
+ * for right gunside = -1;
  */
-int32_t con_getVecY(uint8_t slice)
+int32_t con_getVecY(uint8_t slice, int8_t gunside)
 {
-	//a bug might occur here if the (slice/4 - 16) is seen as 1 byte long instead of 4 bytes long.
-	return (((slice / 4) - 16) << 14) / CONE_VIEW_LENGTH;
+	return ((((slice+1) >> 2) - 16) << 14) / CONE_VIEW_LENGTH; //rightshift by 2 to divide by 4
 }
 
 /*
  * Returns the fixed point 18.14 x coordinate for the unitvector in the given gunner direction
  *
- * for left gunner direction set dir = -1;
- * for right gunnner direction set dir = 1;
+ * for left gunside = 1;
+ * for right gunside = -1;
  */
-int32_t con_getVecX(int8_t dir)
+int32_t con_getVecX(int8_t gunside)
 {
-	return ((CONE_VIEW_LENGTH * dir) << 14) / CONE_VIEW_LENGTH;
+	return (-gunside + 0x80000000) << 14; //plus with 0x80000000 to convert to a 32bit int for fixed point
 }
 
 /*
@@ -48,7 +50,7 @@ int32_t con_getVecX(int8_t dir)
  */
 int8_t con_getDistanceX(uint8_t playerX, uint8_t entX)
 {
-	switch((abs(playerX - entX)-1) / 8)
+	switch((absolute(playerX - entX)-1) >> 3) //divide by 8
 	{
 		case 0:
 			return 2;
