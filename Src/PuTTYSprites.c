@@ -100,12 +100,12 @@ void ui_clear_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t
 
 int8_t offsetBulletCoordX(player_t *player){
 	if(player->gunSide == 1){
-		return player->entity->pos.x - 1;
+		return getXint(&(player->entity->pos)) - 1;
 	} else {
-		return player->entity->pos.x + 5;
+		return getXint(&(player->entity->pos)) + 5;
 	}
 }
 
 int8_t offsetBulletCoordY(player_t *player){
-	return player->entity->pos.y + 1;
+	return getYint(&(player->entity->pos)) + 1;
 }
