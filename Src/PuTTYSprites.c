@@ -61,7 +61,7 @@ const char spriteArray[8][4][5] = {
 		{0x3F,0x3F,0x3F,0x3F,0x3F}},
 };
 
-///sadasd
+
 void ui_draw_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t y){
 	gotoxy(x, y);
 
@@ -96,4 +96,16 @@ void ui_clear_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t
 		moveCursorY(1,0);
 		moveCursorX(5,0);
 	}
+}
+
+int8_t offsetBulletCoordX(player_t *player){
+	if(player->gunSide == 1){
+		return player->entity->pos.x - 1;
+	} else {
+		return player->entity->pos.x + 5;
+	}
+}
+
+int8_t offsetBulletCoordY(player_t *player){
+	return player->entity->pos.y + 1;
 }
