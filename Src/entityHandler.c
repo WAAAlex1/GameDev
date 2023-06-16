@@ -32,27 +32,33 @@ void pushEntity(entityHandler_t * ptr, entity_t * temp, uint8_t spriteIndex, uin
 	uint8_t i;
 	initEntity(&temp, spriteIndex, x, y);
 	for(i = 0; i < 128; i++){
-		if(ptr->entityArray[i].setActive == 0){
-			temp.entityIndex = i;
-			ptr->entityArray[i] = temp;
+		if(ptr->entityArray[i].isActive == 0){
+			temp->entityIndex = i;
+			ptr->entityArray[i] = *temp;
 			break;
 		}
 		else{ptr++;}
 	}
 }
 
-void spawnEnemies(){
 
-}
 
+
+/*
 void detectCollision(){
+
 
 }
 
 
 void applyGravity(entityHandler * array){
-	for()
+ 	for()
+
 }
+*/
+
+
+
 
 void drawEntity(entity_t * ptr){
 	ui_draw_sprite(ptr->spriteIndex, 15, 0, ptr->pos.x, ptr->pos.y);

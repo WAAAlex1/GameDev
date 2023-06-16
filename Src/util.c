@@ -29,15 +29,6 @@ int32_t absolute(int32_t x)
 	return x >= 0 ? x : -x;
 }
 
-void calculateGravity(entity_t * bullet, entity_t * solidObj){
-	int32_t x1 = bullet->pos.x;
-	int32_t y1 = bullet->pos.y;
-	int32_t x2 = solidObj->pos.x;
-	int32_t y2 = solidObj->pos.y;
-
-	int
-}
-
 /*
  * returns the manhattan distance of the integers (unreliable distance)
  */
