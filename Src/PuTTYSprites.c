@@ -61,19 +61,16 @@ const char spriteArray[8][4][5] = {
 		{0x3F,0x3F,0x3F,0x3F,0x3F}},
 };
 
-
+///sadasd
 void ui_draw_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t y){
 	gotoxy(x, y);
 
-	for(uint8_t i = 0; i <= 3; i++)
-	{
-		for(uint8_t j = 0; j <= 4; j++)
-		{
+	for(uint8_t i = 0; i <= 3; i++){
+		for(uint8_t j = 0; j <= 4; j++){
 			color(FGC, BGC);
 			if(spriteArray[index][i][j] == 0xBE){color(11,0);}
 			if(spriteArray[index][i][j] == 0xCF){color(1,0);}
-			if(x+j > 0 && x+j < 81 && y+i > 0 && y+i < 47)
-			{
+			if(x+j > 0 && x+j < 81 && y+i > 0 && y+i < 47){
 				spriteArray[index][i][j] == 0x3F ? moveCursorX(1,1) : printf("%c", spriteArray[index][i][j]);
 			} else {
 				moveCursorX(1,1);
@@ -86,14 +83,11 @@ void ui_draw_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t 
 
 void ui_clear_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t y){
 	gotoxy(x, y);
+	color(FGC, BGC);
 
-	for(uint8_t i = 0; i <= 3; i++)
-	{
-		for(uint8_t j = 0; j <= 4; j++)
-		{
-			color(FGC, BGC);
-			if(x+j > 0 && x+j < 81 && y+i > 0 && y+i < 47)
-			{
+	for(uint8_t i = 0; i <= 3; i++){
+		for(uint8_t j = 0; j <= 4; j++){
+			if(x+j > 0 && x+j < 81 && y+i > 0 && y+i < 47){
 				spriteArray[index][i][j] == 0x3F ? moveCursorX(1,1) : printf(" ");
 			} else {
 				moveCursorX(1,1);

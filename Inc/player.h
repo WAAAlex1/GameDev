@@ -24,5 +24,6 @@ void changeGunside(player_t *player);
 void getPowerUp(player_t *player, uint8_t num);
 void drawPlayer(player_t *player);
 void clearPlayer(player_t *player);
+void updatePlayerVel(player_t *player, char input);
 
 #endif /* PLAYER_H_ */
