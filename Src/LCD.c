@@ -158,9 +158,7 @@ void lcd_scroll_vertical(uint8_t slice1,uint8_t slice2,uint8_t *LCDbuffer_p, uin
 }
 
 /*
- * type = 0 for 2x2 asteroid
- * type = 1 for 3x3 asteroid
- * type = 2 for enemy spaceship
+ * See lcd_sprites for the sprites that the type parameter pick between
  */
 void lcd_draw_sprite(uint8_t * LCDbuffer,int16_t slice, int16_t line, uint8_t type)
 {
@@ -178,14 +176,17 @@ void lcd_draw_sprite(uint8_t * LCDbuffer,int16_t slice, int16_t line, uint8_t ty
 
 void lcd_draw_crosshair(uint8_t * LCDbuffer, uint8_t slice, uint8_t line)
 {
-	*(LCDbuffer + slice + line*128) ^= 0x3C;
-	*(LCDbuffer + slice + line*128+1) ^= 0x5A;
-	*(LCDbuffer + slice + line*128+2) ^= 0x99;
-	*(LCDbuffer + slice + line*128+3) ^= 0xFF;
-	*(LCDbuffer + slice + line*128+4) ^= 0xFF;
-	*(LCDbuffer + slice + line*128+5) ^= 0x99;
-	*(LCDbuffer + slice + line*128+6) ^= 0x5A;
-	*(LCDbuffer + slice + line*128+7) ^= 0x3C;
+	uint8_t sprite[8] = {0x3C, 0x5A, 0x99, 0xFF, 0xFF, 0x99, 0x5A, 0x3C};
+
+	for(int i = 0; i < 8; i++)
+	{
+		if(slice + i < 128)
+		{
+			*(LCDbuffer + slice + line*128 + i) ^= sprite[i];
+		}
+	}
+
+	//free sprite? or is it automatically freed?
 }
 
 

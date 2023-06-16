@@ -1,6 +1,7 @@
 #ifndef PUTTYSPRITES_H_
 #define PUTTYSPRITES_H_
 
+#include <stdint.h>
 #include "player.h"
 
 // DEFINES:

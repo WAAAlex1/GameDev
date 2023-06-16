@@ -49,7 +49,7 @@ void clearPlayer(player_t *player){
 	}
 }
 
-void isAlive(player_t *player){
+void isAlive(player_t * player){
 	if(player->HP < 1) player->entity->isActive = 0;
 }
 

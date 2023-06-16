@@ -3,7 +3,7 @@
 // API - generic functions for manipulating and controlling our entity_t struct.
 
 
-//moves a given entity by its velocity.
+//moves a given entity by its velocity. (both in fixed point so easy to add).
 void move(entity_t * ptr){
 	ptr->pos.x += ptr->vel.x;
 	ptr->pos.y += ptr->vel.y;
@@ -11,8 +11,7 @@ void move(entity_t * ptr){
 
 //updates the velocity of a given struct.
 void updateVel(entity_t * ptr, int8_t x, int8_t y){
-	ptr->vel.x += x;
-	ptr->vel.y += y;
+	updateVectorInt(&(ptr->vel),x,y);
 }
 
 // MAINLY USED FOR INIT: --------------------------------------------------
@@ -35,7 +34,7 @@ void setEntityPos(entity_t * ptr, int8_t x, int8_t y){
 
 //function for setting an entity's spriteindex to a passed value.
 void setSpriteIndex(entity_t * ptr, uint8_t index){
-	if(spriteIndex >= 0 && spriteIndex <= 7){ptr->spriteIndex = spriteIndex;}
+	if(index >= 0 && index <= 7){ptr->spriteIndex = index;}
 }
 
 //-------------------------------------------------------------------------
@@ -45,5 +44,15 @@ void setSpriteIndex(entity_t * ptr, uint8_t index){
 void destroyEntity(entity_t * ptr){
 	ptr->isActive = 0;
 }
+
+void calculateGravity(entity_t * bullet, entity_t * solidObj){
+	int32_t x1 = bullet->pos.x;
+	int32_t y1 = bullet->pos.y;
+	int32_t x2 = solidObj->pos.x;
+	int32_t y2 = solidObj->pos.y;
+
+}
+
+
 
 

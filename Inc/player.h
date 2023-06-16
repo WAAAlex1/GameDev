@@ -25,7 +25,7 @@ void changeGunside(player_t *player);
 void getPowerUp(player_t *player, uint8_t num);
 void drawPlayer(player_t *player);
 void clearPlayer(player_t *player);
-void isAlive(player_t *player);
+void isAlive(player_t * player);
 void damagePlayer(player_t *ptr, int8_t x);
 void updatePlayerVel(player_t *player, char input);
 

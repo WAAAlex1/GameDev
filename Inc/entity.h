@@ -26,10 +26,10 @@ void updateVel(entity_t * ptr, int8_t x, int8_t y);
 void setEntityVel(entity_t * ptr, int8_t x, int8_t y);
 void setEntityPos(entity_t * ptr, int8_t x, int8_t y);
 void damageEntity(entity_t * ptr, int8_t x);
-void isAlive(entity_t * ptr);
 void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t x, uint8_t y);
 void destroyEntity(entity_t * ptr);
 void setSpriteIndex(entity_t * ptr, uint8_t index);
+void calculateGravity(entity_t * bullet, entity_t * solidObj);
 
 
 #endif	// JOYSTICK_H
