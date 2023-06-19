@@ -1,3 +1,4 @@
+#include "PuTTYSprites.h"
 #include "entity.h"
 
 // API - generic functions for manipulating and controlling our entity_t struct.
