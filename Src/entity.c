@@ -60,11 +60,11 @@ void destroyEntity(entity_t * ptr){
 }
 
 void drawEntity(entity_t * ptr){
-	ui_draw_sprite(ptr->spriteIndex, 15, 0, ptr->pos.x, ptr->pos.y);
+	ui_draw_sprite(ptr->spriteIndex, 15, 0, getXint(&(ptr->pos)), getYint(&(ptr->pos)));
 }
 
 void clearEntity(entity_t * ptr){
-	ui_clear_sprite(ptr->spriteIndex, 15, 0, ptr->pos.x, ptr->pos.y);
+	ui_clear_sprite(ptr->spriteIndex, 15, 0, getXint(&(ptr->pos)), getYint(&(ptr->pos)));
 }
 
 //bullet should be pulled in x-dir when range x <= 32
