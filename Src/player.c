@@ -23,7 +23,6 @@ void initPlayer(entity_t *entity, player_t *player, uint8_t num){
 	player->crosshairX = 63; //middle of LCD
 	player->crosshairY = 1;
 	player->entity->isActive = 1;
-
 }
 
 void updateCrosshair(player_t *ptr,uint8_t joystickVal)
@@ -62,7 +61,6 @@ void updateCrosshair(player_t *ptr,uint8_t joystickVal)
 			break;
 	}
 }
-
 
 void changeGunside(player_t *player){
 	if(player->gunSide == 1){
@@ -135,3 +133,34 @@ void playerShoot(player_t *ptr, bulletManager_t *bulletManager, entityHandler_t 
 		spawnBullet(bulletManager,entHand,offsetBulletCoordX(ptr),offsetBulletCoordY(ptr),con_getVecX(ptr->gunSide),con_getVecY(ptr->crosshairX,ptr->gunSide),1,0,ptr->crosshairY);
 }
 
+//check if player collides with an asteroid, enemy ship or bullet.
+//damage player and set the other entity inactive if collision.
+void checkPlayerCollision(player_t * ptr, entityHandler_t * array){
+	uint8_t v;
+	for(v = 0; v < ENTITY_ARR_LEN; v++){
+		if(array->entityArray[v]->spriteIndex >= 2 && array->entityArray[v]->spriteIndex <= 6){
+			if(detectEntityCollision(ptr->entity, array->entityArray[v])){
+				ptr->HP--;
+				array->entityArray[v]->isActive = 0;
+			}
+		}
+	}
+}
+
+void usePowerUp(player_t * ptr, bulletManager_t * bulletManager, entityHandler_t * entityHandler){
+	switch(ptr->powerUp){
+		case(1): //restock HP
+			ptr->HP = ptr->HP < 3 ? 3 : ptr->HP;
+			ptr->powerUp = 0;
+			break;
+		case(2): //add shield
+			ptr->HP = ptr->HP < 4 ? ptr->HP++ : ptr->HP;
+			ptr->powerUp = 0;
+			break;
+		case(3): //spawn megabullet in front of player with velocity -1.
+			spawnBullet(bulletManager, entityHandler, (ptr->entity->pos.x+1) >> 14,  (ptr->entity->pos.y+1) >> 14), 0, -1, 0, 1, 0);
+			break;
+		default:
+			return;
+	}
+}

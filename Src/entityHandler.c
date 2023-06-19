@@ -56,15 +56,6 @@ void clearAllEntities(entityHandler_t * ptr){
 	}
 }
 
-//Collision between player & bullet
-//Collision between player & enemy ships
-//Collision between player & asteroids
-//Collision between bullet & asteroids
-//Collision between bullet & enemy ships
-//Collision between mega bullet & enemy ships
-//Collision between mega bullet & asteroids.
-
-
 //Gravity between each bullet and each asteroid in range
 void applyGravity(entityHandler_t * ptr){
 	uint8_t i;
@@ -73,12 +64,10 @@ void applyGravity(entityHandler_t * ptr){
 		if(ptr->entityArray[i].spriteIndex == 6){
 			for(j = 0; j < ENTITY_ARR_LEN; j++){
 				if(ptr->entityArray[i].spriteIndex >= 3 && ptr->entityArray[i].spriteIndex <= 5){
-					//calculateGravity(ptr->entityArray[i], ptr->entityArray[j]);
+					calculateGravity(&(ptr->entityArray[i]), &(ptr->entityArray[j]));
 				}
 			}
 		}
 	}
 }
-
-
 

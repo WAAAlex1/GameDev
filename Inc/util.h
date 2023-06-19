@@ -10,9 +10,6 @@
 
 #include "stdint.h"
 
-
-#define G 0x0001
-
 int32_t getRandomInterval(int32_t min, int32_t max);
 int32_t absolute(int32_t x);
 int32_t getManDistance(int32_t x1, int32_t y1, int32_t x2, int32_t y2);
