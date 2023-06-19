@@ -14,7 +14,7 @@
 void initEnemy(entity_t * entity, enemy_t * enemy, uint8_t type, uint8_t height)
 {
 	enemy->entity = entity;
-	enemy->type = type;
+	enemy->type = type; // = 0 for spaceship, = 1 for 1x1 asteroid, = 2 for 2x2 asteroid and = 3 for 3x3 asteroid
 	enemy->entity->height = height;
 }
 

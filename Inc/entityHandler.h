@@ -9,7 +9,7 @@
 #define ENTITY_ARR_LEN 128
 
 typedef struct{
-	entity_t entityArray[ENTITY_ARR_LEN];
+	entity_t *entityArray[ENTITY_ARR_LEN];
 } entityHandler_t;
 
 void init_entityHandler(entityHandler_t * ptr);

@@ -14,11 +14,11 @@ void initEnemyManager(enemyManager_t *enemyManager)
 	enemy_t  tempEnemy;
 
 	initEntity(&tempEntity,6,0,0,0,0,0,0);
+	initEnemy(&tempEntity,&tempEnemy,0,0); //yes its intentional the array all points to the same enemy. Its just to set nonactive
 
 	for(uint8_t i = 0; i < ENEMY_ARR_LENGTH; i++)
 	{
-		initEnemy(&tempEntity,&tempEnemy,0,0); //yes its intentional they all have the same entity pointer (its just temp)
-		enemyManager->enemyArray[i] = tempEnemy;
+		enemyManager->enemyArray[i] = &tempEnemy;
 	}
 }
 
@@ -27,15 +27,15 @@ void spawnEnemy(enemyManager_t *enemyManager, entityHandler_t *entHand, uint8_t 
 	entity_t tempEntity;
 	enemy_t  tempEnemy;
 
-	pushEntity(entHand,&tempEntity,enemyType,xPos,yPos,xVel,yVel,fixedVel,height);
+	pushEntity(entHand,&tempEntity,2+enemyType,xPos,yPos,xVel,yVel,fixedVel,height);
 	initEnemy(&tempEntity,&tempEnemy,enemyType,height);
 	tempEnemy.entity->isActive = 1;
 
 	for(uint8_t i = 0; i < ENEMY_ARR_LENGTH; i++)
 	{
-		if(!(enemyManager->enemyArray[i].entity->isActive))
+		if(!(enemyManager->enemyArray[i]->entity->isActive))
 		{
-			enemyManager->enemyArray[i] = tempEnemy;
+			*(enemyManager->enemyArray[i]) = tempEnemy;
 			break;
 		}
 	}

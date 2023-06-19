@@ -11,7 +11,7 @@ void init_entityHandler(entityHandler_t * ptr){
 	initEntity(&temp,0,0,0,0,0,0,0);
 	for(i = 0; i < ENTITY_ARR_LEN; i++)
 	{
-		ptr->entityArray[i] = temp;
+		ptr->entityArray[i] = &temp;
 	}
 }
 
@@ -20,10 +20,10 @@ void updateEntities(entityHandler_t * ptr){
 	uint8_t i;
 
 	for(i = 0; i < 128; i++){
-		if(ptr->entityArray[i].isActive == 0){continue;}
-		move(&(ptr->entityArray[i]));
-
-		//isAlive(&(ptr->entityArray[i])); //isAlive is a function that only works for the player
+		if(ptr->entityArray[i]->isActive)
+		{
+			move(ptr->entityArray[i]);
+		}
 	}
 }
 
@@ -33,10 +33,10 @@ void pushEntity(entityHandler_t * ptr, entity_t * temp, uint8_t spriteIndex, uin
 	uint8_t i;
 	initEntity(temp, spriteIndex, xPos, yPos,xVel,yVel,fixedVel,height);
 	for(i = 0; i < 128; i++){
-		if(ptr->entityArray[i].isActive == 0){
+		if(ptr->entityArray[i]->isActive == 0){
 			temp->entityIndex = i;
-			ptr->entityArray[i] = *temp;
-			temp = &(ptr->entityArray[i]);
+			ptr->entityArray[i] = temp;
+			//(*temp) = &(ptr->entityArray[i]); //comment this out because its not needed anymore (probably not anyway)
 			break;
 		}
 	}
@@ -44,15 +44,23 @@ void pushEntity(entityHandler_t * ptr, entity_t * temp, uint8_t spriteIndex, uin
 
 void drawAllEntities(entityHandler_t * ptr){
 	uint8_t i;
-	for(i = 0; i < ENTITY_ARR_LEN; i++){
-		drawEntity(&(ptr->entityArray[i]));
+	for(i = 0; i < ENTITY_ARR_LEN; i++)
+	{
+		if(ptr->entityArray[i]->isActive)
+		{
+			drawEntity(ptr->entityArray[i]);
+		}
 	}
 }
 
 void clearAllEntities(entityHandler_t * ptr){
 	uint8_t i;
-	for(i = 0; i < ENTITY_ARR_LEN; i++){
-		clearEntity(&(ptr->entityArray[i]));
+	for(i = 0; i < ENTITY_ARR_LEN; i++)
+	{
+		if(ptr->entityArray[i]->isActive)
+		{
+			clearEntity(ptr->entityArray[i]);
+		}
 	}
 }
 
@@ -61,9 +69,9 @@ void applyGravity(entityHandler_t * ptr){
 	uint8_t i;
 	uint8_t j;
 	for(i = 0; i < ENTITY_ARR_LEN; i++){
-		if(ptr->entityArray[i].spriteIndex == 6){
+		if(ptr->entityArray[i]->spriteIndex == 6){
 			for(j = 0; j < ENTITY_ARR_LEN; j++){
-				if(ptr->entityArray[i].spriteIndex >= 3 && ptr->entityArray[i].spriteIndex <= 5){
+				if(ptr->entityArray[i].spriteIndex >= 3 && ptr->entityArray[i]->spriteIndex <= 5){
 					calculateGravity(&(ptr->entityArray[i]), &(ptr->entityArray[j]));
 				}
 			}
