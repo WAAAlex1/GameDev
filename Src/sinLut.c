@@ -109,12 +109,14 @@ void printFix(int32_t i)
  * degrees not in 360 but in 512
  * 45 real degrees = 45/360*512 = 64 for this method
  */
-int lutSin(int degrees)
+int16_t lutSin(int16_t degrees)
 {
 	return SIN[degrees & 0x1FF];
 }
 
-int lutCos(int degrees)
+int16_t lutCos(int16_t degrees)
 {
 	return lutSin(degrees+128);
 }
+
+

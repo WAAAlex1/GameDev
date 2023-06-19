@@ -22,6 +22,8 @@ void initPlayer(entity_t *entity, player_t *player, uint8_t num){
 	player->powerUp = 0;
 	player->crosshairX = 63; //middle of LCD
 	player->crosshairY = 1;
+	player->entity->isActive = 1;
+
 }
 
 void updateCrosshair(player_t *ptr,uint8_t joystickVal)

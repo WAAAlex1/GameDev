@@ -32,7 +32,7 @@ int32_t absolute(int32_t x)
 /*
  * returns the manhattan distance of the integers (unreliable distance)
  */
-int32_t getManDistance(int16_t x1, int16_t y1, int16_t x2, int16_t y2)
+int32_t getManDistance(int32_t x1, int32_t y1, int32_t x2, int32_t y2)
 {
 	return abs(x1-x2) + abs(y1-y2);
 }
