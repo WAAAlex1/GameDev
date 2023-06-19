@@ -11,7 +11,7 @@
 void initGameUI();
 void updateGameUI(player_t *player);
 void showPlayerHealth(player_t *player);
-void showPlayerPowerUp();
-void showPlayerScore();
+void showPlayerPowerUp(player_t *player);
+void showPlayerScore(player_t *player);
 
 #endif /* GAMEUI_H_ */

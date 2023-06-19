@@ -37,6 +37,7 @@ void initGameUI(){
 
 void updateGameUI(player_t *player){
 	showPlayerHealth(player);
+	showPlayerPowerUp(player);
 
 }
 
@@ -101,11 +102,38 @@ void showPlayerHealth(player_t *player){
 	}
 }
 
-void showPlayerPowerUp(){
+void showPlayerPowerUp(player_t *player){
+	color(0, 7);
 
+	switch(player->powerUp){
+		case 1: //MEDKIT
+			gotoxy(88, 20);
+			printf("HEAL");
+			color(0, 2);
+			break;
+		case 2: //SHIELD
+			gotoxy(88, 20);
+			printf("SHIELD");
+			color(0, 4);
+			break;
+		case 3: //MEGA BULLET
+			gotoxy(88, 20);
+			printf("MEGA");
+			color(0, 1);
+		default: //NONE
+			gotoxy(88, 20);
+			printf("NONE");
+			color(0, 0);
+			break;
+	}
+
+	gotoxy(88, 17);
+	printf("     ");
+	gotoxy(88, 18);
+	printf("     ");
 }
 
-void showPlayerScore(){
+void showPlayerScore(player_t *player){
 
 }
 
