@@ -5,12 +5,11 @@
 #include "entityHandler.h"
 
 // to initialize our entityhandler we fill it with entities
-//
 void init_entityHandler(entityHandler_t * ptr){
 	uint8_t i;
 	entity_t temp;
 	initEntity(&temp,0,0,0,0,0,0);
-	for(i = 0; i < 128; i++)
+	for(i = 0; i < ENTITY_ARR_LEN; i++)
 	{
 		ptr->entityArray[i] = temp;
 	}
@@ -43,31 +42,43 @@ void pushEntity(entityHandler_t * ptr, entity_t * temp, uint8_t spriteIndex, uin
 	}
 }
 
-
-
-
-/*
-void detectCollision(){
-
-
+void drawAllEntities(entityHandler_t * ptr){
+	uint8_t i;
+	for(i = 0; i < ENTITY_ARR_LEN; i++){
+		drawEntity(ptr->entityArray[i]);
+	}
 }
 
-
-void applyGravity(entityHandler * array){
- 	for()
-
-}
-*/
-
-
-
-
-void drawEntity(entity_t * ptr){
-	ui_draw_sprite(ptr->spriteIndex, 15, 0, getXint(&(ptr->pos)), getYint(&(ptr->pos)));
+void clearAllEntities(entityHandler_t * ptr){
+	uint8_t i;
+	for(i = 0; i < ENTITY_ARR_LEN; i++){
+		clearEntity(ptr->entityArray[i]);
+	}
 }
 
-void clearEntity(entity_t * ptr){
-	ui_clear_sprite(ptr->spriteIndex, 15, 0, getXint(&(ptr->pos)), getYint(&(ptr->pos)));
+//Collision between player & bullet
+//Collision between player & enemy ships
+//Collision between player & asteroids
+//Collision between bullet & asteroids
+//Collision between bullet & enemy ships
+//Collision between mega bullet & enemy ships
+//Collision between mega bullet & asteroids.
+
+
+//Gravity between each bullet and each asteroid in range
+void applyGravity(entityHandler * ptr){
+	uint8_t i;
+	uint8_t j;
+	for(i = 0; i < ENTITY_ARR_LEN; i++){
+		if(ptr->entityArray[i].spriteIndex == 6){
+			for(j = 0; j < ENTITY_ARR_LEN; j++){
+				if(ptr->entityArray[i].spriteIndex >= 3 && ptr->entityArray[i].spriteIndex <= 5){
+					calculateGravity(entityArray[i], entityArray[j]);
+				}
+			}
+		}
+	}
 }
+
 
 
