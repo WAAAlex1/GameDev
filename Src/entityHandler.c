@@ -23,6 +23,7 @@ void updateEntities(entityHandler_t * ptr){
 		if(ptr->entityArray[i]->isActive)
 		{
 			move(ptr->entityArray[i]);
+			checkEntityPos(ptr->entityArray[i]);
 		}
 	}
 }
