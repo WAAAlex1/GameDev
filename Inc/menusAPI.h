@@ -10,8 +10,8 @@
 
 #include <stdint.h>
 
-int8_t pickItems(char key, uint8_t activeItem);
-void printItems(uint8_t activeItem);
+int8_t pickMainMenuItems(char key, uint8_t activeItem);
+void printMainMenuItems(uint8_t activeItem);
 void printScores();
 
 #endif /* MENUSAPI_H_ */
