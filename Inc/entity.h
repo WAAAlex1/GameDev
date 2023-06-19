@@ -36,10 +36,10 @@ void clearEntity(entity_t * ptr);
 void drawEntity(entity_t * ptr);
 void setSpriteIndex(entity_t * ptr, uint8_t index);
 void calculateGravity(entity_t * bullet, entity_t * solidObj);
-void detectEntityCollision(entity_t * player, entity_t * obj2);
+uint8_t detectEntityCollision(entity_t * player, entity_t * obj2);
+void checkEntityPos(entity_t * ptr);
 
-
-#endif	// JOYSTICK_H
+#endif
 
 
 

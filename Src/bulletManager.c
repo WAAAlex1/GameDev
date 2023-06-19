@@ -44,3 +44,29 @@ void spawnBullet(bulletManager_t *bulletManager, entityHandler_t *entHand, uint8
 
 	//if no empty spot is found the new bullet is simply not spawned
 }
+
+//bullets should collide with asteroids and enemy ships. We check if player collide with bullets in player.
+//bullets should only collide if same height as the other object.
+void checkBulletCollision(bulletManager_t *bulletManager, entityHandler_t *entityHandler){
+	uint8_t v;
+	uint8_t w;
+	for(w = 0; w < BULLET_ARR_LENGTH; w++)
+	{
+		for(v = 0; v < ENTITY_ARR_LEN; v++)
+		{
+			if(entityHandler->entityArray[v]->spriteIndex >= 2 && entityHandler->entityArray[v]->spriteIndex <= 5)
+			{
+				if(detectEntityCollision(bulletManager->bulletArray[w], entityHandler->entityArray[v]))
+				{
+					if(bulletManager->bulletArray[w]->entity->height == entityHandler->entityArray[v]->height)
+					{
+						bulletManager->bulletArray[w]->entity->isActive = bulletManager->bulletArray[w]->type == 1 ? 1 : 0;
+						entityHandler->entityArray[v]->isActive = 0;
+					}
+				}
+			}
+		}
+	}
+}
+
+

@@ -77,7 +77,7 @@ void resetStopwatch()
 void TIM1_BRK_TIM15_IRQHandler(void)
 {
 	//do something here
-	updateTimer(); //Uncomment this to use the stopwatch
+	//updateTimer(); //Uncomment this to use the stopwatch
 	LCD_Flag = 1; //Uncomment this to use the scrolling LCD text stuff
 
 	TIM15->SR &= ~(0x0001); //Clear the interupt bit

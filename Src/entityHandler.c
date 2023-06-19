@@ -23,6 +23,7 @@ void updateEntities(entityHandler_t * ptr){
 		if(ptr->entityArray[i]->isActive)
 		{
 			move(ptr->entityArray[i]);
+			checkEntityPos(ptr->entityArray[i]);
 		}
 	}
 }
@@ -44,7 +45,7 @@ void pushEntity(entityHandler_t * ptr, entity_t * temp, uint8_t spriteIndex, uin
 
 void drawAllEntities(entityHandler_t * ptr){
 	uint8_t i;
-	for(i = 0; i < ENTITY_ARR_LEN; i++)
+	for(i = 1; i < ENTITY_ARR_LEN; i++)
 	{
 		if(ptr->entityArray[i]->isActive)
 		{
@@ -55,7 +56,7 @@ void drawAllEntities(entityHandler_t * ptr){
 
 void clearAllEntities(entityHandler_t * ptr){
 	uint8_t i;
-	for(i = 0; i < ENTITY_ARR_LEN; i++)
+	for(i = 1; i < ENTITY_ARR_LEN; i++)
 	{
 		if(ptr->entityArray[i]->isActive)
 		{
@@ -63,15 +64,6 @@ void clearAllEntities(entityHandler_t * ptr){
 		}
 	}
 }
-
-//Collision between player & bullet
-//Collision between player & enemy ships
-//Collision between player & asteroids
-//Collision between bullet & asteroids
-//Collision between bullet & enemy ships
-//Collision between mega bullet & enemy ships
-//Collision between mega bullet & asteroids.
-
 
 //Gravity between each bullet and each asteroid in range
 void applyGravity(entityHandler_t * ptr){
@@ -81,12 +73,10 @@ void applyGravity(entityHandler_t * ptr){
 		if(ptr->entityArray[i]->spriteIndex == 6){
 			for(j = 0; j < ENTITY_ARR_LEN; j++){
 				if(ptr->entityArray[i]->spriteIndex >= 3 && ptr->entityArray[i]->spriteIndex <= 5){
-					//calculateGravity(ptr->entityArray[i], ptr->entityArray[j]);
+					calculateGravity(&(ptr->entityArray[i]), &(ptr->entityArray[j]));
 				}
 			}
 		}
 	}
 }
-
-
 

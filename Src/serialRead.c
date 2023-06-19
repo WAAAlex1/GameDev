@@ -1,6 +1,5 @@
 #include "serialRead.h"
 
-
 uint8_t get_key_pressed(){
 
 	uint8_t temp = uart_get_char();
@@ -27,6 +26,6 @@ uint8_t get_key_pressed(){
 	case(0x2c): //COMMA
 		return(temp);
 	default:
-		return(0x00);
+		return(temp >= 0x41 && temp <= 0x7A ? temp : 0xF3);
 	}
 }
