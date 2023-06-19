@@ -17,19 +17,32 @@ void updateVel(entity_t * ptr, int8_t x, int8_t y){
 // MAINLY USED FOR INIT: --------------------------------------------------
 
 //function to initialize the values of an entity struct and set its spriteindex.
-void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,uint8_t xVel,uint8_t yVel){
+void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,uint8_t xVel,uint8_t yVel, uint8_t fixedVel){
 	setEntityPos(ptr,xPos,yPos);
-	setEntityVel(ptr,xVel,yVel);
+	if(fixedVel)
+	{
+		setEntityVelFixed(ptr,xVel,yVel);
+	}
+	else
+	{
+		setEntityVel(ptr,xVel,yVel);
+	}
 	setSpriteIndex(ptr, spriteIndex);
 	ptr->isActive = 0;
 }
 
 void setEntityVel(entity_t * ptr, int8_t x, int8_t y){
-	setVector(&(ptr->vel),x,y);
+	setVectorInt(&(ptr->vel),x,y);
+}
+
+void setEntityVelFixed(entity_t *ptr, int32_t x, int32_t y)
+{
+	ptr->vel.x = x;
+	ptr->vel.y = y;
 }
 
 void setEntityPos(entity_t * ptr, int8_t x, int8_t y){
-	setVector(&(ptr->pos),x,y);
+	setVectorInt(&(ptr->pos),x,y);
 }
 
 //function for setting an entity's spriteindex to a passed value.

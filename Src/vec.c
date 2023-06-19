@@ -16,7 +16,7 @@ void rotateVector(vector_t *v, int degrees)
  * Takes x and y coordinates as integers an initializes the vectors values
  * as the fixed point 18.14 representation of those ints
  */
-void setVector(vector_t *v, int32_t x, int32_t y)
+void setVectorInt(vector_t *v, int32_t x, int32_t y)
 {
 	//Testing point values:
 	v->x = x << 14;

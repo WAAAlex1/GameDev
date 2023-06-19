@@ -14,11 +14,10 @@ typedef struct{
 
 void init_entityHandler(entityHandler_t * ptr);
 void updateEntities(entityHandler_t * ptr);
-void activateEntity(entityHandler_t * ptr1, uint8_t X_index, uint8_t Y_index);
-void pushEntity(entityHandler_t * ptr, entity_t * temp, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,uint8_t xVel, uint8_t yVel);
+//void activateEntity(entityHandler_t * ptr1, uint8_t X_index, uint8_t Y_index);
+void pushEntity(entityHandler_t * ptr, entity_t * temp, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,uint8_t xVel, uint8_t yVel,uint8_t fixedVel);
 void applyGravity(entityHandler_t * array);
 void detectCollision();
-void applyGravity(entityHandler_t * array);
 void drawEntity(entity_t * ptr);
 void clearEntity(entity_t * ptr);
 

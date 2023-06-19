@@ -10,6 +10,9 @@
 #include "PuTTYSprites.h"
 #include "vec.h"
 #include "entity.h"
+#include "bulletManager.h"
+#include "PuttyLCDConverter.h"
+#include "util.h"
 #include "player.h"
 
 void initPlayer(entity_t *entity, player_t *player, uint8_t num){
@@ -17,8 +20,47 @@ void initPlayer(entity_t *entity, player_t *player, uint8_t num){
 	player->playerNum = num;
 	player->gunSide = 1; //1 = LEFT | -1 = RIGHT
 	player->powerUp = 0;
-
+	player->crosshairX = 63; //middle of LCD
+	player->crosshairY = 1;
 }
+
+void updateCrosshair(player_t *ptr,uint8_t joystickVal)
+{
+	switch(joystickVal)
+	{
+		case 0x01:
+			ptr->crosshairY = capInterval(ptr->crosshairY-1,0,3);
+			break;
+		case 0x02:
+			ptr->crosshairY = capInterval(ptr->crosshairY-1,0,3);
+			ptr->crosshairX = capInterval(ptr->crosshairX+8,0,127);
+			break;
+		case 0x04:
+			ptr->crosshairX = capInterval(ptr->crosshairX+8,0,127);
+			break;
+		case 0x08:
+			ptr->crosshairY = capInterval(ptr->crosshairY+1,0,3);
+			ptr->crosshairX = capInterval(ptr->crosshairX+8,0,127);
+			break;
+		case 0x10:
+			ptr->crosshairY = capInterval(ptr->crosshairY+1,0,3);
+			break;
+		case 0x20:
+			ptr->crosshairY = capInterval(ptr->crosshairY+1,0,3);
+			ptr->crosshairX = capInterval(ptr->crosshairX-8,0,127);
+			break;
+		case 0x40:
+			ptr->crosshairX = capInterval(ptr->crosshairX-8,0,127);
+			break;
+		case 0x80:
+			ptr->crosshairY = capInterval(ptr->crosshairY-1,0,3);
+			ptr->crosshairX = capInterval(ptr->crosshairX-8,0,127);
+			break;
+		default:
+			break;
+	}
+}
+
 
 void changeGunside(player_t *player){
 	if(player->gunSide == 1){
@@ -86,8 +128,8 @@ void updatePlayerVel(player_t *player, char input){
 	}
 }
 
-
-
-
-
+void playerShoot(player_t *ptr, bulletManager_t *bulletManager, entityHandler_t *entHand, uint8_t bulletType, uint8_t height)
+{
+		spawnBullet(bulletManager,entHand,offsetBulletCoordX(ptr),offsetBulletCoordY(ptr),con_getVecX(ptr->gunSide),con_getVecY(ptr->crosshairX,ptr->gunSide),1,0,ptr->crosshairY);
+}
 

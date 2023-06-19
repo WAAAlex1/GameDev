@@ -20,7 +20,5 @@ typedef struct {
 
 
 void initEnemy(entity_t * entity, enemy_t * enemy, uint8_t type, uint8_t height);
-void drawEnemy(enemy_t *enemy);
-void clearEnemy(enemy_t *enemy);
-
+void enemyShoot(bulletManager_t *bulletManager,entityHandler_t *entHand,enemy_t * enemy);
 #endif /* ENEMY_H_ */
