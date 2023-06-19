@@ -45,7 +45,7 @@ void pushEntity(entityHandler_t * ptr, entity_t * temp, uint8_t spriteIndex, uin
 
 void drawAllEntities(entityHandler_t * ptr){
 	uint8_t i;
-	for(i = 0; i < ENTITY_ARR_LEN; i++)
+	for(i = 1; i < ENTITY_ARR_LEN; i++)
 	{
 		if(ptr->entityArray[i]->isActive)
 		{
@@ -56,7 +56,7 @@ void drawAllEntities(entityHandler_t * ptr){
 
 void clearAllEntities(entityHandler_t * ptr){
 	uint8_t i;
-	for(i = 0; i < ENTITY_ARR_LEN; i++)
+	for(i = 1; i < ENTITY_ARR_LEN; i++)
 	{
 		if(ptr->entityArray[i]->isActive)
 		{
