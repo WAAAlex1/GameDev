@@ -18,7 +18,7 @@ typedef struct{
 	enemy_t enemyArray[ENEMY_ARR_LENGTH];
 } enemyManager_t;
 
-void initEnemyManager(enemyManager_t *enemyManager, entityHandler_t *entHand);
-void spawnEnemy(enemyManager_t *enemyManager, entityHandler_t *entHand, uint8_t xPos, uint8_t yPos,uint8_t xVel, uint8_t yVel,uint8_t enemyType, uint8_t height);
+void initEnemyManager(enemyManager_t *enemyManager);
+void spawnEnemy(enemyManager_t *enemyManager, entityHandler_t *entHand, uint8_t xPos, uint8_t yPos,uint8_t xVel, uint8_t yVel,uint8_t enemyType, uint8_t height, uint8_t fixedVel);
 
 #endif /* ENEMYMANAGER_H_ */

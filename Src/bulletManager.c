@@ -13,9 +13,9 @@
 void initBulletManager(bulletManager_t *bulletManager)
 {
 	entity_t tempEnt; //just used to get the right size
-	initEntity(&tempEnt,6,0,0,0,0,0);
-
 	bullet_t tempBul;
+
+	initEntity(&tempEnt,6,0,0,0,0,0);
 
 	for(int i = 0; i < BULLET_ARR_LENGTH; i++)
 	{
