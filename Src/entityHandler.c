@@ -1,3 +1,4 @@
+#include "entity.h"
 #include <stdint.h>
 #include <stdio.h>
 #include "entity.h"
@@ -5,13 +6,13 @@
 #include "entityHandler.h"
 
 // to initialize our entityhandler we fill it with entities
-void init_entityHandler(entityHandler_t * ptr){
+void init_entityHandler(entityHandler_t * ptr,entity_t *placeholderarray){
 	uint8_t i;
-	entity_t temp;
-	initEntity(&temp,0,0,0,0,0,0,0);
+
 	for(i = 0; i < ENTITY_ARR_LEN; i++)
 	{
-		ptr->entityArray[i] = &temp;
+		ptr->entityArray[i] = &(placeholderarray[i]);
+		ptr->entityArray[i]->isActive = 0;
 	}
 }
 

@@ -8,17 +8,12 @@
 #include "entity.h"
 #include "enemyManager.h"
 
-void initEnemyManager(enemyManager_t *enemyManager)
+void initEnemyManager(enemyManager_t *enemyManager,enemy_t *placeholder)
 {
-	entity_t tempEntity;
-	enemy_t  tempEnemy;
-
-	initEntity(&tempEntity,6,0,0,0,0,0,0);
-	initEnemy(&tempEntity,&tempEnemy,0,0); //yes its intentional the array all points to the same enemy. Its just to set nonactive
-
 	for(uint8_t i = 0; i < ENEMY_ARR_LENGTH; i++)
 	{
-		enemyManager->enemyArray[i] = &tempEnemy;
+		enemyManager->enemyArray[i] = &(placeholder[i]);
+		enemyManager->enemyArray[i]->entity->isActive = 0;
 	}
 }
 

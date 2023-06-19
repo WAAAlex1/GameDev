@@ -10,17 +10,12 @@
 #include "entityHandler.h"
 #include "bulletManager.h"
 
-void initBulletManager(bulletManager_t *bulletManager)
+void initBulletManager(bulletManager_t *bulletManager,bullet_t *placeholder)
 {
-	entity_t tempEnt;
-	bullet_t tempBul;
-
-	initEntity(&tempEnt,6,0,0,0,0,0,0);
-	initBullet(&tempBul,&tempEnt,0,0); //yes its intentional the array is filled with the same pointer
-
 	for(int i = 0; i < BULLET_ARR_LENGTH; i++)
 	{
-		bulletManager->bulletArray[i] = &tempBul;
+		bulletManager->bulletArray[i] = &(placeholder[i]);
+		bulletManager->bulletArray[i]->entity->isActive = 0;
 	}
 }
 
