@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "entity.h"
+#include "vec.h"
 #include "entityHandler.h"
 
 // to initialize our entityhandler we fill it with entities
@@ -62,11 +63,11 @@ void applyGravity(entityHandler * array){
 
 
 void drawEntity(entity_t * ptr){
-	ui_draw_sprite(ptr->spriteIndex, 15, 0, ptr->pos.x, ptr->pos.y);
+	ui_draw_sprite(ptr->spriteIndex, 15, 0, getXint(&(ptr->pos)), getYint(&(ptr->pos)));
 }
 
 void clearEntity(entity_t * ptr){
-	ui_clear_sprite(ptr->spriteIndex, 15, 0, ptr->pos.x, ptr->pos.y);
+	ui_clear_sprite(ptr->spriteIndex, 15, 0, getXint(&(ptr->pos)), getYint(&(ptr->pos)));
 }
 
 

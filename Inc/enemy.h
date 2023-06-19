@@ -11,6 +11,8 @@
 #include <stdint.h>
 #include "vec.h"
 #include "entity.h"
+#include "bulletManager.h"
+#include "entityHandler.h"
 
 typedef struct {
 	entity_t *entity;

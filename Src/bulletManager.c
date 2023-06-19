@@ -29,7 +29,7 @@ void spawnBullet(bulletManager_t *bulletManager, entityHandler_t *entHand, uint8
 	bullet_t tempBul;
 	entity_t tempEnt;
 
-	pushEntity(entHand,&tempEnt,6+(bulletType/2),xPos,yPos,xVel,yVel,fixedVel);
+	pushEntity(entHand,&tempEnt,6+bulletType,xPos,yPos,xVel,yVel,fixedVel);
 	initBullet(&tempBul,&tempEnt,bulletType,height);
 	tempBul.entity->isActive = 1;
 
