@@ -13,6 +13,6 @@
 #include "stm32f30x_conf.h"
 #include "30010_io.h"
 
-extern const uint8_t lcd_sprites[12][4][40];
+extern const uint8_t lcd_sprites[14][4][40];
 
 #endif /* LCDSPRITES_H_ */
