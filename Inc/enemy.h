@@ -17,7 +17,6 @@
 typedef struct {
 	entity_t *entity;
 	uint8_t type;
-	uint8_t height;
 } enemy_t;
 
 void initEnemy(entity_t * entity, enemy_t * enemy, uint8_t type, uint8_t height);

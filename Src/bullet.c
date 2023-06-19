@@ -12,5 +12,5 @@ void initBullet(bullet_t *bullet, entity_t *entity, uint8_t type, uint8_t height
 {
 	bullet->entity = entity;
 	bullet->type = type;
-	bullet->height = height;
+	bullet->entity->height = height;
 }

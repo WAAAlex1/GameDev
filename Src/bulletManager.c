@@ -12,15 +12,15 @@
 
 void initBulletManager(bulletManager_t *bulletManager)
 {
-	entity_t tempEnt; //just used to get the right size
+	entity_t tempEnt;
 	bullet_t tempBul;
 
-	initEntity(&tempEnt,6,0,0,0,0,0);
+	initEntity(&tempEnt,6,0,0,0,0,0,0);
+	initBullet(&tempBul,&tempEnt,0,0); //yes its intentional the array is filled with the same pointer
 
 	for(int i = 0; i < BULLET_ARR_LENGTH; i++)
 	{
-		initBullet(&tempBul,&tempEnt,0,0); //yes its intentional they all point to the same as its just a placeholder
-		bulletManager->bulletArray[i] = tempBul;
+		bulletManager->bulletArray[i] = &tempBul;
 	}
 }
 
@@ -29,18 +29,18 @@ void spawnBullet(bulletManager_t *bulletManager, entityHandler_t *entHand, uint8
 	bullet_t tempBul;
 	entity_t tempEnt;
 
-	pushEntity(entHand,&tempEnt,6+(bulletType/2),xPos,yPos,xVel,yVel,fixedVel);
+	pushEntity(entHand,&tempEnt,6+bulletType,xPos,yPos,xVel,yVel,fixedVel,height);
 	initBullet(&tempBul,&tempEnt,bulletType,height);
 	tempBul.entity->isActive = 1;
 
 	for(int i = 0; i < BULLET_ARR_LENGTH; i++)
 	{
-		if(!(bulletManager->bulletArray[i].entity->isActive))
+		if(!(bulletManager->bulletArray[i]->entity->isActive))
 		{
-			bulletManager->bulletArray[i] = tempBul;
+			*(bulletManager->bulletArray[i]) = tempBul;
 			break;
 		}
 	}
 
-	//if no empty spot is found the new bullet is simply not spawned :)
+	//if no empty spot is found the new bullet is simply not spawned
 }

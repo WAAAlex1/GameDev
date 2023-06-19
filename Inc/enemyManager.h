@@ -15,7 +15,7 @@
 #include "entityHandler.h"
 
 typedef struct{
-	enemy_t enemyArray[ENEMY_ARR_LENGTH];
+	enemy_t *enemyArray[ENEMY_ARR_LENGTH];
 } enemyManager_t;
 
 void initEnemyManager(enemyManager_t *enemyManager);
