@@ -11,6 +11,8 @@
 #include <stdint.h>
 #include "vec.h"
 #include "entity.h"
+#include "entityHandler.h"
+#include "bulletManager.h"
 
 typedef struct {
 	entity_t *entity;
@@ -18,7 +20,7 @@ typedef struct {
 	uint8_t height;
 } enemy_t;
 
-
 void initEnemy(entity_t * entity, enemy_t * enemy, uint8_t type, uint8_t height);
 void enemyShoot(bulletManager_t *bulletManager,entityHandler_t *entHand,enemy_t * enemy);
+
 #endif /* ENEMY_H_ */

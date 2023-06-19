@@ -24,5 +24,6 @@ void inverse(uint8_t on);
 void window(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, char title[], uint8_t style);
 void moveCursorX(uint8_t X, uint8_t UP);
 void moveCursorY(uint8_t Y, uint8_t UP);
+void invisibleCursor();
 
 #endif /* ANSI_H_ */

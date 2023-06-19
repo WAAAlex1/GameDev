@@ -247,5 +247,9 @@ void moveCursorY(uint8_t Y, uint8_t UP){ //GOING UP/DOWN
     printf("%c[%d%c", ESC, Y,  UP ? 'A' : 'B');
 }
 
+void invisibleCursor(){
+	printf("%c[?25l", ESC);
+}
+
 
 

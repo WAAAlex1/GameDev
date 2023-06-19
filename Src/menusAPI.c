@@ -15,8 +15,8 @@
 #include "serialRead.h"
 #include "menusAPI.h"
 
-int8_t pickItems(char key, uint8_t activeItem){
-	if(key == 'w' && activeItem > 0){
+int8_t pickMainMenuItems(char key, uint8_t activeItem){
+	if(key == 'w' && activeItem > 1){
 		return -1;
 	} else if (key == 's' && activeItem < 3){
 		return 1;
@@ -25,33 +25,28 @@ int8_t pickItems(char key, uint8_t activeItem){
 	return 0;
 }
 
-void printItems(uint8_t activeItem){
-	//TITLE
-	gotoxy(38, 5);
-	printf("Cosmic Boardside Battle");
+void printMainMenuItems(uint8_t activeItem){
+	color(15, 0);
 
 	//MENU ITEMS
 	gotoxy(10, 10);
-	if(activeItem == 0){ inverse(1); } else { inverse(0); }
+	if(activeItem == 1){ inverse(1); } else { inverse(0); }
 	printf(" Singleplayer ");
 
 	gotoxy(10, 15);
-	if(activeItem == 1){ inverse(1); } else { inverse(0); }
+	if(activeItem == 2){ inverse(1); } else { inverse(0); }
 	printf(" Multiplayer ");
 
 	gotoxy(10, 20);
-	if(activeItem == 2){ inverse(1); } else { inverse(0); }
-	printf(" Help ");
-
-	gotoxy(10, 25);
 	if(activeItem == 3){ inverse(1); } else { inverse(0); }
-	printf(" Exit ");
+	printf(" Help ");
 
 	inverse(0);
 }
 
 void printScores(){
-	//HIGHSCORES
+	color(15, 0);
+
 	//Read highscores
 	char *highName0 = readHighscoreName(0);
 	char *highName1 = readHighscoreName(1);
@@ -60,8 +55,10 @@ void printScores(){
 	char *highName4 = readHighscoreName(4);
 
 	//Print highscores
-	gotoxy(75, 10);
-	printf("HIGHSCORES");
+	gotoxy(74, 10);
+	inverse(1);
+	printf(" HIGHSCORES ");
+	inverse(0);
 	gotoxy(72, 12);
 	printf("%s: %010lu", highName0, readHighscore(0));
 	gotoxy(72, 14);
