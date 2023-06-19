@@ -72,7 +72,7 @@ void applyGravity(entityHandler_t * ptr){
 	for(i = 0; i < ENTITY_ARR_LEN; i++){
 		if(ptr->entityArray[i]->spriteIndex == 6){
 			for(j = 0; j < ENTITY_ARR_LEN; j++){
-				if(ptr->entityArray[i].spriteIndex >= 3 && ptr->entityArray[i]->spriteIndex <= 5){
+				if(ptr->entityArray[i]->spriteIndex >= 3 && ptr->entityArray[i]->spriteIndex <= 5){
 					calculateGravity(&(ptr->entityArray[i]), &(ptr->entityArray[j]));
 				}
 			}

@@ -146,7 +146,7 @@ int32_t centeredYPOS(entity_t * ptr){
 }
 
 
-uint8_t detectEntityCollision(entity_t * obj1, entity_t obj2){
+uint8_t detectEntityCollision(entity_t * obj1, entity_t * obj2){
 	int32_t x1_C = centeredXPOS(obj1);
 	int32_t y1_C = centeredYPOS(obj1);
 	int32_t x2_C = centeredXPOS(obj2);

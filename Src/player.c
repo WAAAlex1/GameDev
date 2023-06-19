@@ -159,7 +159,7 @@ void usePowerUp(player_t * ptr, bulletManager_t * bulletManager, entityHandler_t
 			ptr->powerUp = 0;
 			break;
 		case(3): //spawn megabullet in front of player with velocity -1.
-			spawnBullet(bulletManager, entityHandler, (ptr->entity->pos.x+1) >> 14,  (ptr->entity->pos.y+1) >> 14), 0, -1, 0, 1, 0);
+			spawnBullet(bulletManager, entityHandler, (ptr->entity->pos.x+1) >> 14,  (ptr->entity->pos.y+1) >> 14, 0, -1, 0, 1, 0);
 			break;
 		default:
 			return;
