@@ -45,6 +45,14 @@ void destroyEntity(entity_t * ptr){
 	ptr->isActive = 0;
 }
 
+void drawEntity(entity_t * ptr){
+	ui_draw_sprite(ptr->spriteIndex, 15, 0, ptr->pos.x, ptr->pos.y);
+}
+
+void clearEntity(entity_t * ptr){
+	ui_clear_sprite(ptr->spriteIndex, 15, 0, ptr->pos.x, ptr->pos.y);
+}
+
 //bullet should be pulled in x-dir when range x <= 32
 //bullet should be pulled in y-dir when range y <= 16
 void calculateGravity(entity_t * bullet, entity_t * solidObj){
@@ -74,20 +82,87 @@ void calculateGravity(entity_t * bullet, entity_t * solidObj){
 	}
 
 	dist = getManDistance(x1>>14, y1>>14, x2>>14, y2>>14);
-
-	if(!(dist >= 20)) return;
-	deltaX = x2-x1;
-	deltaY = y2-y1;
-
-
-	// NEXT UP:
-
+	if(dist > 20) return;
 	// SKALER DELTAX OG DELTAY med konstant/dist^2
+	deltaX = (x2-x1) * ((G << 14) / ((dist)*(dist) >> 14)) >> 14;
+	deltaY = (y2-y1) * ((G << 14) / ((dist)*(dist) >> 14)) >> 14;
 
-
-
+	//Finally add the gravity to our velocity vector for our bullet
+	bullet->vel.x += deltaX;
+	bullet->vel.y += deltaY;
 }
 
+int32_t centeredXPOS(entity_t * ptr){
+	switch(ptr->spriteIndex){
+		case(0):
+		case(1):
+		case(2):
+		case(5): //cases for len x = 4 (add 2)
+			return ptr->pos.x + (2 << 14);
+		case(6):
+		case(3): //cases for len x = 1 (add 0.5)
+			return ptr->pos.x + (1 << 13);
+		case(4): //cases for len x = 2 (add 1)
+			return ptr->pos.x + (1 << 14);
+		case(7): //cases for len x = 3 (add 1.5)
+			return ptr->pos.x + (3 << 13);
+		default:
+			return ptr->pos.x;
+		}
+}
+
+int32_t centeredYPOS(entity_t * ptr){
+	switch(ptr->spriteIndex){
+		case(0):
+		case(1)://cases for len y = 4 (add 2)
+			return ptr->pos.y + (2 << 14);
+		case(3):
+		case(6):
+		case(7): //cases for len y = 1 (add 0.5)
+			return ptr->pos.y + (1 << 13);
+		case(4): //cases for len y = 2 (add 1)
+			return ptr->pos.y + (1 << 14);
+		case(2):
+		case(5): //cases for len y = 3 (add 1.5)
+			return ptr->pos.y + (3 << 13);
+		default:
+			return ptr->pos.y;
+		}
+}
+
+void detectEntityCollision(entity_t * obj1, entity_t obj2){
+	int32_t x1_C = centeredXPOS(obj1);
+	int32_t y1_C = centeredYPOS(obj1);
+	int32_t x2_C = centeredXPOS(obj2);
+	int32_t y2_C = centeredYPOS(obj2);
+	int32_t minX, minY;
+
+	switch(obj1->spriteIndex){
+	case(0):
+	case(1):
+
+		break;
+	case(6):
+		detectBulletCollision(entity_t * obj1);
+		break;
+	case(2):
+	case(5):
+
+		break;
+	case(4):
+
+		break;
+	default:
+		return;
+	}
+
+
+
+	//only make checks if the two entities are within 4 in x and 4 in y of each other.
+	if(absolute(x2-x1) <= 4 && absolute(y2-y1) <= 4){
+
+	}
+}
 
 
 
