@@ -16,12 +16,13 @@
 typedef struct{
 	vector_t pos;
 	vector_t vel;
+	uint8_t height;
 	uint8_t spriteIndex;
 	uint8_t isActive;
 	uint8_t entityIndex;
 } entity_t;
 
-#define G 0x00001800 //fixed point 0.375
+#define G (3 << 12) //fixed point 0.375
 
 void move(entity_t * ptr);
 void updateVel(entity_t * ptr, int8_t x, int8_t y);

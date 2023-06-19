@@ -17,7 +17,7 @@ void updateVel(entity_t * ptr, int8_t x, int8_t y){
 // MAINLY USED FOR INIT: --------------------------------------------------
 
 //function to initialize the values of an entity struct and set its spriteindex.
-void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,uint8_t xVel,uint8_t yVel, uint8_t fixedVel){
+void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,uint8_t xVel,uint8_t yVel, uint8_t fixedVel, uint8_t height){
 	setEntityPos(ptr,xPos,yPos);
 	if(fixedVel)
 	{
@@ -28,6 +28,7 @@ void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,
 		setEntityVel(ptr,xVel,yVel);
 	}
 	setSpriteIndex(ptr, spriteIndex);
+	if(height >= 0 && height <= 3) ptr->height = height;
 	ptr->isActive = 0;
 }
 
@@ -153,10 +154,10 @@ void detectEntityCollision(entity_t * obj1, entity_t obj2){
 	switch(obj1->spriteIndex){
 	case(0):
 	case(1):
-
+		if(obj2->spriteIndex == 6)
 		break;
 	case(6):
-		detectBulletCollision(entity_t * obj1);
+
 		break;
 	case(2):
 	case(5):

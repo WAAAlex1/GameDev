@@ -15,7 +15,6 @@
 typedef struct {
 	entity_t *entity;
 	uint8_t type;
-	uint8_t height;
 } enemy_t;
 
 
