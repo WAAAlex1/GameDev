@@ -11,7 +11,6 @@
 #include "stdint.h"
 
 
-#define G 0x0001
 
 int32_t getRandomInterval(int32_t min, int32_t max);
 int32_t absolute(int32_t x);
