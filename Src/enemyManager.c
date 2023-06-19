@@ -13,7 +13,7 @@ void initEnemyManager(enemyManager_t *enemyManager)
 	entity_t tempEntity;
 	enemy_t  tempEnemy;
 
-	initEntity(&tempEntity,6,0,0,0,0,0);
+	initEntity(&tempEntity,6,0,0,0,0,0,0);
 
 	for(uint8_t i = 0; i < ENEMY_ARR_LENGTH; i++)
 	{
@@ -27,7 +27,7 @@ void spawnEnemy(enemyManager_t *enemyManager, entityHandler_t *entHand, uint8_t 
 	entity_t tempEntity;
 	enemy_t  tempEnemy;
 
-	pushEntity(entHand,&tempEntity,enemyType,xPos,yPos,xVel,yVel,fixedVel);
+	pushEntity(entHand,&tempEntity,enemyType,xPos,yPos,xVel,yVel,fixedVel,height);
 	initEnemy(&tempEntity,&tempEnemy,enemyType,height);
 	tempEnemy.entity->isActive = 1;
 

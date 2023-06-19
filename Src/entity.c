@@ -124,7 +124,7 @@ int32_t centeredXPOS(entity_t * ptr){
 			return ptr->pos.x;
 		}
 }
-
+/*
 int32_t centeredYPOS(entity_t * ptr){
 	switch(ptr->spriteIndex){
 		case(0):
@@ -177,6 +177,6 @@ void detectEntityCollision(entity_t * obj1, entity_t obj2){
 
 	}
 }
-
+*/
 
 

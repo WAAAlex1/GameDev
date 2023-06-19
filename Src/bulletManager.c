@@ -15,7 +15,7 @@ void initBulletManager(bulletManager_t *bulletManager)
 	entity_t tempEnt; //just used to get the right size
 	bullet_t tempBul;
 
-	initEntity(&tempEnt,6,0,0,0,0,0);
+	initEntity(&tempEnt,6,0,0,0,0,0,0);
 
 	for(int i = 0; i < BULLET_ARR_LENGTH; i++)
 	{
@@ -29,7 +29,7 @@ void spawnBullet(bulletManager_t *bulletManager, entityHandler_t *entHand, uint8
 	bullet_t tempBul;
 	entity_t tempEnt;
 
-	pushEntity(entHand,&tempEnt,6+bulletType,xPos,yPos,xVel,yVel,fixedVel);
+	pushEntity(entHand,&tempEnt,6+bulletType,xPos,yPos,xVel,yVel,fixedVel,height);
 	initBullet(&tempBul,&tempEnt,bulletType,height);
 	tempBul.entity->isActive = 1;
 
