@@ -10,6 +10,8 @@
 
 #include <stdint.h>
 
-void mainMenu();
+void initMainMenu();
+void helpMenu();
+uint8_t menuPicker(uint8_t mode, char input);
 
 #endif /* MENUS_H_ */
