@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "entity.h"
 #include "vec.h"
+#include "enemyManager.h"
 #include "entityHandler.h"
 
 // to initialize our entityhandler we fill it with entities
@@ -20,6 +21,8 @@ void init_entityHandler(entityHandler_t * ptr, entity_t * entArr){
 // for each entity in our entityHandler array - move the entity
 void updateEntities(entityHandler_t * ptr){
 	uint8_t i;
+
+	applyGravity(ptr);
 
 	for(i = 0; i < ENTITY_ARR_LEN; i++){
 		if(ptr->entityArray[i]->isActive)
@@ -71,11 +74,15 @@ void clearAllEntities(entityHandler_t * ptr){
 void applyGravity(entityHandler_t * ptr){
 	uint8_t i;
 	uint8_t j;
-	for(i = 0; i < ENTITY_ARR_LEN; i++){
-		if(ptr->entityArray[i]->spriteIndex == 6){
-			for(j = 0; j < ENTITY_ARR_LEN; j++){
-				if(ptr->entityArray[i]->spriteIndex >= 3 && ptr->entityArray[i]->spriteIndex <= 5){
-					calculateGravity(&(ptr->entityArray[i]), &(ptr->entityArray[j]));
+	for(i = BULLET_ARR_LENGTH; i < ENTITY_ARR_LEN; i++)
+	{
+		if(ptr->entityArray[i]->isActive && ptr->entityArray[i]->spriteIndex == 6)
+		{
+			for(j = 1; j <= ENEMY_ARR_LENGTH; j++)
+			{
+				if(ptr->entityArray[j]->spriteIndex >= 3 && ptr->entityArray[j]->spriteIndex <= 5)
+				{
+					calculateGravity(ptr->entityArray[i], ptr->entityArray[j]);
 				}
 			}
 		}

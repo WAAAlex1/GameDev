@@ -80,30 +80,36 @@ void calculateGravity(entity_t * bullet, entity_t * solidObj){
 	int32_t deltaY;
 	int32_t dist;
 
-	switch(solidObj->entityIndex){
+	switch(solidObj->spriteIndex){
 	case 3:
-		massObj = 1 << 14;
+		massObj = 1;
+		x2 += 3 << 13;
+		y2 += 1 << 14;
 		break;
 	case 4:
-		massObj = 9 << 14;
+		massObj = 3;
+		x2 += 5 << 13;
+		y2 += 3 << 13;
 		break;
 	case 5:
-		massObj = 27 << 14;
-		x2 += 3 << 13; //add 1.5 to center the 3x3 asteroid
-		y2 += 3 << 13; //add 1.5 to center the 3x3 asteroid
+		massObj = 5;
+		x2 += 7 << 13; //add 1.5 to center the 3x3 asteroid
+		y2 += 2 << 14; //add 1.5 to center the 3x3 asteroid
 		break;
 	default:
 		massObj = 0;
 	}
 
-	dist = getManDistance(x1>>14, y1>>14, x2>>14, y2>>14);
+	if(x1 == x2 && y1 == y2) return;
+
+	dist = getManDistance(x1>>14, y1>>14, x2>>14, y2>>14); //int dist
 	if(dist > 20) return;
 	// SKALER DELTAX OG DELTAY med konstant/dist^2
-	deltaX = (x2-x1) * ( (((G)*(massObj) >> 14) << 14) / ((dist*dist) >> 14) ) >> 14;
-	deltaY = (y2-y1) * ( (((G)*(massObj) >> 14) << 14) / ((dist*dist) >> 14) ) >> 14;
+	deltaX = ((x2-x1) * ( ((G*massObj) << 28) / (dist*dist << 14) )) >> 14;
+	deltaY = ((y2-y1) * ( ((G*massObj) << 28) / (dist*dist << 14) )) >> 14;
 
 	//Finally add the gravity to our velocity vector for our bullet
-	bullet->vel.x += deltaX;
+	bullet->vel.x += deltaX; //both fixed point
 	bullet->vel.y += deltaY;
 }
 

@@ -35,19 +35,11 @@ typedef struct{
 uint8_t game_update();
 void initProgram(gameStruct_t * gs_p);
 void modeSelect(gameStruct_t * gs_p);
-void initializeGame(gameStruct_t * gs_p, uint8_t numPlayers);
+void initializeGame(gameStruct_t * gs_p);
 void clearGame(gameStruct_t * gs_p);
 void updateGameFromInputs(gameStruct_t * gs_p, char input);
 void drawGame(gameStruct_t * gs_p);
 uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p);
-
-
-uint8_t game_update();
-void initializeStart(gameStruct * gs_p);
-void initializeGame(gameStruct * gs_p, uint8_t numPlayers);
-void clearGame(gameStruct * gs_p);
-void updateGameFromInputs(gameStruct * gs_p);
-void drawGame(gameStruct * gs_p);
 
 
 #endif	// _INITGAME_

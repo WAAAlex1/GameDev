@@ -2,6 +2,7 @@
 #include "stdint.h"
 #include "ansi.h"
 #include "controller.h"
+#include "controllerAPI.h"
 #include "entityHandler.h"
 #include "bulletManager.h"
 #include "enemyManager.h"
@@ -69,7 +70,7 @@ void modeSelect(gameStruct_t * gs_p){
 			gs_p->prevMode = gs_p->mode;
 			gs_p->playerNum = gs_p->mode;
 		}
-		if(gs_p->gameInitialized == 0) initializeGame(gs_p, 1);
+		if(gs_p->gameInitialized == 0) initializeGame(gs_p);
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 		break;
 	case(2):
@@ -81,7 +82,7 @@ void modeSelect(gameStruct_t * gs_p){
 			gs_p->prevMode = gs_p->mode;
 			gs_p->playerNum = gs_p->mode;
 		}
-		if(gs_p->gameInitialized == 0) initializeGame(gs_p, 2);
+		if(gs_p->gameInitialized == 0) initializeGame(gs_p);
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 		break;
 	case(3):
