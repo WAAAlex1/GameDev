@@ -23,12 +23,23 @@ typedef struct{
 	player_t player;
 	entity_t playerEnt;
 
+	gameScore_t score;
+
 	uint8_t LCDbuffer[512];
 	uint8_t tickCounter;
 	uint8_t spawnCounter;
 	uint8_t numPlayers;
 	uint8_t mode;
+	uint8_t gameInitialized;
 
 } gameStruct;
+
+uint8_t game_update();
+void initProgram(gameStruct * gs_p);
+void initializeGame(gameStruct * gs_p, uint8_t numPlayers);
+void clearGame(gameStruct * gs_p);
+void updateGameFromInputs(gameStruct * gs_p);
+void drawGame(gameStruct * gs_p);
+
 
 #endif	// _INITGAME_

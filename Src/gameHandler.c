@@ -12,15 +12,47 @@ uint8_t game_update()
 	return 0;
 }
 
-void initializeStart(gameStruct * gs_p){
+void initProgram(gameStruct * gs_p){
+	uart_init(1024000);
+	clrscr();
 	gs_p->tickCounter = 0;
+	gs_p->mode = 0;
+	gs_p->gameInitialized = 0;
 	initTimerStuff(); //Comment to debug
+}
+
+void modeSelect(gameStruct * gs_p){
+	switch(gs_p->mode){
+	case(0):
+		//Functions for main menu
+
+
+		break;
+	case(1):
+		//Functions for Help menu
+
+
+		break;
+	case(2):
+		//Functions for game (clear, update, draw...)
+		if(gs_p->gameInitialized == 0) initializeGame(&gs_p, gs_p->numPlayers);
+		break;
+	case(3):
+		//Functions for Boss key
+		//Pause timer
+		//Draw screen
+		//EXIT on ESC (setMode = 2)
+		break;
+	default:
+		gs_p->mode = 0;
+	}
 }
 
 void initializeGame(gameStruct * gs_p, uint8_t numPlayers){
 	//INIT CONTROL VARIABLES
 	gs_p->spawnCounter = 0;
 	gs_p->numPlayers = numPlayers;
+	gs_p->gameInitialized= 1;
 
 	//INIT TOP LEVEL STRUCTS
 	init_entityHandler(&(gs_p->entityArray));
@@ -38,7 +70,7 @@ void initializeGame(gameStruct * gs_p, uint8_t numPlayers){
 		lcd_push_buffer(gs_p->LCDbuffer);
 	}
 
-	//INIT CONTROLLER
+	//INIT CONTROLLER (do anyways for random seed)
 	initController();
 }
 
