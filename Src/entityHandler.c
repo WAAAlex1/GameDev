@@ -1,5 +1,7 @@
+#include "entity.h"
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "entity.h"
 #include "vec.h"
 #include "entityHandler.h"
@@ -7,11 +9,11 @@
 // to initialize our entityhandler we fill it with entities
 void init_entityHandler(entityHandler_t * ptr){
 	uint8_t i;
-	entity_t temp;
-	initEntity(&temp,0,0,0,0,0,0,0);
+
 	for(i = 0; i < ENTITY_ARR_LEN; i++)
 	{
-		ptr->entityArray[i] = &temp;
+		ptr->entityArray[i] = (entity_t*)malloc(sizeof(entity_t));
+		ptr->entityArray[i]->isActive = 0;
 	}
 }
 
@@ -19,7 +21,7 @@ void init_entityHandler(entityHandler_t * ptr){
 void updateEntities(entityHandler_t * ptr){
 	uint8_t i;
 
-	for(i = 0; i < 128; i++){
+	for(i = 0; i < ENTITY_ARR_LEN; i++){
 		if(ptr->entityArray[i]->isActive)
 		{
 			move(ptr->entityArray[i]);
@@ -33,7 +35,7 @@ void updateEntities(entityHandler_t * ptr){
 void pushEntity(entityHandler_t * ptr, entity_t * temp, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,uint8_t xVel, uint8_t yVel,uint8_t fixedVel,uint8_t height){
 	uint8_t i;
 	initEntity(temp, spriteIndex, xPos, yPos,xVel,yVel,fixedVel,height);
-	for(i = 0; i < 128; i++){
+	for(i = 0; i < ENTITY_ARR_LEN; i++){
 		if(ptr->entityArray[i]->isActive == 0){
 			temp->entityIndex = i;
 			ptr->entityArray[i] = temp;

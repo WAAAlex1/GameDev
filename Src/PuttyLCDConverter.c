@@ -9,6 +9,8 @@
 #include "stm32f30x_conf.h"
 #include "30010_io.h"
 #include "util.h"
+#include "LCD.h"
+#include "vec.h"
 #include "PuttyLCDConverter.h"
 
 #define CONE_VIEW_WIDTH 32
@@ -101,6 +103,20 @@ int16_t con_posToSlice(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t e
 	/*-2 on minOld to allow ships slightly outside to be drawn smoothly in
 	 * same reason for -256/coneY and the same for the max
 	*/
+}
+
+void con_draw_putty_to_lcd(enemyManager_t *enemMan, player_t *player,uint8_t * LCDbuffer)
+{
+	for(int i = 0; i < 63; i++)
+	{
+		if(enemMan->enemyArray[i]->entity->isActive)
+		{
+			if(con_inCone(getXint(&(player->entity->pos)),getYint(&(player->entity->pos)),getXint(&(enemMan->enemyArray[i]->entity->pos)),getYint(&(enemMan->enemyArray[i]->entity->pos)),player->gunSide))
+			{
+				lcd_draw_sprite(LCDbuffer,con_posToSlice(getXint(&(player->entity->pos)),getYint(&(player->entity->pos)),getXint(&(enemMan->enemyArray[i]->entity->pos)),getYint(&(enemMan->enemyArray[i]->entity->pos)),player->gunSide),enemMan->enemyArray[i]->entity->height,(enemMan->enemyArray[i]->type ? enemMan->enemyArray[i]->type : 10)+1+con_getDistanceX(getXint(&(player->entity->pos)),getXint(&(enemMan->enemyArray[i]->entity->pos)))); //plus 1 for baseSize
+			}
+		}
+	}
 }
 
 

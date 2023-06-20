@@ -10,15 +10,11 @@
 
 void initEnemyManager(enemyManager_t *enemyManager)
 {
-	entity_t tempEntity;
-	enemy_t  tempEnemy;
-
-	initEntity(&tempEntity,6,0,0,0,0,0,0);
-	initEnemy(&tempEntity,&tempEnemy,0,0); //yes its intentional the array all points to the same enemy. Its just to set nonactive
-
 	for(uint8_t i = 0; i < ENEMY_ARR_LENGTH; i++)
 	{
-		enemyManager->enemyArray[i] = &tempEnemy;
+		enemyManager->enemyArray[i] = (enemy_t*)malloc(sizeof(enemy_t));
+		enemyManager->enemyArray[i]->entity = (entity_t*)malloc(sizeof(entity_t));
+		enemyManager->enemyArray[i]->entity->isActive = 0;
 	}
 }
 
@@ -40,11 +36,16 @@ void spawnEnemy(enemyManager_t *enemyManager, entityHandler_t *entHand, uint8_t 
 		}
 	}
 
-	//if no empty spot is found the new enemy is simply not spawned :)
+	//if no empty spot is found the new enemy is simply not spawned
 }
 
 
-
+void spawnRandom(uint8_t spawnCounter, enemyManager_t * enemMan, entityHandler_t * entHan){
+	if(spawnCounter == 20)
+	{
+		spawnEnemy(&enemMan,&entHan,getRandomInterval(0,70),0,0,1,getRandomInterval(0,3),getRandomInterval(0,3),0);
+	}
+}
 
 
 
