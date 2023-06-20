@@ -11,7 +11,7 @@
 #include <stdint.h>
 
 void initMainMenu();
-void helpMenu();
-uint8_t menuPicker(uint8_t mode, char input);
+void helpMenu(uint8_t bool);
+void bossScreen();
 
 #endif /* MENUS_H_ */

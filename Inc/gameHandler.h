@@ -1,6 +1,8 @@
 #ifndef INITGAME_H
 #define INITGAME_H
 
+#define MODE_CHANGE gs_p->prevMode != gs_p->mode
+
 typedef struct{
 	entityHandler_t entHan;
 	entity_t entityArray[ENTITY_ARR_LEN];
@@ -23,6 +25,7 @@ typedef struct{
 	uint8_t mode;
 	uint8_t prevMode;
 	uint8_t gameInitialized;
+	uint8_t playerNum;
 
 } gameStruct_t;
 
@@ -33,6 +36,7 @@ void initializeGame(gameStruct_t * gs_p, uint8_t numPlayers);
 void clearGame(gameStruct_t * gs_p);
 void updateGameFromInputs(gameStruct_t * gs_p, char input);
 void drawGame(gameStruct_t * gs_p);
+uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p);
 
 
 #endif	// _INITGAME_
