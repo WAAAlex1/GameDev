@@ -85,7 +85,7 @@ uint32_t readHighscore(uint8_t place){
 	return readMemory(place*4) | readMemory(place*4 + 1) << 16;
 }
 
-void highScoreFlush(){
+void highscoreFlush(){
 	uint16_t oldScores[20] = {0};
 
 	saveToMemory(oldScores, 20);

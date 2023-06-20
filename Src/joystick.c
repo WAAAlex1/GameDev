@@ -51,13 +51,14 @@ void setLED(uint8_t x1, uint8_t x2, uint8_t x3){
 void turnOffLED(){
 	static uint16_t counter = 0;
 
-	if(game_update()){
-		if(!(GPIOB->ODR & (0x0001 << 4)) && !(GPIOB->ODR & (0x0001 << 7)) && !(GPIOB->ODR & (0x0001 << 9))){ //If any LED is on
-			counter++;
-		}
+	gotoxy(1, 2);
+	printf("%04d", counter);
+
+	if(!(GPIOB->ODR & (0x0001 << 4)) || !(GPIOB->ODR & (0x0001 << 7)) || !(GPIOB->ODR & (0x0001 << 9))){ //If any LED is on
+		counter++;
 	}
 
-	if (counter == 5){ //Wait for 50 ms
+	if (counter == 5){ //Wait for 500 ms
 		counter = 0;
 		setLED(0, 0, 0);
 	}

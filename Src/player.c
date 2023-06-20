@@ -135,7 +135,7 @@ void updatePlayerVel(player_t *player, char input){
 
 void playerShoot(player_t *ptr, bulletManager_t *bulletManager,entityHandler_t *entHan, uint8_t bulletType, uint8_t height)
 {
-	spawnBullet(bulletManager,entHan,offsetBulletCoordX(ptr),offsetBulletCoordY(ptr),con_getVecX(ptr->gunSide),con_getVecY(ptr->crosshairX,ptr->gunSide),1,0,ptr->crosshairY);
+	spawnBullet(bulletManager,entHan,offsetBulletCoordX(ptr),offsetBulletCoordY(ptr),con_getVecX(ptr->gunSide),con_getVecY(ptr->crosshairX,ptr->gunSide),1,0,ptr->crosshairY, 1);
 }
 
 //check if player collides with an asteroid, enemy ship or bullet.
@@ -166,8 +166,8 @@ void usePowerUp(player_t * ptr, bulletManager_t * bulletManager,entityHandler_t 
 			ptr->HP = ptr->HP < 4 ? ptr->HP++ : ptr->HP;
 			ptr->powerUp = 0;
 			break;
-		case(3): //spawn megabullet in front of player with velocity -1.
-			spawnBullet(bulletManager,entHan,getXint(&(ptr->entity->pos))+1,getYint(&(ptr->entity->pos))-1, 0, -1, 0, 1, 0);
+		case(3): //spawn megabullet in front of player with velocity -2.
+			spawnBullet(bulletManager,entHan,getXint(&(ptr->entity->pos))+1,getYint(&(ptr->entity->pos))-1, 0, -2, 0, 1, 0, 1);
 			break;
 		default:
 			return;

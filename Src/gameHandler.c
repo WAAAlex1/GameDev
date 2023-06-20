@@ -46,8 +46,9 @@ void initProgram(gameStruct_t * gs_p){
 	gs_p->cooldownCounter = 3;
 	initTimerStuff(); //Comment to debug
 	initController();
-	initLED();
+	srand( (unsigned)(lutSin(readPot1()) + lutCos(readPot2())) );
 	initLCD();
+	initLED();
 	setLED(0, 0, 0);
 }
 
@@ -67,8 +68,8 @@ void modeSelect(gameStruct_t * gs_p){
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 		break;
 
-	case(1):
-		//Functions for singleplayer
+	case(1): //Singleplayer
+	case(2): //Multiplayer
 		if(MODE_CHANGE){
 			color(15, 0);
 			clrscr();
@@ -78,20 +79,9 @@ void modeSelect(gameStruct_t * gs_p){
 		}
 		if(gs_p->gameInitialized == 0) initializeGame(gs_p);
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
-		updateGameUI(&(gs_p->player), &(gs_p->score));
-		break;
 
-	case(2):
-		//Functions for multiplayer
-		if(MODE_CHANGE){
-			color(15, 0);
-			clrscr();
-			initGameUI();
-			gs_p->prevMode = gs_p->mode;
-			gs_p->playerNum = gs_p->mode;
-		}
-		if(gs_p->gameInitialized == 0) initializeGame(gs_p);
-		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
+		runGame(gs_p, input);
+
 		updateGameUI(&(gs_p->player), &(gs_p->score));
 		break;
 
@@ -143,11 +133,10 @@ void initializeGame(gameStruct_t * gs_p){
 	gs_p->entityArray[0].isActive = 1;
 	initPlayer(&(gs_p->entityArray[0]), &(gs_p->player), gs_p->playerNum);
 
-	//INIT LCD (ONLY IF 2 PLAYERS)
-	if(gs_p->playerNum == 2){
-		lcd_clear_all(gs_p->LCDbuffer,0x00);
-		lcd_push_buffer(gs_p->LCDbuffer);
-	}
+	//INIT LCD
+	lcd_clear_all(gs_p->LCDbuffer,0x00);
+	lcd_push_buffer(gs_p->LCDbuffer);
+
 }
 
 void clearGame(gameStruct_t * gs_p){
@@ -186,26 +175,14 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 			}
 			break;
 		case 1: //SINGLEPLAYER
-			if(input == 'h'){
-				return 3;
-			} else if(input == 0x1B){ //ESC
-				gs_p->gameInitialized = 0;
-				freeMallocEntities(gs_p);
-				return 0;
-			} else if(input == 'b' || input == 'B'){
-				return 4;
-			}
-			break;
 		case 2: //MULTIPLAYER
-			if(input == 'h'){
-				return 3;
-			} else if(input == 0x1B){ //ESC
+			if(input == 'h') return 3;
+			else if(input == 0x1B){ //ESC
 				gs_p->gameInitialized = 0;
 				freeMallocEntities(gs_p);
 				return 0;
-			} else if(input == 'b' || input == 'B'){
-				return 4;
-			}
+			} else if(input == 'b' || input == 'B') return 4;
+			if(gs_p->player.HP <= 0) return 5;
 			break;
 		case 3: //HELP MENU
 			if(input == 'm'){
@@ -219,7 +196,7 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 			} else if(input == 't'){
 				return 5;
 			} else if(input == 0x2A){ //'*'
-				highScoreFlush();
+				highscoreFlush();
 			}
 			break;
 		case 4: //BOSS KEY
@@ -250,6 +227,115 @@ void freeMallocEntities(gameStruct_t * gs_p){
 		free(gs_p->bulMan.bulletArray[i]->entity);
 	}
 }
+
+void runGame(gameStruct_t * gs_p, char input){
+	//Clear
+	clearPlayer(&(gs_p->player));
+	lcd_clear_all(gs_p->LCDbuffer,0x00);
+	gotoxy(1, 3);
+	printf("%04d", gs_p->cooldownCounter);
+
+	//update playeractions based on inputs:
+	if(gs_p->playerNum == 2) updateCrosshair(&(gs_p->player),readJoystick());
+
+	switch(gs_p->playerNum){
+		case 1:
+			if(input == ',') gs_p->player.gunSide = 1;
+			else if(input == '.') gs_p->player.gunSide = -1;
+			else gs_p->player.gunSide = gs_p->player.gunSide;
+			if(!(gs_p->cooldownCounter) && (input == ',' || input == '.')){
+				gs_p->cooldownCounter = 10;
+				setLED(0, 1, 0);
+				playerShoot(&(gs_p->player),&(gs_p->bulMan),&(gs_p->entHan),0,gs_p->player.crosshairY);
+			}
+			break;
+		case 2:
+			if(readButton2()) changeGunside(&(gs_p->player));
+
+			if(readButton1() && !(gs_p->cooldownCounter)){
+				gs_p->cooldownCounter = 10;
+				setLED(0, 1, 0);
+				playerShoot(&(gs_p->player),&(gs_p->bulMan),&(gs_p->entHan),0,gs_p->player.crosshairY);
+			}
+			break;
+		default:
+			break;
+	}
+	if(input == ' ') usePowerUp(&(gs_p->player),&(gs_p->bulMan), &(gs_p->entHan));
+
+	//update entities:
+	updatePlayerVel(&(gs_p->player), input);
+	updateEntities(&(gs_p->entHan));
+	checkBulletCollision(&(gs_p->bulMan),&(gs_p->entHan), &(gs_p->score));
+	checkPlayerCollision(&(gs_p->player),&(gs_p->entHan));
+
+	//Create new entities
+	enemiesShoot(&(gs_p->bulMan),&(gs_p->entHan),&(gs_p->enemMan));
+	if(gs_p->spawnCounter == 20) {
+		spawnRandom(&(gs_p->enemMan),&(gs_p->entHan));
+		gs_p->spawnCounter = 0;
+	}
+	incrementCounter(&(gs_p->spawnCounter), 1);
+
+	//Draw LCD
+	if(gs_p->playerNum == 2){
+		lcd_draw_crosshair(gs_p->LCDbuffer,gs_p->player.crosshairX,gs_p->player.crosshairY);
+		con_draw_putty_to_lcd(&(gs_p->enemMan), &(gs_p->player),gs_p->LCDbuffer);
+		lcd_push_buffer(gs_p->LCDbuffer);
+	}
+
+
+	//Draw PuTTY
+	clearAllEntities(&(gs_p->entHan));
+
+	drawAllEntities(&(gs_p->entHan));
+	drawPlayer(&(gs_p->player));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

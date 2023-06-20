@@ -24,7 +24,7 @@ void enemyShoot(bulletManager_t *bulletManager,entityHandler_t *entHan,enemy_t *
 {
 	if(getRandomInterval(0,100) >= 98)
 	{
-		spawnBullet(bulletManager, entHan, getXint(&(enemy->entity->pos))+1, getYint(&(enemy->entity->pos))+4,0,1,0,0,enemy->entity->height);
+		spawnBullet(bulletManager, entHan, getXint(&(enemy->entity->pos))+1, getYint(&(enemy->entity->pos))+4,0,1,0,0,enemy->entity->height, 0);
 	}
 }
 

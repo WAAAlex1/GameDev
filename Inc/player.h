@@ -19,7 +19,7 @@ typedef struct {
 	uint8_t playerNum;
 	int8_t gunSide;
 	uint8_t powerUp;
-	uint8_t HP;
+	int8_t HP;
 	uint8_t crosshairX;
 	uint8_t crosshairY;
 } player_t;
@@ -35,6 +35,7 @@ void updatePlayerVel(player_t *player, char input);
 void damagePlayer(player_t *ptr, int8_t x);
 void playerShoot(player_t *ptr, bulletManager_t *bulletManager,entityHandler_t *entHan, uint8_t bulletType, uint8_t height);
 void updateCrosshair(player_t *ptr,uint8_t joystickVal);
-
+void usePowerUp(player_t * ptr, bulletManager_t * bulletManager,entityHandler_t * entHan);
+void checkPlayerCollision(player_t * ptr, entityHandler_t * array);
 
 #endif /* PLAYER_H_ */
