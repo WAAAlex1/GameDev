@@ -43,6 +43,7 @@ void initProgram(gameStruct_t * gs_p){
 	gs_p->prevMode = 1;
 	gs_p->gameInitialized = 0;
 	gs_p->playerNum = 0;
+	gs_p->cooldownCounter = 3;
 	initTimerStuff(); //Comment to debug
 	initController();
 	initLED();
@@ -52,6 +53,7 @@ void initProgram(gameStruct_t * gs_p){
 
 void modeSelect(gameStruct_t * gs_p){
 	char input = get_key_pressed();
+	turnOffLED();
 
 	switch(gs_p->mode){
 	case(0):
