@@ -8,15 +8,18 @@
 #include "entity.h"
 #include "bullet.h"
 #include "entityHandler.h"
+#include <stdlib.h>
 #include "bulletManager.h"
 
-void initBulletManager(bulletManager_t *bulletManager,bullet_t *placeholder)
+void initBulletManager(bulletManager_t *bulletManager)
 {
 	for(int i = 0; i < BULLET_ARR_LENGTH; i++)
 	{
-		bulletManager->bulletArray[i] = &(placeholder[i]);
+		bulletManager->bulletArray[i] = (bullet_t*)malloc(sizeof(bullet_t));
+		bulletManager->bulletArray[i]->entity = (entity_t*)malloc(sizeof(entity_t));
 		bulletManager->bulletArray[i]->entity->isActive = 0;
 	}
+
 }
 
 void spawnBullet(bulletManager_t *bulletManager, entityHandler_t *entHand, uint8_t xPos, uint8_t yPos,uint8_t xVel,uint8_t yVel,uint8_t fixedVel,uint8_t bulletType, uint8_t height)

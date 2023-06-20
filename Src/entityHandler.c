@@ -1,17 +1,18 @@
 #include "entity.h"
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "entity.h"
 #include "vec.h"
 #include "entityHandler.h"
 
 // to initialize our entityhandler we fill it with entities
-void init_entityHandler(entityHandler_t * ptr,entity_t *placeholderarray){
+void init_entityHandler(entityHandler_t * ptr){
 	uint8_t i;
 
 	for(i = 0; i < ENTITY_ARR_LEN; i++)
 	{
-		ptr->entityArray[i] = &(placeholderarray[i]);
+		ptr->entityArray[i] = (entity_t*)malloc(sizeof(entity_t));
 		ptr->entityArray[i]->isActive = 0;
 	}
 }

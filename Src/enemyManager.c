@@ -8,11 +8,12 @@
 #include "entity.h"
 #include "enemyManager.h"
 
-void initEnemyManager(enemyManager_t *enemyManager,enemy_t *placeholder)
+void initEnemyManager(enemyManager_t *enemyManager)
 {
 	for(uint8_t i = 0; i < ENEMY_ARR_LENGTH; i++)
 	{
-		enemyManager->enemyArray[i] = &(placeholder[i]);
+		enemyManager->enemyArray[i] = (enemy_t*)malloc(sizeof(enemy_t));
+		enemyManager->enemyArray[i]->entity = (entity_t*)malloc(sizeof(entity_t));
 		enemyManager->enemyArray[i]->entity->isActive = 0;
 	}
 }
@@ -35,7 +36,7 @@ void spawnEnemy(enemyManager_t *enemyManager, entityHandler_t *entHand, uint8_t 
 		}
 	}
 
-	//if no empty spot is found the new enemy is simply not spawned :)
+	//if no empty spot is found the new enemy is simply not spawned
 }
 
 
