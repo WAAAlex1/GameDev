@@ -24,15 +24,22 @@ uint8_t game_update()
 
 void initProgram(gameStruct_t * gs_p){
 	uart_init(1024000);
+	invisibleCursor();
+	uart_clear();
+	color(15, 0);
 	clrscr();
 	gs_p->tickCounter = 0;
 	gs_p->mode = 0;
 	gs_p->prevMode = 1;
 	gs_p->gameInitialized = 0;
 	initTimerStuff(); //Comment to debug
+	initController();
+	initJoystick();
+	initLED();
+	setLED(0, 0, 0);
 }
 
-void modeSelect(gameStruct * gs_p){
+void modeSelect(gameStruct_t * gs_p){
 	char input = get_key_pressed();
 
 	switch(gs_p->mode){
@@ -42,6 +49,7 @@ void modeSelect(gameStruct * gs_p){
 			color(15, 0);
 			clrscr();
 			initMainMenu();
+			gs_p->prevMode = gs_p->mode;
 		}
 		gs_p->mode = menuPicker(gs_p->mode, input);
 
@@ -52,6 +60,7 @@ void modeSelect(gameStruct * gs_p){
 			color(15, 0);
 			clrscr();
 			initGameUI();
+			gs_p->prevMode = gs_p->mode;
 		}
 		if(gs_p->gameInitialized == 0) initializeGame(&gs_p, 1);
 		break;
@@ -61,15 +70,19 @@ void modeSelect(gameStruct * gs_p){
 			color(15, 0);
 			clrscr();
 			initGameUI();
+			gs_p->prevMode = gs_p->mode;
 		}
 		if(gs_p->gameInitialized == 0) initializeGame(&gs_p, 2);
 		break;
 	case(3):
 		//Help menu
+		if(gs_p->prevMode != gs_p->mode){
+			color(15, 0);
+			clrscr();
+			helpMenu();
+			gs_p->prevMode = gs_p->mode;
+		}
 		gs_p->mode = menuPicker(gs_p->mode, input);
-		color(15, 0);
-		clrscr();
-		helpMenu();
 		break;
 	case(4):
 		//Functions for Boss key
@@ -81,7 +94,6 @@ void modeSelect(gameStruct * gs_p){
 		gs_p->mode = 0;
 	}
 
-	gs_p->prevMode = gs_p->mode;
 }
 
 void initializeGame(gameStruct_t * gs_p, uint8_t numPlayers){
@@ -99,25 +111,22 @@ void initializeGame(gameStruct_t * gs_p, uint8_t numPlayers){
 	initPlayer(&(gs_p->playerEnt), &(gs_p->player), numPlayers);
 
 	//INIT LCD (ONLY IF 2 PLAYERS)
-	if(gs_p->numPlayers == 2){
+	if(gs_p->mode == 2){
 		initLCD();
 		lcd_clear_all(gs_p->LCDbuffer,0x00);
 		lcd_push_buffer(gs_p->LCDbuffer);
 	}
-
-	//INIT CONTROLLER (do anyways for random seed)
-	initController();
 }
 
 void clearGame(gameStruct_t * gs_p){
-	if(gs_p->numPlayers == 2) lcd_clear_all(gs_p->LCDbuffer,0x00);
+	if(gs_p->mode == 2) lcd_clear_all(gs_p->LCDbuffer,0x00);
 	clearAllEntities(&(gs_p->entHan));
 	clearPlayer(&(gs_p->player));
 }
 
-void updateGameFromInputs(gameStruct * gs_p, char input){
+void updateGameFromInputs(gameStruct_t * gs_p, char input){
 	updatePlayerVel(&(gs_p->player), input);
-	if(gs_p->numPlayers == 2) updateCrosshair(&(gs_p->player),readJoystick());
+	if(gs_p->mode == 2) updateCrosshair(&(gs_p->player),readJoystick());
 	updateEntities(&(gs_p->entHan));
 }
 
