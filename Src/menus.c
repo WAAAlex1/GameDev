@@ -94,7 +94,7 @@ void helpMenu(uint8_t bool){
 
 	drawMenuSprites();
 
-	color(1, 0);
+	color(1, 7);
 	inverse(1);
 	gotoxy(55, 40);
 	printf(" Write '*' ([SHIFT] + ') inside this  ");
@@ -157,7 +157,13 @@ void initGameOverScreen(gameStruct_t * gs_p){
 	inverse(0);
 
 	gotoxy(10, 40);
-	printf("Write your name using the keyboard and press [SPACE] to return to main menu ");
+	if(gs_p->score.score > readHighscore(4)){
+		printf("Write your name using the keyboard and press [SPACE] to return to main menu ");
+		gotoxy(16, 13);
+		printf("Your name:");
+	} else {
+		printf("Press [SPACE] to return to main menu");
+	}
 
 	printScores();
 }
@@ -167,8 +173,6 @@ void gameOverScreen(gameStruct_t * gs_p, char input){
 
 	color(15, 0);
 	if(gs_p->score.score > readHighscore(4)){
-		gotoxy(14, 13);
-		printf("Write your name");
 		gotoxy(17, 15);
 		printf("%c %c %c %c", name[0], name[1], name[2], name[3]);
 
