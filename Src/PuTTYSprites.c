@@ -13,11 +13,9 @@
  *  spriteArray[6] = bullet
  *	spriteArray[7] = mega Bullet
  *
- *  ALL SPRITES 5x5 - NOT USED INDICES FILLED WITH "?" (0x3F)
- *	ALL SPRITES SMALLER THAN 6x6 ARE LEFT-TOP-ALLIGNED
 */
 
-const char spriteArray[8][7][6] = {
+const char spriteArray[8][6][7] = {
 
 		//0 PLAYER WITH LEFT GUN (4x4)
 		{{0x3F,0x2F,0xC1,0x5C,0x3F,0x3F,0x3F},
@@ -79,10 +77,46 @@ const char spriteArray[8][7][6] = {
 
 
 void ui_draw_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t y){
+	uint8_t i,j,subX,subY;
+
+	switch(index){
+	case(0):
+		subX = 3;
+		subY = 2;
+		break;
+	case(1):
+		subX = 2;
+		subY = 2;
+		break;
+	case(2):
+		subX = 3;
+		subY = 3;
+		break;
+	case(3):
+		subX = 4;
+		subY = 4;
+		break;
+	case(4):
+		subX = 2;
+		subY = 3;
+		break;
+	case(5):
+		subX = 0;
+		subY = 2;
+		break;
+	case(6):
+		subX = 6;
+		subY = 5;
+		break;
+	case(7):
+		subX = 4;
+		subY = 5;
+	}
+
 	gotoxy(x, y);
 
-	for(uint8_t i = 0; i <= 3; i++){
-		for(uint8_t j = 0; j <= 4; j++){
+	for(i = 0; i <= 5-subY; i++){
+		for(j = 0; j <= 6-subX; j++){
 			color(FGC, BGC);
 			if(spriteArray[index][i][j] == 0xBE){color(11,0);}
 			if(spriteArray[index][i][j] == 0xCF){color(1,0);}
@@ -93,16 +127,51 @@ void ui_draw_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t 
 			}
 		}
 		moveCursorY(1,0);
-		moveCursorX(5,0);
+		moveCursorX(7-subX,0);
 	}
 }
 
 void ui_clear_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t y){
+	uint8_t i, j, subX, subY;
+	switch(index){
+		case(0):
+			subX = 3;
+			subY = 2;
+			break;
+		case(1):
+			subX = 2;
+			subY = 2;
+			break;
+		case(2):
+			subX = 3;
+			subY = 3;
+			break;
+		case(3):
+			subX = 4;
+			subY = 4;
+			break;
+		case(4):
+			subX = 2;
+			subY = 3;
+			break;
+		case(5):
+			subX = 0;
+			subY = 2;
+			break;
+		case(6):
+			subX = 6;
+			subY = 5;
+			break;
+		case(7):
+			subX = 4;
+			subY = 5;
+		}
+
 	gotoxy(x, y);
 	color(FGC, BGC);
 
-	for(uint8_t i = 0; i <= 3; i++){
-		for(uint8_t j = 0; j <= 4; j++){
+	for(i = 0; i <= 5-subY; i++){
+		for(j = 0; j <= 6-subX; j++){
 			if(x+j > 0 && x+j < 81 && y+i > 0 && y+i < 47){
 				spriteArray[index][i][j] == 0x3F ? moveCursorX(1,1) : printf(" ");
 			} else {
@@ -110,7 +179,7 @@ void ui_clear_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t
 			}
 		}
 		moveCursorY(1,0);
-		moveCursorX(5,0);
+		moveCursorX(7-subX,0);
 	}
 }
 
