@@ -50,8 +50,8 @@ int32_t capInterval(int32_t value, int32_t min, int32_t max)
 	return  value > max ? max : (value < min ? min : value);
 }
 
-void incrementCounter(uint8_t * ptr){
-	(*ptr)++;
+void incrementCounter(uint8_t * ptr, uint8_t count){
+	(*ptr) += count;
 }
 
 void resetCounter(uint8_t * ptr){

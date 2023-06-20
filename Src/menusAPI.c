@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "PuTTYSprites.h"
 #include "ansi.h"
 #include "highscore.h"
 #include "serialRead.h"
@@ -77,4 +78,69 @@ void printScores(){
 	free(highName3);
 	free(highName4);
 }
+
+void drawMenuSprites(){
+	ui_draw_sprite(0, 15, 0, 10, 28);
+	ui_draw_sprite(1, 15, 0, 18, 28);
+	ui_draw_sprite(2, 15, 0, 26, 28);
+	ui_draw_sprite(3, 15, 0, 34, 28);
+	ui_draw_sprite(4, 15, 0, 42, 28);
+	ui_draw_sprite(5, 15, 0, 50, 28);
+	ui_draw_sprite(6, 15, 0, 58, 28);
+	ui_draw_sprite(7, 15, 0, 66, 28);
+
+	color(15, 0);
+	gotoxy(74, 29);
+	inverse(1);
+	printf(" Sprites ");
+	inverse(0);
+
+	gotoxy(7, 33);
+	printf("Gun left");
+
+	gotoxy(16, 33);
+	printf("Gun right");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

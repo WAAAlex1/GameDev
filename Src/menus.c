@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "scoreCalc.h"
+#include "gameHandler.h"
 #include "ansi.h"
 #include "highscore.h"
 #include "serialRead.h"
@@ -42,13 +44,13 @@ void helpMenu(uint8_t bool){
 	inverse(0);
 
 	gotoxy(10, 12);
-	printf(" w - Move up ");
+	printf(" 'w' - Move up ");
 	gotoxy(10, 13);
-	printf(" a - Move left ");
+	printf(" 'a' - Move left ");
 	gotoxy(10, 14);
-	printf(" s - Move down ");
+	printf(" 's' - Move down ");
 	gotoxy(10, 15);
-	printf(" d - Move right ");
+	printf(" 'd' - Move right ");
 	gotoxy(10, 16);
 	printf(" [SPACE] - Use powerup ");
 
@@ -74,6 +76,14 @@ void helpMenu(uint8_t bool){
 	gotoxy(72, 13);
 	printf(" . - Shoot right ");
 
+	gotoxy(72, 20);
+	inverse(1);
+	printf(" Only in games ");
+	inverse(0);
+
+	gotoxy(72, 22);
+	printf("'b' - Boss key");
+
 	gotoxy(10, 40);
 	printf(" 'm' to return to main menu ");
 
@@ -81,6 +91,16 @@ void helpMenu(uint8_t bool){
 		gotoxy(10, 41);
 		printf(" [ESC] to return to game ");
 	}
+
+	drawMenuSprites();
+
+	color(1, 0);
+	inverse(1);
+	gotoxy(55, 40);
+	printf(" Write '*' ([SHIFT] + ') inside this  ");
+	gotoxy(55, 41);
+	printf(" menu to flush the leaderboard scores ");
+	inverse(0);
 }
 
 void bossScreen(){
@@ -124,6 +144,51 @@ void bossScreen(){
 	printf("*** STOP: 0x5448414E (0x4B594F55, 0x464F5250, 0x4C415949, 0x4E473A29)");
 }
 
+void initGameOverScreen(gameStruct_t * gs_p){
+	color(15, 0);
+	clrscr();
+
+	gotoxy(46, 5);
+	printf("GAME OVER");
+
+	gotoxy(10, 10);
+	inverse(1);
+	printf(" Your score: %010lu ", gs_p->score.score);
+	inverse(0);
+
+	gotoxy(10, 40);
+	printf("Write your name using the keyboard and press [SPACE] to return to main menu ");
+
+	printScores();
+}
+
+void gameOverScreen(gameStruct_t * gs_p, char input){
+	static char name[] = {'_', '_', '_', '_'};
+
+	color(15, 0);
+	if(gs_p->score.score > readHighscore(4)){
+		gotoxy(14, 13);
+		printf("Write your name");
+		gotoxy(17, 15);
+		printf("%c %c %c %c", name[0], name[1], name[2], name[3]);
+
+		for(uint8_t i = 0; i < 4; i++){ //Write your name
+			if(input != 0x3F && name[i] == 0x5F){
+				name[i] = input;
+				break;
+			}
+		}
+
+		if(input == 0x20){ //Save highscore when you press space
+			saveHighscore(name, gs_p->score.score);
+			for(uint8_t i = 0; i < 4; i++){ //And reset the name for next round
+				name[i] = '_';
+			}
+		}
+	}
+
+
+}
 
 
 

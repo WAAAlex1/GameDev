@@ -7,6 +7,12 @@
 #define BULLET_ARR_LENGTH 64
 #define ENEMY_ARR_LENGTH 63
 
+#include "entityHandler.h"
+#include "bulletManager.h"
+#include "enemyManager.h"
+#include "player.h"
+#include "scoreCalc.h"
+
 typedef struct{
 	entityHandler_t entHan;
 	entity_t entityArray[ENTITY_ARR_LEN];
@@ -40,5 +46,6 @@ void clearGame(gameStruct_t * gs_p);
 void updateGameFromInputs(gameStruct_t * gs_p, char input);
 void drawGame(gameStruct_t * gs_p);
 uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p);
+void freeMallocEntities(gameStruct_t * gs_p);
 
 #endif	// _INITGAME_

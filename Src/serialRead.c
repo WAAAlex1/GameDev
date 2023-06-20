@@ -13,6 +13,8 @@ uint8_t get_key_pressed(){
 		return(temp);
 	case(0x2c): //COMMA
 		return(temp);
+	case(0x2A): //'*'
+		return(temp);
 	default:
 		return(temp >= 0x41 && temp <= 0x7A ? temp : 0x3F);
 	}

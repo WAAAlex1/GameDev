@@ -30,10 +30,11 @@ void initGameUI(){
 	gotoxy(88, 30);
 	printf("SCORE");
 
-	gotoxy(84, 40);
-	printf("Return to menu");
-	gotoxy(89, 42);
-	printf("ESC");
+	gotoxy(82, 41);
+	printf("[ESC] - Main menu");
+
+	gotoxy(84, 42);
+	printf("'h' - Help menu");
 }
 
 void updateGameUI(player_t *player, gamescore_t *score){

@@ -15,7 +15,10 @@
 #include "menusAPI.h"
 #include "joystick.h"
 #include "serialRead.h"
+#include "highscore.h"
 #include "gameUI.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include "gameHandler.h"
 
 uint8_t game_update()
@@ -43,6 +46,7 @@ void initProgram(gameStruct_t * gs_p){
 	initTimerStuff(); //Comment to debug
 	initController();
 	initLED();
+	initLCD();
 	setLED(0, 0, 0);
 }
 
@@ -59,8 +63,8 @@ void modeSelect(gameStruct_t * gs_p){
 			gs_p->prevMode = gs_p->mode;
 		}
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
-
 		break;
+
 	case(1):
 		//Functions for singleplayer
 		if(MODE_CHANGE){
@@ -72,9 +76,11 @@ void modeSelect(gameStruct_t * gs_p){
 		}
 		if(gs_p->gameInitialized == 0) initializeGame(gs_p);
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
+		updateGameUI(&(gs_p->player), &(gs_p->score));
 		break;
+
 	case(2):
-		//Functions for game (clear, update, draw...)
+		//Functions for multiplayer
 		if(MODE_CHANGE){
 			color(15, 0);
 			clrscr();
@@ -84,7 +90,9 @@ void modeSelect(gameStruct_t * gs_p){
 		}
 		if(gs_p->gameInitialized == 0) initializeGame(gs_p);
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
+		updateGameUI(&(gs_p->player), &(gs_p->score));
 		break;
+
 	case(3):
 		//Help menu
 		if(MODE_CHANGE){
@@ -95,9 +103,18 @@ void modeSelect(gameStruct_t * gs_p){
 		}
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 		break;
+
 	case(4):
+		//Boss key
 		if(MODE_CHANGE){
 			bossScreen();
+			gs_p->prevMode = gs_p->mode;
+		}
+		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
+		break;
+	case(5):
+		if(MODE_CHANGE){
+			initGameOverScreen(gs_p);
 			gs_p->prevMode = gs_p->mode;
 		}
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
@@ -111,7 +128,8 @@ void modeSelect(gameStruct_t * gs_p){
 void initializeGame(gameStruct_t * gs_p){
 	//INIT CONTROL VARIABLES
 	gs_p->spawnCounter = 0;
-	gs_p->gameInitialized= 1;
+	gs_p->gameInitialized = 1;
+	initScore(&(gs_p->score));
 
 	//INIT TOP LEVEL STRUCTS
 	init_entityHandler(&(gs_p->entHan),gs_p->entityArray);
@@ -125,7 +143,6 @@ void initializeGame(gameStruct_t * gs_p){
 
 	//INIT LCD (ONLY IF 2 PLAYERS)
 	if(gs_p->playerNum == 2){
-		initLCD();
 		lcd_clear_all(gs_p->LCDbuffer,0x00);
 		lcd_push_buffer(gs_p->LCDbuffer);
 	}
@@ -170,6 +187,8 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 			if(input == 'h'){
 				return 3;
 			} else if(input == 0x1B){ //ESC
+				gs_p->gameInitialized = 0;
+				freeMallocEntities(gs_p);
 				return 0;
 			} else if(input == 'b' || input == 'B'){
 				return 4;
@@ -179,6 +198,8 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 			if(input == 'h'){
 				return 3;
 			} else if(input == 0x1B){ //ESC
+				gs_p->gameInitialized = 0;
+				freeMallocEntities(gs_p);
 				return 0;
 			} else if(input == 'b' || input == 'B'){
 				return 4;
@@ -186,22 +207,46 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 			break;
 		case 3: //HELP MENU
 			if(input == 'm'){
+				if(gs_p->gameInitialized){
+					freeMallocEntities(gs_p);
+				}
 				gs_p->gameInitialized = 0;
 				return 0;
 			} else if(input == 0x1B && gs_p->gameInitialized){ //ESC
 				return gs_p->playerNum;
+			} else if(input == 't'){
+				return 5;
+			} else if(input == 0x2A){ //'*'
+				highScoreFlush();
 			}
 			break;
-		case 4:
+		case 4: //BOSS KEY
 			if(input == 'b' || input == 'B'){
 				return gs_p->playerNum;
 			}
 			break;
+		case 5: //GAME OVER
+			gameOverScreen(gs_p, input);
+			if(input == ' '){
+				freeMallocEntities(gs_p);
+				gs_p->gameInitialized = 0;
+				return 0;
+			}
 		default :
 			return mode;
 	}
 
 	return mode;
+}
+
+void freeMallocEntities(gameStruct_t * gs_p){
+	for(uint8_t i = 0; i < ENEMY_ARR_LENGTH; i++){
+		free(gs_p->enemMan.enemyArray[i]->entity);
+	}
+
+	for(int i = 0; i < BULLET_ARR_LENGTH; i++) {
+		free(gs_p->bulMan.bulletArray[i]->entity);
+	}
 }
 
 
