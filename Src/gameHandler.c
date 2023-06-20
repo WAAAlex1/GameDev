@@ -2,6 +2,7 @@
 #include "stdint.h"
 #include "ansi.h"
 #include "controller.h"
+#include "controllerAPI.h"
 #include "entityHandler.h"
 #include "bulletManager.h"
 #include "enemyManager.h"
