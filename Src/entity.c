@@ -31,6 +31,8 @@ void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,
 	setSpriteIndex(ptr, spriteIndex);
 	if(height >= 0 && height <= 3) ptr->height = height;
 	ptr->isActive = 0;
+	ptr->preX = getXint(&(ptr->pos));
+	ptr->preY = getYint(&(ptr->pos));
 }
 
 void setEntityVel(entity_t * ptr, int8_t x, int8_t y){
@@ -65,7 +67,7 @@ void drawEntity(entity_t * ptr){
 }
 
 void clearEntity(entity_t * ptr){
-	ui_clear_sprite(ptr->spriteIndex, 15, 0, getXint(&(ptr->pos)), getYint(&(ptr->pos)));
+	ui_clear_sprite(ptr->spriteIndex, 15, 0, ptr->preX, ptr->preY);
 }
 
 //calculate gravity between two entities (bullet and an asteroid)

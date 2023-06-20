@@ -27,6 +27,8 @@ void updateEntities(entityHandler_t * ptr){
 	for(i = 0; i < ENTITY_ARR_LEN; i++){
 		if(ptr->entityArray[i]->isActive)
 		{
+			ptr->entityArray[i]->preX = getXint(&(ptr->entityArray[i]->pos));
+			ptr->entityArray[i]->preY = getYint(&(ptr->entityArray[i]->pos));
 			move(ptr->entityArray[i]);
 			checkEntityPos(ptr->entityArray[i]);
 		}
@@ -52,7 +54,7 @@ void drawAllEntities(entityHandler_t * ptr){
 	uint8_t i;
 	for(i = 1; i < ENTITY_ARR_LEN; i++)
 	{
-		if(ptr->entityArray[i]->isActive)
+		if(ptr->entityArray[i]->isActive && (ptr->entityArray[i]->preX != getXint(&(ptr->entityArray[i]->pos)) || ptr->entityArray[i]->preY != getYint(&(ptr->entityArray[i]->pos))))
 		{
 			drawEntity(ptr->entityArray[i]);
 		}
@@ -63,7 +65,7 @@ void clearAllEntities(entityHandler_t * ptr){
 	uint8_t i;
 	for(i = 1; i < ENTITY_ARR_LEN; i++)
 	{
-		if(ptr->entityArray[i]->isActive)
+		if(ptr->entityArray[i]->isActive && (ptr->entityArray[i]->preX != getXint(&(ptr->entityArray[i]->pos)) || ptr->entityArray[i]->preY != getYint(&(ptr->entityArray[i]->pos))))
 		{
 			clearEntity(ptr->entityArray[i]);
 		}

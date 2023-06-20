@@ -17,8 +17,7 @@
  *	ALL SPRITES SMALLER THAN 6x6 ARE LEFT-TOP-ALLIGNED
 */
 
-const char spriteArray[8][7][6] = {
-
+const char spriteArray[8][6][7] = {
 		//0 PLAYER WITH LEFT GUN (4x4)
 		{{0x3F,0x2F,0xC1,0x5C,0x3F,0x3F,0x3F},
 		{0xAE,0xB9,0xDB,0xBA,0x3F,0x3F,0x3F},
@@ -74,15 +73,15 @@ const char spriteArray[8][7][6] = {
 		{0x3F,0x3F,0x3F,0x3F,0x3F,0x3F,0x3F},
 		{0x3F,0x3F,0x3F,0x3F,0x3F,0x3F,0x3F},
 		{0x3F,0x3F,0x3F,0x3F,0x3F,0x3F,0x3F},
-		{0x3F,0x3F,0x3F,0x3F,0x3F,0x3F,0x3F}},
+		{0x3F,0x3F,0x3F,0x3F,0x3F,0x3F,0x3F}}
 };
 
 
 void ui_draw_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t y){
 	gotoxy(x, y);
 
-	for(uint8_t i = 0; i <= 3; i++){
-		for(uint8_t j = 0; j <= 4; j++){
+	for(uint8_t i = 0; i <= 5; i++){
+		for(uint8_t j = 0; j <= 6; j++){
 			color(FGC, BGC);
 			if(spriteArray[index][i][j] == 0xBE){color(11,0);}
 			if(spriteArray[index][i][j] == 0xCF){color(1,0);}
@@ -93,7 +92,7 @@ void ui_draw_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t 
 			}
 		}
 		moveCursorY(1,0);
-		moveCursorX(5,0);
+		moveCursorX(7,0);
 	}
 }
 
@@ -101,16 +100,19 @@ void ui_clear_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t
 	gotoxy(x, y);
 	color(FGC, BGC);
 
-	for(uint8_t i = 0; i <= 3; i++){
-		for(uint8_t j = 0; j <= 4; j++){
-			if(x+j > 0 && x+j < 81 && y+i > 0 && y+i < 47){
+	for(uint8_t i = 0; i <= 5; i++)
+	{
+		for(uint8_t j = 0; j <= 6; j++)
+		{
+			if(x+j > 0 && x+j < 81 && y+i > 0 && y+i < 47)
+			{
 				spriteArray[index][i][j] == 0x3F ? moveCursorX(1,1) : printf(" ");
 			} else {
 				moveCursorX(1,1);
 			}
 		}
 		moveCursorY(1,0);
-		moveCursorX(5,0);
+		moveCursorX(7,0);
 	}
 }
 
