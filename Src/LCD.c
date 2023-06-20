@@ -58,17 +58,6 @@ void lcd_write_string(char s[], uint8_t slice, uint8_t line,uint8_t *LCDbuffer_p
 	}
 }
 
-uint8_t lcd_update()
-{
-	if(LCD_Flag == 1)
-	{
-		LCD_Flag = 0;
-		return 1;
-	}
-
-	return 0;
-}
-
 //right = 1 (or any other non zero) for right direction and right = 0 for left direction
 void lcd_scrolling_text(uint8_t *LCDbuffer_p, uint8_t line, uint8_t *remainBytes_p, uint8_t right)
 {

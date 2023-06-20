@@ -5,6 +5,10 @@
 #include "entityHandler.h"
 #include "bulletManager.h"
 #include "enemyManager.h"
+#include "player.h"
+#include "LCD.h"
+#include "stm32f30x.h"
+#include "stopwatch.h"
 
 typedef struct{
 	entityHandler_t entHan;
@@ -22,7 +26,9 @@ typedef struct{
 	uint8_t LCDbuffer[512];
 	uint8_t tickCounter;
 	uint8_t spawnCounter;
+	uint8_t numPlayers;
+	uint8_t mode;
 
 } gameStruct;
 
-#endif	// VEC_H
+#endif	// _INITGAME_
