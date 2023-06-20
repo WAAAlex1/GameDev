@@ -9,7 +9,7 @@ typedef struct{
 }gamescore_t;
 
 void initScore(gamescore_t * Score);
-void incrementScore(gamescore_t * Score);
+void incrementScore(gamescore_t * Score, uint16_t points);
 
 
 #endif /* SCORECALC_H_ */

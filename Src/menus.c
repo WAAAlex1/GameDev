@@ -20,7 +20,7 @@
 void initMainMenu(){
 	color(15, 0);
 	gotoxy(38, 5);
-	printf("Cosmic Broardside Battle");
+	printf("Cosmic Broadside Battle");
 
 	gotoxy(10, 40);
 	printf(" 'w' and 's' to navigate the menu ");
@@ -30,7 +30,7 @@ void initMainMenu(){
 	printScores();
 }
 
-void helpMenu(){
+void helpMenu(uint8_t bool){
 	color(15, 0);
 
 	gotoxy(46, 5);
@@ -76,34 +76,52 @@ void helpMenu(){
 
 	gotoxy(10, 40);
 	printf(" 'm' to return to main menu ");
+
+	if(bool){
+		gotoxy(10, 41);
+		printf(" [ESC] to return to game ");
+	}
 }
 
-uint8_t menuPicker(uint8_t mode, char input){
-	static uint8_t activeItem = 1;
+void bossScreen(){
+	color(0, 4);
+	clrscr();
 
-	switch(mode){
-		case 0: //MAIN MENU
-			activeItem += pickMainMenuItems(input, activeItem);
-			printMainMenuItems(activeItem);
+	gotoxy(5, 5);
+	color(15, 4);
+	printf("A problem has been detected and Windows has been shut down to prevent damage to your");
+	gotoxy(5, 6);
+	printf("computer.");
 
-			if(input == ' '){
-				return activeItem;
-			}
-			break;
-		case 1: //SINGLEPLAYER
-			break;
-		case 2: //MULTIPLAYER
-			break;
-		case 3: //HELP MENU
-			if(input == 'm'){
-				return 0;
-			}
-			break;
-		default :
-			return mode;
-	}
+	gotoxy(5, 11);
+	printf("UNMOUNTABLE_BOOT_VOLUME");
 
-	return mode;
+	gotoxy(5, 16);
+	printf("If this is the first time you're seeing this error screen, restart your computer. If this");
+	gotoxy(5, 17);
+	printf("screen appears again, follow these steps:");
+
+	gotoxy(5, 22);
+	printf("Check to make sure any new hardware or software is properly installed. If this is a");
+	gotoxy(5, 23);
+	printf("new installation, ask your hardware or software manufacturer for any Windows updates you");
+	gotoxy(5, 24);
+	printf("might need.");
+
+	gotoxy(5, 29);
+	printf("If problems continue, disable or remove any newly installed hardware or software. Disable");
+	gotoxy(5, 30);
+	printf("BIOS memory options such as caching or shadowing. If you need to use Safe Mode to remove or");
+	gotoxy(5, 31);
+	printf("disable components, restart your computer, press F8 to select Advanced Startup Options, and");
+	gotoxy(5, 32);
+	printf("then select Safe Mode.");
+
+	gotoxy(5, 37);
+	printf("Technical Information:");
+
+	gotoxy(5, 42);
+	printf("*** STOP: 0x5448414E (0x4B594F55, 0x464F5250, 0x4C415949, 0x4E473A29)");
 }
 
 

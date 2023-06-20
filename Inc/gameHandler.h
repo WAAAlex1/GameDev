@@ -1,14 +1,7 @@
 #ifndef INITGAME_H
 #define INITGAME_H
 
-#include "stdint.h"
-#include "entityHandler.h"
-#include "bulletManager.h"
-#include "enemyManager.h"
-#include "player.h"
-#include "LCD.h"
-#include "stm32f30x.h"
-#include "stopwatch.h"
+#define MODE_CHANGE gs_p->prevMode != gs_p->mode
 
 #define ENTITY_ARR_LEN 128
 #define BULLET_ARR_LENGTH 64
@@ -26,13 +19,28 @@ typedef struct{
 
 	player_t player;
 
+	gamescore_t score;
+
 	uint8_t LCDbuffer[512];
 	uint8_t tickCounter;
 	uint8_t spawnCounter;
-	uint8_t numPlayers;
-	uint8_t mode;
 
-} gameStruct;
+	uint8_t mode;
+	uint8_t prevMode;
+	uint8_t gameInitialized;
+	uint8_t playerNum;
+
+} gameStruct_t;
+
+uint8_t game_update();
+void initProgram(gameStruct_t * gs_p);
+void modeSelect(gameStruct_t * gs_p);
+void initializeGame(gameStruct_t * gs_p, uint8_t numPlayers);
+void clearGame(gameStruct_t * gs_p);
+void updateGameFromInputs(gameStruct_t * gs_p, char input);
+void drawGame(gameStruct_t * gs_p);
+uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p);
+
 
 uint8_t game_update();
 void initializeStart(gameStruct * gs_p);
