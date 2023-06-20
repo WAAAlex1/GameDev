@@ -22,7 +22,7 @@ uint8_t game_update()
 	return 0;
 }
 
-void initProgram(gameStruct * gs_p){
+void initProgram(gameStruct_t * gs_p){
 	uart_init(1024000);
 	clrscr();
 	gs_p->tickCounter = 0;
@@ -84,10 +84,9 @@ void modeSelect(gameStruct * gs_p){
 	gs_p->prevMode = gs_p->mode;
 }
 
-void initializeGame(gameStruct * gs_p, uint8_t numPlayers){
+void initializeGame(gameStruct_t * gs_p, uint8_t numPlayers){
 	//INIT CONTROL VARIABLES
 	gs_p->spawnCounter = 0;
-	gs_p->numPlayers = numPlayers;
 	gs_p->gameInitialized= 1;
 
 	//INIT TOP LEVEL STRUCTS
@@ -97,7 +96,7 @@ void initializeGame(gameStruct * gs_p, uint8_t numPlayers){
 
 	//ADD PLAYER - WITH SET NUMBER OF PLAYERS.
 	pushEntity(&(gs_p->entHan),&(gs_p->playerEnt),0,40,23,0,0,0,0);
-	initPlayer(&(gs_p->playerEnt), &(gs_p->player), gs_p->numPlayers);
+	initPlayer(&(gs_p->playerEnt), &(gs_p->player), numPlayers);
 
 	//INIT LCD (ONLY IF 2 PLAYERS)
 	if(gs_p->numPlayers == 2){
@@ -110,7 +109,7 @@ void initializeGame(gameStruct * gs_p, uint8_t numPlayers){
 	initController();
 }
 
-void clearGame(gameStruct * gs_p){
+void clearGame(gameStruct_t * gs_p){
 	if(gs_p->numPlayers == 2) lcd_clear_all(gs_p->LCDbuffer,0x00);
 	clearAllEntities(&(gs_p->entHan));
 	clearPlayer(&(gs_p->player));
@@ -122,9 +121,9 @@ void updateGameFromInputs(gameStruct * gs_p, char input){
 	updateEntities(&(gs_p->entHan));
 }
 
-void drawGame(gameStruct * gs_p){
+void drawGame(gameStruct_t * gs_p){
 	//LCD
-	if(gs_p->numPlayers == 2){
+	if(gs_p->mode == 2){
 		//con_draw_putty_to_lcd(&(gs_p->enemMan),&(gs_p->player),&(gs_p->LCDbuffer));
 		lcd_push_buffer(gs_p->LCDbuffer);
 	}
