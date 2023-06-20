@@ -1,4 +1,6 @@
 #include "stdint.h"
+#include "ansi.h"
+#include "controller.h"
 #include "entityHandler.h"
 #include "bulletManager.h"
 #include "enemyManager.h"
@@ -9,6 +11,9 @@
 #include "scoreCalc.h"
 #include "menus.h"
 #include "menusAPI.h"
+#include "joystick.h"
+#include "serialRead.h"
+#include "gameUI.h"
 #include "gameHandler.h"
 
 uint8_t game_update()
@@ -34,7 +39,6 @@ void initProgram(gameStruct_t * gs_p){
 	gs_p->gameInitialized = 0;
 	initTimerStuff(); //Comment to debug
 	initController();
-	initJoystick();
 	initLED();
 	setLED(0, 0, 0);
 }
@@ -62,7 +66,7 @@ void modeSelect(gameStruct_t * gs_p){
 			initGameUI();
 			gs_p->prevMode = gs_p->mode;
 		}
-		if(gs_p->gameInitialized == 0) initializeGame(&gs_p, 1);
+		if(gs_p->gameInitialized == 0) initializeGame(gs_p, 1);
 		break;
 	case(2):
 		//Functions for game (clear, update, draw...)
@@ -72,7 +76,7 @@ void modeSelect(gameStruct_t * gs_p){
 			initGameUI();
 			gs_p->prevMode = gs_p->mode;
 		}
-		if(gs_p->gameInitialized == 0) initializeGame(&gs_p, 2);
+		if(gs_p->gameInitialized == 0) initializeGame(gs_p, 2);
 		break;
 	case(3):
 		//Help menu
@@ -102,9 +106,9 @@ void initializeGame(gameStruct_t * gs_p, uint8_t numPlayers){
 	gs_p->gameInitialized= 1;
 
 	//INIT TOP LEVEL STRUCTS
-	init_entityHandler(&(gs_p->entityArray));
-	initBulletManager(&(gs_p->bulletArray));
-	initEnemyManager(&(gs_p->enemyArray));
+	init_entityHandler(&(gs_p->entHan));
+	initBulletManager(&(gs_p->bulMan));
+	initEnemyManager(&(gs_p->enemMan));
 
 	//ADD PLAYER - WITH SET NUMBER OF PLAYERS.
 	pushEntity(&(gs_p->entHan),&(gs_p->playerEnt),0,40,23,0,0,0,0);
