@@ -40,7 +40,12 @@ void spawnEnemy(enemyManager_t *enemyManager, entityHandler_t *entHand, uint8_t 
 }
 
 
-
+void spawnRandom(uint8_t spawnCounter, enemyManager_t * enemMan, entityHandler_t * entHan){
+	if(spawnCounter == 20)
+	{
+		spawnEnemy(&enemMan,&entHan,getRandomInterval(0,70),0,0,1,getRandomInterval(0,3),getRandomInterval(0,3),0);
+	}
+}
 
 
 
