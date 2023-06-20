@@ -28,11 +28,11 @@ typedef struct{
 	uint8_t LCDbuffer[512];
 	uint8_t tickCounter;
 	uint8_t spawnCounter;
-	uint8_t numPlayers;
+
 	uint8_t mode;
 	uint8_t gameInitialized;
 
-} gameStruct;
+} gameStruct_t;
 
 uint8_t game_update();
 void initProgram(gameStruct * gs_p);
