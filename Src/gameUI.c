@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include "ansi.h"
 #include "player.h"
+#include "scoreCalc.h"
 #include "gameUI.h"
 
 void initGameUI(){
@@ -35,9 +36,10 @@ void initGameUI(){
 	printf("ESC");
 }
 
-void updateGameUI(player_t *player){
+void updateGameUI(player_t *player, gamescore_t *score){
 	showPlayerHealth(player);
 	showPlayerPowerUp(player);
+	showPlayerScore(score);
 
 }
 
@@ -133,8 +135,10 @@ void showPlayerPowerUp(player_t *player){
 	printf("     ");
 }
 
-void showPlayerScore(player_t *player){
-
+void showPlayerScore(gamescore_t *score){
+	gotoxy(86, 32);
+	color(0, 7);
+	printf("%010lu", score->score);
 }
 
 

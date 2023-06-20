@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "memory.h"
+#include "ansi.h"
 #include "highscore.h"
 
 void saveHighscore(char name[], uint32_t score){
@@ -108,4 +109,72 @@ void highscoreTestFunc(){
 	saveHighscore(isue, sco3);
 	saveHighscore(geor, sco4);
 }
+
+/*void highscoreNamePrompt(char input, gamescore_t *score){
+	static char *name = "____";
+
+	color(15, 0);
+	gotoxy(40, 21);
+	printf("NEW HIGHSCORE");
+	gotoxy(40, 23);
+	printf("ENTER YOUR NAME");
+	gotoxy(40, 24);
+	printf("%c %c %c %c", name[0], name[1], name[2], name[3]);
+
+	//Save the input if it is valid
+	if(input != 0xF3){
+		gotoxy(1, 3);
+		printf("%c", input);
+		for(uint8_t i = 0; i < 4; i++){
+			if(name[i] == '_'){
+				name[i] = input;
+				//break;
+			}
+		}
+	}
+
+	//When the name is fully written, save it
+	if(name[3] != '_' && input == ' '){
+		saveHighscore(name, score->score);
+		name = "____";
+	}
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
