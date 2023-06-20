@@ -28,6 +28,7 @@ typedef struct{
 
 uint8_t game_update();
 void initProgram(gameStruct * gs_p);
+void modeSelect(gameStruct * gs_p);
 void initializeGame(gameStruct * gs_p, uint8_t numPlayers);
 void clearGame(gameStruct * gs_p);
 void updateGameFromInputs(gameStruct * gs_p, char input);
