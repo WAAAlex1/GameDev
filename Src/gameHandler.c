@@ -67,8 +67,21 @@ void modeSelect(gameStruct_t * gs_p){
 		}
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 		break;
-
 	case(1): //Singleplayer
+		if(MODE_CHANGE){
+			color(15, 0);
+			clrscr();
+			initGameUI();
+			gs_p->prevMode = gs_p->mode;
+			gs_p->playerNum = gs_p->mode;
+		}
+		if(gs_p->gameInitialized == 0) initializeGame(gs_p);
+		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
+
+		runGame(gs_p, input);
+
+		updateGameUI(&(gs_p->player), &(gs_p->score));
+		break;
 	case(2): //Multiplayer
 		if(MODE_CHANGE){
 			color(15, 0);
@@ -290,6 +303,8 @@ void runGame(gameStruct_t * gs_p, char input){
 
 	drawAllEntities(&(gs_p->entHan));
 	drawPlayer(&(gs_p->player));
+
+	incrementScore(&(gs_p->score), 100);
 }
 
 
