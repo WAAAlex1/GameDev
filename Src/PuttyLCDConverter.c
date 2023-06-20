@@ -11,6 +11,7 @@
 #include "util.h"
 #include "LCD.h"
 #include "vec.h"
+#include "PuTTYSprites.h"
 #include "PuttyLCDConverter.h"
 
 #define CONE_VIEW_WIDTH 32
@@ -98,8 +99,12 @@ uint8_t con_inCone(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY,
  */
 int16_t con_posToSlice(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t entY, int8_t gunside)
 {
-	int16_t coneY = ((CONE_VIEW_WIDTH * absolute(playerX - entX)) / (2*CONE_VIEW_LENGTH));
+	int16_t temp = ((CONE_VIEW_WIDTH * (absolute(playerX - entX))) / (2*CONE_VIEW_LENGTH));
+	int16_t coneY =  (temp == 0 ? 1 : temp); //to avoid div by zero
+
+	//try without -2/+2 on the coneY's
 	return mapInterval(-coneY-2,coneY+2,(gunside < 0 ? -(256/coneY) : (128)+(256/coneY)),(gunside < 0 ? (128)+(256/coneY) : -(256/coneY)),(entY-playerY));
+	//return mapInterval(-coneY,coneY,(gunside < 0 ? 0 : 127),(gunside < 0 ? 127 : 0),(entY-playerY));
 	/*-2 on minOld to allow ships slightly outside to be drawn smoothly in
 	 * same reason for -256/coneY and the same for the max
 	*/
@@ -111,9 +116,9 @@ void con_draw_putty_to_lcd(enemyManager_t *enemMan, player_t *player,uint8_t * L
 	{
 		if(enemMan->enemyArray[i]->entity->isActive)
 		{
-			if(con_inCone(getXint(&(player->entity->pos)),getYint(&(player->entity->pos)),getXint(&(enemMan->enemyArray[i]->entity->pos)),getYint(&(enemMan->enemyArray[i]->entity->pos)),player->gunSide))
+			if(con_inCone(offsetBulletCoordX(player),offsetBulletCoordY(player),getXint(&(enemMan->enemyArray[i]->entity->pos)),getYint(&(enemMan->enemyArray[i]->entity->pos)),player->gunSide))
 			{
-				lcd_draw_sprite(LCDbuffer,con_posToSlice(getXint(&(player->entity->pos)),getYint(&(player->entity->pos)),getXint(&(enemMan->enemyArray[i]->entity->pos)),getYint(&(enemMan->enemyArray[i]->entity->pos)),player->gunSide),enemMan->enemyArray[i]->entity->height,(enemMan->enemyArray[i]->type ? enemMan->enemyArray[i]->type : 10)+1+con_getDistanceX(getXint(&(player->entity->pos)),getXint(&(enemMan->enemyArray[i]->entity->pos)))); //plus 1 for baseSize
+				lcd_draw_sprite(LCDbuffer,con_posToSlice(offsetBulletCoordX(player),offsetBulletCoordY(player),getXint(&(enemMan->enemyArray[i]->entity->pos)),getYint(&(enemMan->enemyArray[i]->entity->pos)),player->gunSide),enemMan->enemyArray[i]->entity->height,(enemMan->enemyArray[i]->type ? enemMan->enemyArray[i]->type : 10)+1+con_getDistanceX(offsetBulletCoordX(player),getXint(&(enemMan->enemyArray[i]->entity->pos)))); //plus 1 for baseSize
 			}
 		}
 	}

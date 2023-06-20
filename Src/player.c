@@ -130,9 +130,9 @@ void updatePlayerVel(player_t *player, char input){
 	}
 }
 
-void playerShoot(player_t *ptr, bulletManager_t *bulletManager, entityHandler_t *entHand, uint8_t bulletType, uint8_t height)
+void playerShoot(player_t *ptr, bulletManager_t *bulletManager,entity_t *entArr, uint8_t bulletType, uint8_t height)
 {
-		spawnBullet(bulletManager,entHand,offsetBulletCoordX(ptr),offsetBulletCoordY(ptr),con_getVecX(ptr->gunSide),con_getVecY(ptr->crosshairX,ptr->gunSide),1,0,ptr->crosshairY);
+	spawnBullet(bulletManager,entArr,offsetBulletCoordX(ptr),offsetBulletCoordY(ptr),con_getVecX(ptr->gunSide),con_getVecY(ptr->crosshairX,ptr->gunSide),1,0,ptr->crosshairY);
 }
 
 //check if player collides with an asteroid, enemy ship or bullet.
@@ -149,7 +149,7 @@ void checkPlayerCollision(player_t * ptr, entityHandler_t * array){
 	}
 }
 
-void usePowerUp(player_t * ptr, bulletManager_t * bulletManager, entityHandler_t * entityHandler){
+void usePowerUp(player_t * ptr, bulletManager_t * bulletManager,entity_t * entArr){
 	switch(ptr->powerUp){
 		case(1): //restock HP
 			ptr->HP = ptr->HP < 3 ? 3 : ptr->HP;
@@ -160,7 +160,7 @@ void usePowerUp(player_t * ptr, bulletManager_t * bulletManager, entityHandler_t
 			ptr->powerUp = 0;
 			break;
 		case(3): //spawn megabullet in front of player with velocity -1.
-			spawnBullet(bulletManager, entityHandler, (ptr->entity->pos.x+1) >> 14,  (ptr->entity->pos.y+1) >> 14, 0, -1, 0, 1, 0);
+			spawnBullet(bulletManager,entArr, (ptr->entity->pos.x+1) >> 14,  (ptr->entity->pos.y+1) >> 14, 0, -1, 0, 1, 0);
 			break;
 		default:
 			return;

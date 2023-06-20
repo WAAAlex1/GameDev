@@ -19,7 +19,7 @@ typedef struct {
 	uint8_t type;
 } enemy_t;
 
-void initEnemy(entity_t * entity, enemy_t * enemy, uint8_t type, uint8_t height);
-void enemyShoot(bulletManager_t *bulletManager,entityHandler_t *entHand,enemy_t * enemy);
+void initEnemy(entity_t * entity, enemy_t * enemy, uint8_t type);
+void enemyShoot(bulletManager_t *bulletManager,entity_t *entArr,enemy_t * enemy);
 
 #endif /* ENEMY_H_ */

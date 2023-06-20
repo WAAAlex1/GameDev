@@ -5,33 +5,40 @@
  *      Author: frede
  */
 
+#include "enemy.h"
 #include "entity.h"
+#include <stdlib.h>
 #include "enemyManager.h"
 
-void initEnemyManager(enemyManager_t *enemyManager)
+void initEnemyManager(enemyManager_t *enemyManager,enemy_t *enemArr)
 {
 	for(uint8_t i = 0; i < ENEMY_ARR_LENGTH; i++)
 	{
-		enemyManager->enemyArray[i] = (enemy_t*)malloc(sizeof(enemy_t));
+		enemyManager->enemyArray[i] = &(enemArr[i]);
 		enemyManager->enemyArray[i]->entity = (entity_t*)malloc(sizeof(entity_t));
 		enemyManager->enemyArray[i]->entity->isActive = 0;
 	}
 }
 
-void spawnEnemy(enemyManager_t *enemyManager, entityHandler_t *entHand, uint8_t xPos, uint8_t yPos,uint8_t xVel, uint8_t yVel,uint8_t enemyType, uint8_t height, uint8_t fixedVel)
+void spawnEnemy(enemyManager_t *enemyManager,entity_t *entArr, uint8_t xPos, uint8_t yPos,uint8_t xVel, uint8_t yVel,uint8_t enemyType, uint8_t height, uint8_t fixedVel)
 {
-	entity_t tempEntity;
-	enemy_t  tempEnemy;
-
-	pushEntity(entHand,&tempEntity,2+enemyType,xPos,yPos,xVel,yVel,fixedVel,height);
-	initEnemy(&tempEntity,&tempEnemy,enemyType,height);
-	tempEnemy.entity->isActive = 1;
-
-	for(uint8_t i = 0; i < ENEMY_ARR_LENGTH; i++)
+	for(uint8_t i = 1; i <= ENEMY_ARR_LENGTH; i++)
 	{
-		if(!(enemyManager->enemyArray[i]->entity->isActive))
+		if(!(entArr[i].isActive))
 		{
-			*(enemyManager->enemyArray[i]) = tempEnemy;
+			initEntity(&(entArr[i]),2+enemyType,xPos,yPos,xVel,yVel,fixedVel,height);
+
+
+			for(int j = 0; j < BULLET_ARR_LENGTH; j++)
+			{
+				if(!(enemyManager->enemyArray[j]->entity->isActive))
+				{
+					initEnemy(&(entArr[i]),enemyManager->enemyArray[j],enemyType);
+					break;
+				}
+			}
+			entArr[i].isActive = 1;
+
 			break;
 		}
 	}
@@ -40,11 +47,9 @@ void spawnEnemy(enemyManager_t *enemyManager, entityHandler_t *entHand, uint8_t 
 }
 
 
-void spawnRandom(uint8_t spawnCounter, enemyManager_t * enemMan, entityHandler_t * entHan){
-	if(spawnCounter == 20)
-	{
-		spawnEnemy(&enemMan,&entHan,getRandomInterval(0,70),0,0,1,getRandomInterval(0,3),getRandomInterval(0,3),0);
-	}
+void spawnRandom(enemyManager_t * enemMan, entity_t * entArr)
+{
+	spawnEnemy(enemMan,entArr,getRandomInterval(0,35),-2,0,1,getRandomInterval(0,4),getRandomInterval(0,3),0);
 }
 
 

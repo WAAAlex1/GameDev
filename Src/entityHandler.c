@@ -7,12 +7,12 @@
 #include "entityHandler.h"
 
 // to initialize our entityhandler we fill it with entities
-void init_entityHandler(entityHandler_t * ptr){
+void init_entityHandler(entityHandler_t * ptr, entity_t * entArr){
 	uint8_t i;
 
 	for(i = 0; i < ENTITY_ARR_LEN; i++)
 	{
-		ptr->entityArray[i] = (entity_t*)malloc(sizeof(entity_t));
+		ptr->entityArray[i] = &(entArr[i]);
 		ptr->entityArray[i]->isActive = 0;
 	}
 }

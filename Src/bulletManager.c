@@ -11,31 +11,34 @@
 #include <stdlib.h>
 #include "bulletManager.h"
 
-void initBulletManager(bulletManager_t *bulletManager)
+void initBulletManager(bulletManager_t *bulletManager, bullet_t *bulArr)
 {
 	for(int i = 0; i < BULLET_ARR_LENGTH; i++)
 	{
-		bulletManager->bulletArray[i] = (bullet_t*)malloc(sizeof(bullet_t));
+		bulletManager->bulletArray[i] = &(bulArr[i]);
 		bulletManager->bulletArray[i]->entity = (entity_t*)malloc(sizeof(entity_t));
 		bulletManager->bulletArray[i]->entity->isActive = 0;
 	}
 
 }
 
-void spawnBullet(bulletManager_t *bulletManager, entityHandler_t *entHand, uint8_t xPos, uint8_t yPos,uint8_t xVel,uint8_t yVel,uint8_t fixedVel,uint8_t bulletType, uint8_t height)
+void spawnBullet(bulletManager_t *bulletManager,entity_t *entArr,uint8_t xPos, uint8_t yPos,int32_t xVel,int32_t yVel,uint8_t fixedVel,uint8_t bulletType, uint8_t height)
 {
-	bullet_t tempBul;
-	entity_t tempEnt;
-
-	pushEntity(entHand,&tempEnt,6+bulletType,xPos,yPos,xVel,yVel,fixedVel,height);
-	initBullet(&tempBul,&tempEnt,bulletType,height);
-	tempBul.entity->isActive = 1;
-
-	for(int i = 0; i < BULLET_ARR_LENGTH; i++)
+	for(int i = BULLET_ARR_LENGTH; i < ENTITY_ARR_LEN; i++)
 	{
-		if(!(bulletManager->bulletArray[i]->entity->isActive))
+		if(!(entArr[i].isActive))
 		{
-			*(bulletManager->bulletArray[i]) = tempBul;
+			initEntity(&(entArr[i]),6+bulletType,xPos,yPos,xVel,yVel,fixedVel,height);
+
+			for(int j = 0; j < BULLET_ARR_LENGTH; j++)
+			{
+				if(!(bulletManager->bulletArray[j]->entity->isActive))
+				{
+					initBullet(bulletManager->bulletArray[j],&(entArr[i]),bulletType);
+					break;
+				}
+			}
+			entArr[i].isActive = 1;
 			break;
 		}
 	}

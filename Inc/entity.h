@@ -30,7 +30,7 @@ void setEntityVel(entity_t * ptr, int8_t x, int8_t y);
 void setEntityVelFixed(entity_t *ptr, int32_t x, int32_t y);
 void setEntityPos(entity_t * ptr, int8_t x, int8_t y);
 void damageEntity(entity_t * ptr, int8_t x);
-void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,uint8_t xVel,uint8_t yVel, uint8_t fixedVel, uint8_t height);
+void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,int32_t xVel,int32_t yVel, uint8_t fixedVel, uint8_t height);
 void destroyEntity(entity_t * ptr);
 void clearEntity(entity_t * ptr);
 void drawEntity(entity_t * ptr);

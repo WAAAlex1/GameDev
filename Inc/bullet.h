@@ -16,6 +16,6 @@ typedef struct {
 	uint8_t type;
 } bullet_t;
 
-void initBullet(bullet_t *bullet, entity_t *entity, uint8_t type, uint8_t height);
+void initBullet(bullet_t *bullet, entity_t *entity, uint8_t type);
 
 #endif /* BULLET_H_ */

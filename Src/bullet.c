@@ -8,9 +8,8 @@
 #include "entity.h"
 #include "bullet.h"
 
-void initBullet(bullet_t *bullet, entity_t *entity, uint8_t type, uint8_t height)
+void initBullet(bullet_t *bullet, entity_t *entity, uint8_t type)
 {
 	bullet->entity = entity;
 	bullet->type = type;
-	bullet->entity->height = height;
 }

@@ -1,3 +1,4 @@
+#include "PuttyLCDConverter.h"
 #include "gameHandler.h"
 
 
@@ -23,13 +24,14 @@ void initializeGame(gameStruct * gs_p, uint8_t numPlayers){
 	gs_p->numPlayers = numPlayers;
 
 	//INIT TOP LEVEL STRUCTS
-	init_entityHandler(&(gs_p->entityArray));
-	initBulletManager(&(gs_p->bulletArray));
-	initEnemyManager(&(gs_p->enemyArray));
+	init_entityHandler(&(gs_p->entHan),gs_p->entityArray);
+	initBulletManager(&(gs_p->bulMan),gs_p->bulletArray);
+	initEnemyManager(&(gs_p->enemMan),gs_p->enemyArray);
 
 	//ADD PLAYER - WITH SET NUMBER OF PLAYERS.
-	pushEntity(&(gs_p->entHan),&(gs_p->playerEnt),0,40,23,0,0,0,0);
-	initPlayer(&(gs_p->playerEnt), &(gs_p->player), gs_p->numPlayers);
+	initEntity(&(gs_p->entityArray[0]),0,40,23,0,0,0,0);
+	gs_p->entityArray[0].isActive = 1;
+	initPlayer(&(gs_p->entityArray[0]), &(gs_p->player), gs_p->numPlayers);
 
 	//INIT LCD (ONLY IF 2 PLAYERS)
 	if(gs_p->numPlayers == 2){
@@ -57,7 +59,7 @@ void updateGameFromInputs(gameStruct * gs_p){
 void drawGame(gameStruct * gs_p){
 	//LCD
 	if(gs_p->numPlayers == 2){
-		//con_draw_putty_to_lcd(&(gs_p->enemMan),&(gs_p->player),&(gs_p->LCDbuffer));
+		con_draw_putty_to_lcd(&(gs_p->enemMan),&(gs_p->player),gs_p->LCDbuffer);
 		lcd_push_buffer(gs_p->LCDbuffer);
 	}
 	//Putty

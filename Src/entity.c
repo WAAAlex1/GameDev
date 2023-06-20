@@ -18,7 +18,7 @@ void updateVel(entity_t * ptr, int8_t x, int8_t y){
 // MAINLY USED FOR INIT: --------------------------------------------------
 
 //function to initialize the values of an entity struct and set its spriteindex.
-void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,uint8_t xVel,uint8_t yVel, uint8_t fixedVel, uint8_t height){
+void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,int32_t xVel,int32_t yVel, uint8_t fixedVel, uint8_t height){
 	setEntityPos(ptr,xPos,yPos);
 	if(fixedVel)
 	{
@@ -195,8 +195,8 @@ uint8_t detectEntityCollision(entity_t * obj1, entity_t * obj2){
 }
 
 void checkEntityPos(entity_t * ptr){
-	int16_t x = ptr->pos.x >> 14;
-	int16_t y = ptr->pos.y >> 14;
+	int32_t x = ptr->pos.x >> 14;
+	int32_t y = ptr->pos.y >> 14;
 
 	//should create a bit of a bufferzone around our actual screen, making sure that the objects can pass seamlessly.
 	if(x < -5 || x > 81 || y > 47 || y < -5){

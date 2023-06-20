@@ -33,7 +33,7 @@ void isAlive(player_t * player);
 void damagePlayer(player_t *ptr, int8_t x);
 void updatePlayerVel(player_t *player, char input);
 void damagePlayer(player_t *ptr, int8_t x);
-void playerShoot(player_t *ptr, bulletManager_t *bulletManager, entityHandler_t *entHand, uint8_t bulletType, uint8_t height);
+void playerShoot(player_t *ptr, bulletManager_t *bulletManager, entity_t *entArr, uint8_t bulletType, uint8_t height);
 void updateCrosshair(player_t *ptr,uint8_t joystickVal);
 
 
