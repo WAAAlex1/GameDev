@@ -24,7 +24,6 @@ void initPlayer(entity_t *entity, player_t *player, uint8_t num){
 	player->crosshairY = 1;
 	player->entity->isActive = 1;
 	player->HP = 3;
-	player->entity->isActive = 1;
 }
 
 void updateCrosshair(player_t *ptr,uint8_t joystickVal)
@@ -76,8 +75,10 @@ void getPowerUp(player_t *player, uint8_t num){
 	if(num != 0){player->powerUp = num;}
 }
 
-void drawPlayer(player_t *player){
-	if(player->gunSide == 1){
+void drawPlayer(player_t *player)
+{
+	if(player->gunSide == 1)
+	{
 		ui_draw_sprite(0, 15, 0, getXint(&(player->entity->pos)), getYint(&(player->entity->pos)));
 	} else {
 		ui_draw_sprite(1, 15, 0, getXint(&(player->entity->pos)), getYint(&(player->entity->pos)));
@@ -85,8 +86,10 @@ void drawPlayer(player_t *player){
 }
 
 
-void clearPlayer(player_t *player){
-	if(player->gunSide == 1){
+void clearPlayer(player_t *player)
+{
+	if(player->gunSide == 1)
+	{
 		ui_clear_sprite(0, 15, 0, getXint(&(player->entity->pos)), getYint(&(player->entity->pos)));
 	} else {
 		ui_clear_sprite(1, 15, 0, getXint(&(player->entity->pos)), getYint(&(player->entity->pos)));

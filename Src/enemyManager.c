@@ -20,7 +20,7 @@ void initEnemyManager(enemyManager_t *enemyManager,enemy_t *enemArr)
 	}
 }
 
-void spawnEnemy(enemyManager_t *enemyManager,entity_t *entArr, uint8_t xPos, uint8_t yPos,uint8_t xVel, uint8_t yVel,uint8_t enemyType, uint8_t height, uint8_t fixedVel)
+void spawnEnemy(enemyManager_t *enemyManager,entity_t *entArr, uint8_t xPos, uint8_t yPos,int32_t xVel, int32_t yVel,uint8_t enemyType, uint8_t height, uint8_t fixedVel)
 {
 	for(uint8_t i = 1; i <= ENEMY_ARR_LENGTH; i++)
 	{
@@ -49,7 +49,7 @@ void spawnEnemy(enemyManager_t *enemyManager,entity_t *entArr, uint8_t xPos, uin
 
 void spawnRandom(enemyManager_t * enemMan, entity_t * entArr)
 {
-	spawnEnemy(enemMan,entArr,getRandomInterval(0,35),-2,0,1,getRandomInterval(0,4),getRandomInterval(0,3),0);
+	spawnEnemy(enemMan,entArr,getRandomInterval(0,70),-2,0,1 << 12,getRandomInterval(0,4),getRandomInterval(0,3),1);
 }
 
 
