@@ -19,6 +19,7 @@
 #include "gameUI.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "sinLut.h"
 #include "gameHandler.h"
 
 uint8_t game_update()
@@ -46,13 +47,14 @@ void initProgram(gameStruct_t * gs_p){
 	gs_p->cooldownCounter = 3;
 	initTimerStuff(); //Comment to debug
 	initController();
-	srand( (unsigned)(lutSin(readPot1()) + lutCos(readPot2())) );
+	//srand( (unsigned)(lutSin(readPot1()) + lutCos(readPot2())) ); //comment to debug same seed
 	initLCD();
 	initLED();
 	setLED(0, 0, 0);
 }
 
-void modeSelect(gameStruct_t * gs_p){
+void modeSelect(gameStruct_t * gs_p)
+{
 	char input = get_key_pressed();
 	turnOffLED();
 
@@ -105,6 +107,7 @@ void modeSelect(gameStruct_t * gs_p){
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 		break;
 	case(5):
+		//game over
 		if(MODE_CHANGE){
 			initGameOverScreen(gs_p);
 			gs_p->prevMode = gs_p->mode;
@@ -228,7 +231,8 @@ void freeMallocEntities(gameStruct_t * gs_p){
 	}
 }
 
-void runGame(gameStruct_t * gs_p, char input){
+void runGame(gameStruct_t * gs_p, char input)
+{
 	//Clear
 	clearPlayer(&(gs_p->player));
 	lcd_clear_all(gs_p->LCDbuffer,0x00);
