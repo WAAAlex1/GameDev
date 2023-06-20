@@ -1,5 +1,15 @@
+#include "stdint.h"
+#include "entityHandler.h"
+#include "bulletManager.h"
+#include "enemyManager.h"
+#include "player.h"
+#include "LCD.h"
+#include "stm32f30x.h"
+#include "stopwatch.h"
+#include "scoreCalc.h"
+#include "menus.h"
+#include "menusAPI.h"
 #include "gameHandler.h"
-
 
 uint8_t game_update()
 {
@@ -17,27 +27,51 @@ void initProgram(gameStruct * gs_p){
 	clrscr();
 	gs_p->tickCounter = 0;
 	gs_p->mode = 0;
+	gs_p->prevMode = 1;
 	gs_p->gameInitialized = 0;
 	initTimerStuff(); //Comment to debug
 }
 
 void modeSelect(gameStruct * gs_p){
+	char input = get_key_pressed();
+
 	switch(gs_p->mode){
 	case(0):
 		//Functions for main menu
-
+		if(gs_p->prevMode != gs_p->mode){
+			color(15, 0);
+			clrscr();
+			initMainMenu();
+		}
+		gs_p->mode = menuPicker(gs_p->mode, input);
 
 		break;
 	case(1):
-		//Functions for Help menu
-
-
+		//Functions for singleplayer
+		if(gs_p->prevMode != gs_p->mode){
+			color(15, 0);
+			clrscr();
+			initGameUI();
+		}
+		if(gs_p->gameInitialized == 0) initializeGame(&gs_p, 1);
 		break;
 	case(2):
 		//Functions for game (clear, update, draw...)
-		if(gs_p->gameInitialized == 0) initializeGame(&gs_p, gs_p->numPlayers);
+		if(gs_p->prevMode != gs_p->mode){
+			color(15, 0);
+			clrscr();
+			initGameUI();
+		}
+		if(gs_p->gameInitialized == 0) initializeGame(&gs_p, 2);
 		break;
 	case(3):
+		//Help menu
+		gs_p->mode = menuPicker(gs_p->mode, input);
+		color(15, 0);
+		clrscr();
+		helpMenu();
+		break;
+	case(4):
 		//Functions for Boss key
 		//Pause timer
 		//Draw screen
@@ -46,6 +80,8 @@ void modeSelect(gameStruct * gs_p){
 	default:
 		gs_p->mode = 0;
 	}
+
+	gs_p->prevMode = gs_p->mode;
 }
 
 void initializeGame(gameStruct * gs_p, uint8_t numPlayers){
@@ -80,8 +116,8 @@ void clearGame(gameStruct * gs_p){
 	clearPlayer(&(gs_p->player));
 }
 
-void updateGameFromInputs(gameStruct * gs_p){
-	updatePlayerVel(&(gs_p->player), get_key_pressed());
+void updateGameFromInputs(gameStruct * gs_p, char input){
+	updatePlayerVel(&(gs_p->player), input);
 	if(gs_p->numPlayers == 2) updateCrosshair(&(gs_p->player),readJoystick());
 	updateEntities(&(gs_p->entHan));
 }
