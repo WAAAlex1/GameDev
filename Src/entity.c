@@ -1,4 +1,5 @@
 #include "PuTTYSprites.h"
+#include "util.h"
 #include "entity.h"
 
 // API - generic functions for manipulating and controlling our entity_t struct.
@@ -18,7 +19,7 @@ void updateVel(entity_t * ptr, int8_t x, int8_t y){
 // MAINLY USED FOR INIT: --------------------------------------------------
 
 //function to initialize the values of an entity struct and set its spriteindex.
-void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,int32_t xVel,int32_t yVel, uint8_t fixedVel, uint8_t height){
+void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, int16_t yPos,int32_t xVel,int32_t yVel, uint8_t fixedVel, uint8_t height){
 	setEntityPos(ptr,xPos,yPos);
 	if(fixedVel)
 	{
@@ -45,7 +46,8 @@ void setEntityVelFixed(entity_t *ptr, int32_t x, int32_t y)
 	ptr->vel.y = y;
 }
 
-void setEntityPos(entity_t * ptr, int8_t x, int8_t y){
+void setEntityPos(entity_t * ptr, int16_t x, int16_t y)
+{
 	setVectorInt(&(ptr->pos),x,y);
 }
 
@@ -59,6 +61,7 @@ void setSpriteIndex(entity_t * ptr, uint8_t index){
 
 //function to "destroy" an entity by setting it inactive.
 void destroyEntity(entity_t * ptr){
+	clearEntity(ptr);
 	ptr->isActive = 0;
 }
 
@@ -106,9 +109,10 @@ void calculateGravity(entity_t * bullet, entity_t * solidObj){
 
 	dist = getManDistance(x1>>14, y1>>14, x2>>14, y2>>14); //int dist
 	if(dist > 20) return;
+	dist = (dist == 0 ? 1 : dist);
 	// SKALER DELTAX OG DELTAY med konstant/dist^2
-	deltaX = ((x2-x1) * ( ((G*massObj) << 28) / (dist*dist << 14) )) >> 14;
-	deltaY = ((y2-y1) * ( ((G*massObj) << 28) / (dist*dist << 14) )) >> 14;
+	deltaX = ((norm(x2-x1)<<14) * ( ((G*massObj) << 28) / (dist*dist << 14) )) >> 14;
+	deltaY = ((norm(y2-y1)<<14) * ( ((G*massObj) << 28) / (dist*dist << 14) )) >> 14;
 
 	//Finally add the gravity to our velocity vector for our bullet
 	bullet->vel.x += deltaX; //both fixed point
@@ -155,7 +159,8 @@ int32_t centeredYPOS(entity_t * ptr){
 }
 
 
-uint8_t detectEntityCollision(entity_t * obj1, entity_t * obj2){
+uint8_t detectEntityCollision(entity_t * obj1, entity_t * obj2)
+{
 	int32_t x1_C = centeredXPOS(obj1);
 	int32_t y1_C = centeredYPOS(obj1);
 	int32_t x2_C = centeredXPOS(obj2);
@@ -170,12 +175,12 @@ uint8_t detectEntityCollision(entity_t * obj1, entity_t * obj2){
 			minY1 = 2 << 14; //2
 			break;
 		case(6): //1x1
-			minX1 = 0;
-			minY1 = 0;
+			minX1 = 1 << 13; //0.5
+			minY1 = 1 << 13; //0.5
 			break;
 		case(7): //3x1
-			minX1 = 1 << 14; //1
-			minY1 = 0 << 14; //0
+			minX1 = 3 << 13; //1.5
+			minY1 = 1 << 13; //0.5
 			break;
 		default:
 			return 0;
@@ -183,22 +188,26 @@ uint8_t detectEntityCollision(entity_t * obj1, entity_t * obj2){
 	//switch statement to set minX2 and minY2 values
 	switch(obj2->spriteIndex){
 		case(2): //4x3
-		case(5): //4x3
 			minX2 = 2 << 14; //2;
 			minY2 = 1 << 14; //1;
-		case(3): //1x1
-			minX2 = 0 << 14;
-			minY2 = 0 << 14;
-		case(4): //2x2
-			minX2 = 1 << 14; //1
+			break;
+		case(5): //7x4
+			minX2 = 7 << 13; //3.5;
+			minY2 = 2 << 14; //2;
+			break;
+		case(3): //3x2
+			minX2 = 3 << 13; //1.5
 			minY2 = 1 << 14; //1
+			break;
+		case(4): //5x3
+			minX2 = 5 << 13; //2.5
+			minY2 = 3 << 13; //1.5
+			break;
 		default:
 			return 0;
 	}
 
-	if(absolute(x2_C - x1_C) <= (minX1 >= minX2 ? minX1 : minX2) || absolute(y2_C - y1_C) <= (minY1 >= minY2 ? minY1 : minY2)){
-		return 1;
-	}
+	if(absolute(x2_C - x1_C) <= minX1+minX2 && absolute(y2_C - y1_C) <= minY1+minY2) return 1;
 	else return 0;
 }
 
@@ -207,7 +216,5 @@ void checkEntityPos(entity_t * ptr){
 	int32_t y = ptr->pos.y >> 14;
 
 	//should create a bit of a bufferzone around our actual screen, making sure that the objects can pass seamlessly.
-	if(x < -5 || x > 81 || y > 47 || y < -5){
-		ptr->isActive = 0;
-	}
+	if(x < -5 || x > 81 || y > 47 || y < -5) destroyEntity(ptr);
 }

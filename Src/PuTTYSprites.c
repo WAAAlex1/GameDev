@@ -183,7 +183,8 @@ void ui_clear_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t
 	}
 }
 
-int8_t offsetBulletCoordX(player_t *player){
+int16_t offsetBulletCoordX(player_t *player)
+{
 	if(player->gunSide == 1){
 		return getXint(&(player->entity->pos)) - 1;
 	} else {
@@ -191,6 +192,7 @@ int8_t offsetBulletCoordX(player_t *player){
 	}
 }
 
-int8_t offsetBulletCoordY(player_t *player){
+int16_t offsetBulletCoordY(player_t *player)
+{
 	return getYint(&(player->entity->pos)) + 1;
 }

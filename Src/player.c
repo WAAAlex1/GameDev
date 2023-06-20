@@ -133,26 +133,30 @@ void updatePlayerVel(player_t *player, char input){
 	}
 }
 
-void playerShoot(player_t *ptr, bulletManager_t *bulletManager,entity_t *entArr, uint8_t bulletType, uint8_t height)
+void playerShoot(player_t *ptr, bulletManager_t *bulletManager,entityHandler_t *entHan, uint8_t bulletType, uint8_t height)
 {
-	spawnBullet(bulletManager,entArr,offsetBulletCoordX(ptr),offsetBulletCoordY(ptr),con_getVecX(ptr->gunSide),con_getVecY(ptr->crosshairX,ptr->gunSide),1,0,ptr->crosshairY);
+	spawnBullet(bulletManager,entHan,offsetBulletCoordX(ptr),offsetBulletCoordY(ptr),con_getVecX(ptr->gunSide),con_getVecY(ptr->crosshairX,ptr->gunSide),1,0,ptr->crosshairY);
 }
 
 //check if player collides with an asteroid, enemy ship or bullet.
 //damage player and set the other entity inactive if collision.
-void checkPlayerCollision(player_t * ptr, entityHandler_t * array){
+void checkPlayerCollision(player_t * ptr, entityHandler_t * array)
+{
 	uint8_t v;
-	for(v = 0; v < ENTITY_ARR_LEN; v++){
-		if(array->entityArray[v]->spriteIndex >= 2 && array->entityArray[v]->spriteIndex <= 6){
-			if(detectEntityCollision(ptr->entity, array->entityArray[v])){
-				ptr->HP--;
-				array->entityArray[v]->isActive = 0;
+	for(v = 1; v < ENTITY_ARR_LEN; v++) //avoids checking player itself
+	{
+		if(array->entityArray[v]->isActive && array->entityArray[v]->spriteIndex != 7) //cant collide with megabullet
+		{
+			if(detectEntityCollision(ptr->entity, array->entityArray[v]))
+			{
+				(ptr->HP)--;
+				destroyEntity(array->entityArray[v]);
 			}
 		}
 	}
 }
 
-void usePowerUp(player_t * ptr, bulletManager_t * bulletManager,entity_t * entArr){
+void usePowerUp(player_t * ptr, bulletManager_t * bulletManager,entityHandler_t * entHan){
 	switch(ptr->powerUp){
 		case(1): //restock HP
 			ptr->HP = ptr->HP < 3 ? 3 : ptr->HP;
@@ -163,7 +167,7 @@ void usePowerUp(player_t * ptr, bulletManager_t * bulletManager,entity_t * entAr
 			ptr->powerUp = 0;
 			break;
 		case(3): //spawn megabullet in front of player with velocity -1.
-			spawnBullet(bulletManager,entArr, (ptr->entity->pos.x+1) >> 14,  (ptr->entity->pos.y+1) >> 14, 0, -1, 0, 1, 0);
+			spawnBullet(bulletManager,entHan,getXint(&(ptr->entity->pos))+1,getYint(&(ptr->entity->pos))-1, 0, -1, 0, 1, 0);
 			break;
 		default:
 			return;

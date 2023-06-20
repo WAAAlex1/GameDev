@@ -9,6 +9,7 @@
 #include "entity.h"
 #include <stdlib.h>
 #include "enemyManager.h"
+#include "bulletManager.h"
 
 void initEnemyManager(enemyManager_t *enemyManager,enemy_t *enemArr)
 {
@@ -20,25 +21,23 @@ void initEnemyManager(enemyManager_t *enemyManager,enemy_t *enemArr)
 	}
 }
 
-void spawnEnemy(enemyManager_t *enemyManager,entity_t *entArr, uint8_t xPos, uint8_t yPos,int32_t xVel, int32_t yVel,uint8_t enemyType, uint8_t height, uint8_t fixedVel)
+void spawnEnemy(enemyManager_t *enemyManager,entityHandler_t *entHan, uint8_t xPos, int16_t yPos,int32_t xVel, int32_t yVel,uint8_t enemyType, uint8_t height, uint8_t fixedVel)
 {
 	for(uint8_t i = 1; i <= ENEMY_ARR_LENGTH; i++)
 	{
-		if(!(entArr[i].isActive))
+		if(!(entHan->entityArray[i]->isActive))
 		{
-			initEntity(&(entArr[i]),2+enemyType,xPos,yPos,xVel,yVel,fixedVel,height);
+			initEntity(entHan->entityArray[i],2+enemyType,xPos,yPos,xVel,yVel,fixedVel,height);
 
-
-			for(int j = 0; j < BULLET_ARR_LENGTH; j++)
+			for(uint8_t j = 0; j < ENEMY_ARR_LENGTH; j++)
 			{
 				if(!(enemyManager->enemyArray[j]->entity->isActive))
 				{
-					initEnemy(&(entArr[i]),enemyManager->enemyArray[j],enemyType);
+					initEnemy(entHan->entityArray[i],enemyManager->enemyArray[j],enemyType);
 					break;
 				}
 			}
-			entArr[i].isActive = 1;
-
+			entHan->entityArray[i]->isActive = 1;
 			break;
 		}
 	}
@@ -47,13 +46,22 @@ void spawnEnemy(enemyManager_t *enemyManager,entity_t *entArr, uint8_t xPos, uin
 }
 
 
-void spawnRandom(enemyManager_t * enemMan, entity_t * entArr)
+void spawnRandom(enemyManager_t * enemMan, entityHandler_t * entHan)
 {
-	spawnEnemy(enemMan,entArr,getRandomInterval(0,70),-2,0,1 << 12,getRandomInterval(0,4),getRandomInterval(0,3),1);
+	spawnEnemy(enemMan,entHan,getRandomInterval(0,70),-2,0,1 << 12,getRandomInterval(0,4),getRandomInterval(0,3),1);
 }
 
 
-
+void enemiesShoot(bulletManager_t *bulMan, entityHandler_t *entHan, enemyManager_t *enemMan)
+{
+	for(int i = 0; i < ENEMY_ARR_LENGTH;i++)
+	{
+		if(enemMan->enemyArray[i]->entity->isActive && enemMan->enemyArray[i]->type == 0) //only active spaceships
+		{
+			enemyShoot(bulMan,entHan,enemMan->enemyArray[i]);
+		}
+	}
+}
 
 
 

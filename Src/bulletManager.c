@@ -5,6 +5,7 @@
  *      Author: georg
  */
 
+#include "enemyManager.h"
 #include "entity.h"
 #include "bullet.h"
 #include "entityHandler.h"
@@ -22,23 +23,23 @@ void initBulletManager(bulletManager_t *bulletManager, bullet_t *bulArr)
 
 }
 
-void spawnBullet(bulletManager_t *bulletManager,entity_t *entArr,uint8_t xPos, uint8_t yPos,int32_t xVel,int32_t yVel,uint8_t fixedVel,uint8_t bulletType, uint8_t height)
+void spawnBullet(bulletManager_t *bulletManager,entityHandler_t *entHan,int16_t xPos, int16_t yPos,int32_t xVel,int32_t yVel,uint8_t fixedVel,uint8_t bulletType, uint8_t height)
 {
-	for(int i = BULLET_ARR_LENGTH; i < ENTITY_ARR_LEN; i++)
+	for(uint8_t i = BULLET_ARR_LENGTH; i < ENTITY_ARR_LEN; i++)
 	{
-		if(!(entArr[i].isActive))
+		if(!(entHan->entityArray[i]->isActive))
 		{
-			initEntity(&(entArr[i]),6+bulletType,xPos,yPos,xVel,yVel,fixedVel,height);
+			initEntity(entHan->entityArray[i],6+bulletType,xPos,yPos,xVel,yVel,fixedVel,height);
 
-			for(int j = 0; j < BULLET_ARR_LENGTH; j++)
+			for(uint8_t j = 0; j < BULLET_ARR_LENGTH; j++)
 			{
 				if(!(bulletManager->bulletArray[j]->entity->isActive))
 				{
-					initBullet(bulletManager->bulletArray[j],&(entArr[i]),bulletType);
+					initBullet(bulletManager->bulletArray[j],entHan->entityArray[i],bulletType);
 					break;
 				}
 			}
-			entArr[i].isActive = 1;
+			entHan->entityArray[i]->isActive = 1;
 			break;
 		}
 	}
@@ -48,21 +49,33 @@ void spawnBullet(bulletManager_t *bulletManager,entity_t *entArr,uint8_t xPos, u
 
 //bullets should collide with asteroids and enemy ships. We check if player collide with bullets in player.
 //bullets should only collide if same height as the other object.
-void checkBulletCollision(bulletManager_t *bulletManager, entityHandler_t *entityHandler){
+void checkBulletCollision(bulletManager_t *bulletManager, entityHandler_t *entityHandler)
+{
 	uint8_t v;
 	uint8_t w;
 	for(w = 0; w < BULLET_ARR_LENGTH; w++)
 	{
-		for(v = 0; v < ENTITY_ARR_LEN; v++)
+		if(bulletManager->bulletArray[w]->entity->isActive)
 		{
-			if(entityHandler->entityArray[v]->spriteIndex >= 2 && entityHandler->entityArray[v]->spriteIndex <= 5)
+			for(v = 1; v < ENEMY_ARR_LENGTH; v++) //only check enemies not player
 			{
-				if(detectEntityCollision(bulletManager->bulletArray[w], entityHandler->entityArray[v]))
+				if(entityHandler->entityArray[v]->isActive && entityHandler->entityArray[v]->spriteIndex <= 5)
 				{
-					if(bulletManager->bulletArray[w]->entity->height == entityHandler->entityArray[v]->height)
+					if(detectEntityCollision(bulletManager->bulletArray[w]->entity, entityHandler->entityArray[v]))
 					{
-						bulletManager->bulletArray[w]->entity->isActive = bulletManager->bulletArray[w]->type == 1 ? 1 : 0;
-						entityHandler->entityArray[v]->isActive = 0;
+						if(bulletManager->bulletArray[w]->type == 0)
+						{
+							if(bulletManager->bulletArray[w]->entity->height >= entityHandler->entityArray[v]->height && bulletManager->bulletArray[w]->entity->height <= entityHandler->entityArray[v]->height + 2)
+							{
+								destroyEntity(bulletManager->bulletArray[w]->entity);
+								destroyEntity(entityHandler->entityArray[v]);
+							}
+						}
+						else
+						{
+							destroyEntity(entityHandler->entityArray[v]);
+						}
+
 					}
 				}
 			}

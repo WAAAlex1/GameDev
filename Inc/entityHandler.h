@@ -2,7 +2,6 @@
 #define ENTITYHANDLER_H_
 
 // INCLUDES
-#include "enemy.h"
 #include "entity.h"
 
 // DEFINES

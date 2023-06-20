@@ -37,6 +37,11 @@ int32_t getManDistance(int32_t x1, int32_t y1, int32_t x2, int32_t y2)
 	return abs(x1-x2) + abs(y1-y2);
 }
 
+int32_t norm(int32_t x)
+{
+	return (x > 0 ? 1 : -1);
+}
+
 /*
  * maxOld cannot be equal to minOld !!!!!!!!!!!
  */

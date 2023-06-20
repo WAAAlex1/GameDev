@@ -20,8 +20,9 @@ typedef struct{
 } enemyManager_t;
 
 void initEnemyManager(enemyManager_t *enemyManager,enemy_t *enemArr);
-void spawnEnemy(enemyManager_t *enemyManager,entity_t *entArr, uint8_t xPos, uint8_t yPos,int32_t xVel, int32_t yVel,uint8_t enemyType, uint8_t height, uint8_t fixedVel);
-void spawnRandom(enemyManager_t * enemMan, entity_t * entArr);
+void spawnEnemy(enemyManager_t *enemyManager,entityHandler_t *entHan, uint8_t xPos, int16_t yPos,int32_t xVel, int32_t yVel,uint8_t enemyType, uint8_t height, uint8_t fixedVel);
+void spawnRandom(enemyManager_t * enemMan, entityHandler_t * entHan);
+void enemiesShoot(bulletManager_t *bulMan, entityHandler_t *entHan, enemyManager_t *enemMan);
 
 
 #endif /* ENEMYMANAGER_H_ */

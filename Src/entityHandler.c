@@ -6,6 +6,7 @@
 #include "vec.h"
 #include "enemyManager.h"
 #include "entityHandler.h"
+#include "bulletManager.h"
 
 // to initialize our entityhandler we fill it with entities
 void init_entityHandler(entityHandler_t * ptr, entity_t * entArr){
@@ -19,7 +20,8 @@ void init_entityHandler(entityHandler_t * ptr, entity_t * entArr){
 }
 
 // for each entity in our entityHandler array - move the entity
-void updateEntities(entityHandler_t * ptr){
+void updateEntities(entityHandler_t * ptr)
+{
 	uint8_t i;
 
 	applyGravity(ptr);
@@ -52,7 +54,7 @@ void pushEntity(entityHandler_t * ptr, entity_t * temp, uint8_t spriteIndex, uin
 
 void drawAllEntities(entityHandler_t * ptr){
 	uint8_t i;
-	for(i = 1; i < ENTITY_ARR_LEN; i++)
+	for(i = 1; i < ENTITY_ARR_LEN; i++) //all except player
 	{
 		if(ptr->entityArray[i]->isActive && (ptr->entityArray[i]->preX != getXint(&(ptr->entityArray[i]->pos)) || ptr->entityArray[i]->preY != getYint(&(ptr->entityArray[i]->pos))))
 		{
@@ -63,7 +65,7 @@ void drawAllEntities(entityHandler_t * ptr){
 
 void clearAllEntities(entityHandler_t * ptr){
 	uint8_t i;
-	for(i = 1; i < ENTITY_ARR_LEN; i++)
+	for(i = 1; i < ENTITY_ARR_LEN; i++) //all except player
 	{
 		if(ptr->entityArray[i]->isActive && (ptr->entityArray[i]->preX != getXint(&(ptr->entityArray[i]->pos)) || ptr->entityArray[i]->preY != getYint(&(ptr->entityArray[i]->pos))))
 		{
@@ -73,14 +75,15 @@ void clearAllEntities(entityHandler_t * ptr){
 }
 
 //Gravity between each bullet and each asteroid in range
-void applyGravity(entityHandler_t * ptr){
+void applyGravity(entityHandler_t * ptr)
+{
 	uint8_t i;
 	uint8_t j;
 	for(i = BULLET_ARR_LENGTH; i < ENTITY_ARR_LEN; i++)
 	{
 		if(ptr->entityArray[i]->isActive && ptr->entityArray[i]->spriteIndex == 6)
 		{
-			for(j = 1; j <= ENEMY_ARR_LENGTH; j++)
+			for(j = 1; j <= ENEMY_ARR_LENGTH; j++) //access the enemy part of entityarray
 			{
 				if(ptr->entityArray[j]->spriteIndex >= 3 && ptr->entityArray[j]->spriteIndex <= 5)
 				{
