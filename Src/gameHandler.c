@@ -154,7 +154,7 @@ void initializeGame(gameStruct_t * gs_p){
 	initScore(&(gs_p->score));
 
 	//ADD PLAYER - WITH SET NUMBER OF PLAYERS.
-	initEntity(&(gs_p->entityArray[0]),0,40,23,0,0,0,0);
+	initEntity(&(gs_p->entityArray[0]),0,40,23,0,0,0,0,0);
 	gs_p->entityArray[0].isActive = 1;
 	initPlayer(&(gs_p->entityArray[0]), &(gs_p->player), gs_p->playerNum);
 
@@ -282,13 +282,13 @@ void runGame(gameStruct_t * gs_p, char input)
 	//update entities:
 	updatePlayerVel(&(gs_p->player), input);
 	updateEntities(&(gs_p->entHan));
-	checkBulletCollision(&(gs_p->bulMan),&(gs_p->entHan), &(gs_p->score));
+	checkBulletCollision(&(gs_p->bulMan),&(gs_p->entHan), &(gs_p->score),&(gs_p->player.powerUp));
 	checkPlayerCollision(&(gs_p->player),&(gs_p->entHan));
 
 	//Create new entities
 	enemiesShoot(&(gs_p->bulMan),&(gs_p->entHan),&(gs_p->enemMan));
 	if(gs_p->spawnCounter == 20) {
-		spawnRandom(&(gs_p->enemMan),&(gs_p->entHan),gs_p->playerNum == 2 ? 4 : 0);
+		spawnRandom(&(gs_p->enemMan),&(gs_p->entHan),gs_p->playerNum == 2 ? 3 : 0);
 		gs_p->spawnCounter = 0;
 	}
 	incrementCounter(&(gs_p->spawnCounter), 1);

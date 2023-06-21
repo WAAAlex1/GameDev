@@ -50,7 +50,7 @@ void drawAllEntities(entityHandler_t * ptr){
 	{
 		if(ptr->entityArray[i]->isActive && (ptr->entityArray[i]->preX != getXint(&(ptr->entityArray[i]->pos)) || ptr->entityArray[i]->preY != getYint(&(ptr->entityArray[i]->pos))))
 		{
-			drawEntity(ptr->entityArray[i]);
+			drawEntity(ptr->entityArray[i],ptr->entityArray[i]->powerType);
 		}
 	}
 }

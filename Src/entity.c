@@ -19,7 +19,7 @@ void updateVel(entity_t * ptr, int8_t x, int8_t y){
 // MAINLY USED FOR INIT: --------------------------------------------------
 
 //function to initialize the values of an entity struct and set its spriteindex.
-void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, int16_t yPos,int32_t xVel,int32_t yVel, uint8_t fixedVel, uint8_t height){
+void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, int16_t yPos,int32_t xVel,int32_t yVel, uint8_t fixedVel, uint8_t height,uint8_t powerType){
 	setEntityPos(ptr,xPos,yPos);
 	if(fixedVel)
 	{
@@ -34,6 +34,7 @@ void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, int16_t yPos,
 	ptr->isActive = 0;
 	ptr->preX = getXint(&(ptr->pos));
 	ptr->preY = getYint(&(ptr->pos));
+	ptr->powerType = powerType;
 }
 
 void setEntityVel(entity_t * ptr, int8_t x, int8_t y){
@@ -60,16 +61,33 @@ void setSpriteIndex(entity_t * ptr, uint8_t index){
 
 
 //function to "destroy" an entity by setting it inactive.
-void destroyEntity(entity_t * ptr){
+void destroyEntity(entity_t * ptr)
+{
 	clearEntity(ptr);
 	ptr->isActive = 0;
 }
 
-void drawEntity(entity_t * ptr){
-	ui_draw_sprite(ptr->spriteIndex, 15, 0, getXint(&(ptr->pos)), getYint(&(ptr->pos)));
+void drawEntity(entity_t * ptr, uint8_t powerType)
+{
+	uint8_t color = 15;
+	switch(powerType)
+	{
+		case 1:
+			color = 2; //green medkit
+			break;
+		case 2:
+			color = 4; //blue shield
+			break;
+		case 3:
+			color = 1; //red megabullet
+			break;
+	}
+
+	ui_draw_sprite(ptr->spriteIndex, color, 0, getXint(&(ptr->pos)), getYint(&(ptr->pos)));
 }
 
-void clearEntity(entity_t * ptr){
+void clearEntity(entity_t * ptr)
+{
 	ui_clear_sprite(ptr->spriteIndex, 15, 0, ptr->preX, ptr->preY);
 }
 
@@ -109,7 +127,7 @@ void calculateGravity(entity_t * bullet, entity_t * solidObj){
 
 	dist = getManDistance(x1>>14, y1>>14, x2>>14, y2>>14); //int dist
 	if(dist > 20) return;
-	dist = (dist == 0 ? 1 : dist);
+	dist = (dist < 2 ? 2 : dist);
 	// SKALER DELTAX OG DELTAY med konstant/dist^2
 	deltaX = ((norm(x2-x1)<<14) * ( ((G*massObj) << 28) / (dist*dist << 14) )) >> 14;
 	deltaY = ((norm(y2-y1)<<14) * ( ((G*massObj) << 28) / (dist*dist << 14) )) >> 14;

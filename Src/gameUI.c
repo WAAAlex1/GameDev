@@ -123,6 +123,7 @@ void showPlayerPowerUp(player_t *player){
 			gotoxy(88, 20);
 			printf("MEGA");
 			color(0, 1);
+			break;
 		default: //NONE
 			gotoxy(88, 20);
 			printf("NONE");
