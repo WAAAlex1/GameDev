@@ -47,7 +47,6 @@ void clearGame(gameStruct_t * gs_p);
 void updateGameFromInputs(gameStruct_t * gs_p, char input);
 void drawGame(gameStruct_t * gs_p);
 uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p);
-void freeMallocEntities(gameStruct_t * gs_p);
 void runGame(gameStruct_t * gs_p, char input);
 
 #endif	// _INITGAME_
