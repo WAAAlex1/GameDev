@@ -155,7 +155,7 @@ void lcd_draw_sprite(uint8_t * LCDbuffer,int16_t slice, int16_t line, uint8_t ty
 	{
 		for(int16_t j = (mirror ? 39 : 0); (mirror ? j >= 0 : j < 40); j += (mirror ? -1 : 1))
 		{
-			if(lcd_sprites[type][i][j] != 0x00 && i+line < 4 && slice+(mirror ? 39-j : j) < 128 && i+line >= 0 && slice+j >= 0)
+			if(lcd_sprites[type][i][j] != 0x00 && i+line < 4 && slice+(mirror ? 39-j : j) < 128 && i+line >= 0 && slice+(mirror ? 39-j : j) >= 0)
 			{
 				*(LCDbuffer + slice + (line+i)*128 + (mirror ? 39-j : j)) |= lcd_sprites[type][i][j];
 			}
