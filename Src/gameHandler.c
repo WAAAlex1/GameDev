@@ -65,6 +65,7 @@ void initProgram(gameStruct_t * gs_p){
 void modeSelect(gameStruct_t * gs_p)
 {
 	char input = get_key_pressed();
+	if(uart_get_count() >= 3) uart_clear();
 	turnOffBuzz();
 
 	if(gs_p->gameInitialized) setLEDSide(gs_p);
