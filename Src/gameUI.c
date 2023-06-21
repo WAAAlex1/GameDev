@@ -35,6 +35,7 @@ void initGameUI(){
 	printf("     ");
 	gotoxy(88, 18);
 	printf("     ");
+	color(0, 7);
 
 	//SCORE
 	gotoxy(88, 30);
