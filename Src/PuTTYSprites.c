@@ -186,9 +186,9 @@ void ui_clear_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t
 int16_t offsetBulletCoordX(player_t *player)
 {
 	if(player->gunSide == 1){
-		return getXint(&(player->entity->pos)) - 1;
+		return getXint(&(player->entity->pos)) - 3;
 	} else {
-		return getXint(&(player->entity->pos)) + 5;
+		return getXint(&(player->entity->pos)) + 7;
 	}
 }
 
