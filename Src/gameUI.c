@@ -20,19 +20,29 @@ void initGameUI(){
 		printf("                    ");
 	}
 
+	//HP
 	color(0, 7);
 	gotoxy(90, 2);
 	printf("HP");
 
+	//POWERUP
 	gotoxy(88, 15);
 	printf("POWER");
+	gotoxy(88, 20);
+	printf(" NONE ");
+	color(0, 0);
+	gotoxy(88, 17);
+	printf("     ");
+	gotoxy(88, 18);
+	printf("     ");
 
+	//SCORE
 	gotoxy(88, 30);
 	printf("SCORE");
 
+	//MENU NAVIGATION
 	gotoxy(82, 41);
 	printf("[ESC] - Main menu");
-
 	gotoxy(84, 42);
 	printf("'h' - Help menu");
 }
@@ -116,7 +126,7 @@ void showPlayerPowerUp(player_t *player){
 	switch(player->powerUp){
 		case 1: //MEDKIT
 			gotoxy(88, 20);
-			printf("HEAL");
+			printf(" HEAL ");
 			color(0, 2);
 			break;
 		case 2: //SHIELD
@@ -126,12 +136,12 @@ void showPlayerPowerUp(player_t *player){
 			break;
 		case 3: //MEGA BULLET
 			gotoxy(88, 20);
-			printf("MEGA");
+			printf(" MEGA ");
 			color(0, 1);
 			break;
 		default: //NONE
 			gotoxy(88, 20);
-			printf("NONE");
+			printf(" NONE ");
 			color(0, 0);
 			break;
 	}
