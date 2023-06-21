@@ -34,10 +34,30 @@ void initBuzz(){
 }
 
 void setFreq(uint16_t freq) {
-	uint32_t reload = 64e6 / freq / (2000 + 1) - 1;
+	uint32_t reload;
+
+	if(!freq){
+		reload = 64e6;
+	} else {
+		reload = ((64e6 / freq) / (2000 + 1)) - 1;
+	}
+
 	TIM2->ARR  =  reload;   // Set auto reload value
 	TIM2->CCR3 =  reload/2; // Set compare register
 	TIM2->EGR  |= 0x01;
+}
+
+void turnOffBuzz(){
+	static uint16_t counter = 0;
+
+	if(TIM2->ARR != 64e6){ //
+		counter++;
+	}
+
+	if (counter == 1){ //Wait for 100 ms
+		counter = 0;
+		setFreq(0);
+	}
 }
 
 

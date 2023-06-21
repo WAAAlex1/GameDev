@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "sinLut.h"
+#include "buzz.h"
 #include "gameHandler.h"
 
 uint8_t game_update()
@@ -50,6 +51,7 @@ void initProgram(gameStruct_t * gs_p){
 	//srand( (unsigned)(lutSin(readPot1()) + lutCos(readPot2())) ); //comment to debug same seed
 	initLCD();
 	initLED();
+	initBuzz();
 	setLED(0, 0, 0);
 
 	//INIT TOP LEVEL STRUCTS
@@ -62,6 +64,7 @@ void modeSelect(gameStruct_t * gs_p)
 {
 	char input = get_key_pressed();
 	turnOffLED();
+	turnOffBuzz();
 
 	switch(gs_p->mode){
 	case(0):
