@@ -21,13 +21,13 @@ void initEnemyManager(enemyManager_t *enemyManager,enemy_t *enemArr)
 	}
 }
 
-void spawnEnemy(enemyManager_t *enemyManager,entityHandler_t *entHan, uint8_t xPos, int16_t yPos,int32_t xVel, int32_t yVel,uint8_t enemyType, uint8_t height, uint8_t fixedVel)
+void spawnEnemy(enemyManager_t *enemyManager,entityHandler_t *entHan, uint8_t xPos, int16_t yPos,int32_t xVel, int32_t yVel,uint8_t enemyType, uint8_t height, uint8_t fixedVel, uint8_t powerType)
 {
 	for(uint8_t i = 1; i <= ENEMY_ARR_LENGTH; i++)
 	{
 		if(!(entHan->entityArray[i]->isActive))
 		{
-			initEntity(entHan->entityArray[i],2+enemyType,xPos,yPos,xVel,yVel,fixedVel,height);
+			initEntity(entHan->entityArray[i],2+enemyType,xPos,yPos,xVel,yVel,fixedVel,height,powerType);
 
 			for(uint8_t j = 0; j < ENEMY_ARR_LENGTH; j++)
 			{
@@ -46,9 +46,11 @@ void spawnEnemy(enemyManager_t *enemyManager,entityHandler_t *entHan, uint8_t xP
 }
 
 
-void spawnRandom(enemyManager_t * enemMan, entityHandler_t * entHan)
+void spawnRandom(enemyManager_t * enemMan, entityHandler_t * entHan, uint8_t maxHeight)
 {
-	spawnEnemy(enemMan,entHan,getRandomInterval(0,70),-2,0,1 << 12,getRandomInterval(0,4),getRandomInterval(0,3),1);
+	//10% chance for a powerup that can be 1 of 3 different types
+	uint8_t powerType = (getRandomInterval(0,10) == 0 ? getRandomInterval(1,4) : 0);
+	spawnEnemy(enemMan,entHan,getRandomInterval(0,70),-2,0,1 << 12,getRandomInterval(0,4),getRandomInterval(0, maxHeight+1),1,powerType);
 }
 
 

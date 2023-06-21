@@ -10,7 +10,6 @@
 #include "PuTTYSprites.h"
 #include "vec.h"
 #include "entity.h"
-#include "bulletManager.h"
 #include "PuttyLCDConverter.h"
 #include "util.h"
 #include "player.h"
@@ -69,10 +68,6 @@ void changeGunside(player_t *player){
 	} else {
 		player->gunSide = 1;
 	}
-}
-
-void getPowerUp(player_t *player, uint8_t num){
-	if(num != 0){player->powerUp = num;}
 }
 
 void drawPlayer(player_t *player)
@@ -163,11 +158,12 @@ void usePowerUp(player_t * ptr, bulletManager_t * bulletManager,entityHandler_t 
 			ptr->powerUp = 0;
 			break;
 		case(2): //add shield
-			ptr->HP = ptr->HP < 4 ? ptr->HP++ : ptr->HP;
+			ptr->HP += (ptr->HP < 4 ? 1 : 0);
 			ptr->powerUp = 0;
 			break;
 		case(3): //spawn megabullet in front of player with velocity -2.
 			spawnBullet(bulletManager,entHan,getXint(&(ptr->entity->pos))+1,getYint(&(ptr->entity->pos))-1, 0, -2, 0, 1, 0, 1);
+			ptr->powerUp = 0;
 			break;
 		default:
 			return;

@@ -31,7 +31,7 @@ void spawnBullet(bulletManager_t *bulletManager,entityHandler_t *entHan,int16_t 
 	{
 		if(!(entHan->entityArray[i]->isActive))
 		{
-			initEntity(entHan->entityArray[i],6+bulletType,xPos,yPos,xVel,yVel,fixedVel,height);
+			initEntity(entHan->entityArray[i],6+bulletType,xPos,yPos,xVel,yVel,fixedVel,height,0);
 
 			for(uint8_t j = 0; j < BULLET_ARR_LENGTH; j++)
 			{
@@ -51,7 +51,7 @@ void spawnBullet(bulletManager_t *bulletManager,entityHandler_t *entHan,int16_t 
 
 //bullets should collide with asteroids and enemy ships. We check if player collide with bullets in player.
 //bullets should only collide if same height as the other object.
-void checkBulletCollision(bulletManager_t *bulletManager, entityHandler_t *entityHandler, gamescore_t *score)
+void checkBulletCollision(bulletManager_t *bulletManager, entityHandler_t *entityHandler, gamescore_t *score,uint8_t *playerPowerUp)
 {
 	uint8_t v;
 	uint8_t w;
@@ -61,29 +61,28 @@ void checkBulletCollision(bulletManager_t *bulletManager, entityHandler_t *entit
 		{
 			for(v = 1; v < ENEMY_ARR_LENGTH; v++) //only check enemies not player
 			{
-				if(entityHandler->entityArray[v]->isActive && entityHandler->entityArray[v]->spriteIndex <= 5)
+				if(entityHandler->entityArray[v]->isActive)
 				{
 					if(detectEntityCollision(bulletManager->bulletArray[w]->entity, entityHandler->entityArray[v]))
 					{
-						if(bulletManager->bulletArray[w]->type == 0)
+						if(bulletManager->bulletArray[w]->type == 1 || (bulletManager->bulletArray[w]->entity->height >= entityHandler->entityArray[v]->height && bulletManager->bulletArray[w]->entity->height <= entityHandler->entityArray[v]->height + 2))
 						{
-							if(bulletManager->bulletArray[w]->entity->height >= entityHandler->entityArray[v]->height && bulletManager->bulletArray[w]->entity->height <= entityHandler->entityArray[v]->height + 2)
+							if(bulletManager->bulletArray[w]->friendly)
 							{
-
-								if(bulletManager->bulletArray[w]->friendly){
-									if(entityHandler->entityArray[v]->spriteIndex == 2) incrementScore(score, 2222);
-									else incrementScore(score, 1111);
-									setFreq(100);
+								if(entityHandler->entityArray[v]->spriteIndex == 2) //enemy spaceship hit
+								{
+									incrementScore(score, 2222);
 								}
-								destroyEntity(bulletManager->bulletArray[w]->entity);
-								destroyEntity(entityHandler->entityArray[v]);
+								else //asteroid hit
+								{
+									incrementScore(score, 1111);
+								}
+								setFreq(100);
+								if(entityHandler->entityArray[v]->powerType) *playerPowerUp = entityHandler->entityArray[v]->powerType;
 							}
-						}
-						else
-						{
+							if(bulletManager->bulletArray[w]->type == 0) destroyEntity(bulletManager->bulletArray[w]->entity);
 							destroyEntity(entityHandler->entityArray[v]);
 						}
-
 					}
 				}
 			}

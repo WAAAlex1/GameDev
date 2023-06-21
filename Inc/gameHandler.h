@@ -3,9 +3,9 @@
 
 #define MODE_CHANGE gs_p->prevMode != gs_p->mode
 
-#define ENTITY_ARR_LEN 128
-#define BULLET_ARR_LENGTH 64
-#define ENEMY_ARR_LENGTH 63
+#define ENTITY_ARR_LEN 64
+#define BULLET_ARR_LENGTH 32
+#define ENEMY_ARR_LENGTH 31
 
 #include "entityHandler.h"
 #include "bulletManager.h"

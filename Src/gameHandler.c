@@ -50,6 +50,8 @@ void initProgram(gameStruct_t * gs_p){
 	initController();
 	//srand( (unsigned)(lutSin(readPot1()) + lutCos(readPot2())) ); //comment to debug same seed
 	initLCD();
+	lcd_clear_all(gs_p->LCDbuffer,0x00);
+	lcd_push_buffer(gs_p->LCDbuffer);
 	initLED();
 	initBuzz();
 	setLED(0, 0, 0);
@@ -138,6 +140,10 @@ void modeSelect(gameStruct_t * gs_p)
 		if(MODE_CHANGE){
 			initGameOverScreen(gs_p);
 			gs_p->prevMode = gs_p->mode;
+			lcd_clear_all(gs_p->LCDbuffer,0x00);
+			uint8_t temp[512];
+			lcd_write_string("Game Over!",40,1,gs_p->LCDbuffer,temp);
+			lcd_push_buffer(gs_p->LCDbuffer);
 		}
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 		break;
@@ -154,7 +160,7 @@ void initializeGame(gameStruct_t * gs_p){
 	initScore(&(gs_p->score));
 
 	//ADD PLAYER - WITH SET NUMBER OF PLAYERS.
-	initEntity(&(gs_p->entityArray[0]),0,40,23,0,0,0,0);
+	initEntity(&(gs_p->entityArray[0]),0,40,23,0,0,0,0,0);
 	gs_p->entityArray[0].isActive = 1;
 	initPlayer(&(gs_p->entityArray[0]), &(gs_p->player), gs_p->playerNum);
 
@@ -207,14 +213,16 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 		case 1: //SINGLEPLAYER
 		case 2: //MULTIPLAYER
 			if(input == 'h') return 3;
-			else if(input == 0x1B){ //ESC
+			else if(input == 0x1B)
+			{ //ESC
 				gs_p->gameInitialized = 0;
 				return 0;
 			} else if(input == 'b' || input == 'B') return 4;
 			if(gs_p->player.HP <= 0) return 5;
 			break;
 		case 3: //HELP MENU
-			if(input == 'm'){
+			if(input == 'm')
+			{
 				gs_p->gameInitialized = 0;
 				return 0;
 			} else if(input == 0x1B && gs_p->gameInitialized){ //ESC
@@ -230,7 +238,8 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 			break;
 		case 5: //GAME OVER
 			gameOverScreen(gs_p, input);
-			if(input == ' '){
+			if(input == ' ')
+			{
 				gs_p->gameInitialized = 0;
 				return 0;
 			}
@@ -294,13 +303,13 @@ void runGame(gameStruct_t * gs_p, char input)
 	//update entities:
 	updatePlayerVel(&(gs_p->player), input);
 	updateEntities(&(gs_p->entHan));
-	checkBulletCollision(&(gs_p->bulMan),&(gs_p->entHan), &(gs_p->score));
+	checkBulletCollision(&(gs_p->bulMan),&(gs_p->entHan), &(gs_p->score),&(gs_p->player.powerUp));
 	checkPlayerCollision(&(gs_p->player),&(gs_p->entHan));
 
 	//Create new entities
 	enemiesShoot(&(gs_p->bulMan),&(gs_p->entHan),&(gs_p->enemMan));
 	if(gs_p->spawnCounter == 20) {
-		spawnRandom(&(gs_p->enemMan),&(gs_p->entHan));
+		spawnRandom(&(gs_p->enemMan),&(gs_p->entHan),gs_p->playerNum == 2 ? 3 : 0);
 		gs_p->spawnCounter = 0;
 	}
 	incrementCounter(&(gs_p->spawnCounter), 1);
