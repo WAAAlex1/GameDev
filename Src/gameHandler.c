@@ -65,13 +65,15 @@ void initProgram(gameStruct_t * gs_p){
 void modeSelect(gameStruct_t * gs_p)
 {
 	char input = get_key_pressed();
-	turnOffLED();
 	turnOffBuzz();
+
+	if(gs_p->gameInitialized) setLEDSide(gs_p);
 
 	switch(gs_p->mode){
 	case(0):
 		//Functions for main menu
 		if(MODE_CHANGE){
+			setLED(0, 0, 0);
 			color(15, 0);
 			clrscr();
 			initMainMenu();
@@ -81,6 +83,7 @@ void modeSelect(gameStruct_t * gs_p)
 		break;
 	case(1): //Singleplayer
 		if(MODE_CHANGE){
+			setLED(0, 0, 0);
 			color(15, 0);
 			clrscr();
 			initGameUI();
@@ -96,6 +99,7 @@ void modeSelect(gameStruct_t * gs_p)
 		break;
 	case(2): //Multiplayer
 		if(MODE_CHANGE){
+			setLED(0, 0, 0);
 			color(15, 0);
 			clrscr();
 			initGameUI();
@@ -113,6 +117,7 @@ void modeSelect(gameStruct_t * gs_p)
 	case(3):
 		//Help menu
 		if(MODE_CHANGE){
+			setLED(0, 0, 0);
 			color(15, 0);
 			clrscr();
 			helpMenu(gs_p->gameInitialized);
@@ -124,6 +129,7 @@ void modeSelect(gameStruct_t * gs_p)
 	case(4):
 		//Boss key
 		if(MODE_CHANGE){
+			setLED(0, 0, 0);
 			bossScreen();
 			gs_p->prevMode = gs_p->mode;
 		}
@@ -255,9 +261,17 @@ void runGame(gameStruct_t * gs_p, char input)
 
 	switch(gs_p->playerNum){
 		case 1:
-			if(input == ',') gs_p->player.gunSide = 1;
-			else if(input == '.') gs_p->player.gunSide = -1;
-			else gs_p->player.gunSide = gs_p->player.gunSide;
+			if(input == ','){
+				gs_p->player.gunSide = 1;
+				setLED(1, 0, 0);
+			}
+			else if(input == '.'){
+				gs_p->player.gunSide = -1;
+				setLED(0, 0, 1);
+			}
+			else {
+				gs_p->player.gunSide = gs_p->player.gunSide;
+			}
 			if(!(gs_p->cooldownCounter) && (input == ',' || input == '.')){
 				gs_p->cooldownCounter = 10;
 				setLED(0, 1, 0);
@@ -265,7 +279,14 @@ void runGame(gameStruct_t * gs_p, char input)
 			}
 			break;
 		case 2:
-			if(readButton2()) changeGunside(&(gs_p->player));
+			if(readButton2()){
+				changeGunside(&(gs_p->player));
+				if(gs_p->player.gunSide == 1){
+					setLED(1, 0, 0);
+				} else if(gs_p->player.gunSide == -1){
+					setLED(0, 0, 1);
+				}
+			}
 
 			if(readButton1() && !(gs_p->cooldownCounter)){
 				gs_p->cooldownCounter = 10;

@@ -38,10 +38,15 @@ void initGameUI(){
 }
 
 void updateGameUI(player_t *player, gamescore_t *score){
-	showPlayerHealth(player);
-	showPlayerPowerUp(player);
+	static uint8_t prevHealth = 0;
+	static uint8_t prevPowerUp = 0;
+
+	if(player->HP != prevHealth) showPlayerHealth(player);
+	if(player->powerUp != prevPowerUp) showPlayerPowerUp(player);
 	showPlayerScore(score);
 
+	prevHealth = player->HP;
+	prevPowerUp = player->powerUp;
 }
 
 void showPlayerHealth(player_t *player){

@@ -1,5 +1,5 @@
-#include "joystick.h"
 #include "LCD.h"
+#include "joystick.h"
 
 void initLED(){
 	RCC->AHBENR |= RCC_AHBPeriph_GPIOA; // Enable clock for GPIO Port A
@@ -48,16 +48,20 @@ void setLED(uint8_t x1, uint8_t x2, uint8_t x3){
 	if(!x3){GPIOA->ODR |= 0x0001 << 9;} //pin PA9 (BLUE)
 }
 
-void turnOffLED(){
+void setLEDSide(gameStruct_t * gs_p){
 	static uint16_t counter = 0;
 
-	if(!(GPIOB->ODR & (0x0001 << 4)) || !(GPIOB->ODR & (0x0001 << 7)) || !(GPIOB->ODR & (0x0001 << 9))){ //If any LED is on
+	if(!(GPIOC->ODR & (0x0001 << 7))){ //If the green LED is on
 		counter++;
 	}
 
 	if (counter == 5){ //Wait for 500 ms
 		counter = 0;
-		setLED(0, 0, 0);
+		if(gs_p->player.gunSide == 1){
+			setLED(1, 0, 0);
+		} else if(gs_p->player.gunSide == -1){
+			setLED(0, 0, 1);
+		}
 	}
 }
 
