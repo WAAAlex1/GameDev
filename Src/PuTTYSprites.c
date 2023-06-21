@@ -192,6 +192,15 @@ int16_t offsetBulletCoordX(player_t *player)
 	}
 }
 
+int16_t offsetBulletCoordXCone(player_t *player)
+{
+	if(player->gunSide == 1){
+		return getXint(&(player->entity->pos));
+	} else {
+		return getXint(&(player->entity->pos)) + 4;
+	}
+}
+
 int16_t offsetBulletCoordY(player_t *player)
 {
 	return getYint(&(player->entity->pos)) + 1;

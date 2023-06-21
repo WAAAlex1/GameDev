@@ -12,6 +12,7 @@
 #include "LCD.h"
 #include "vec.h"
 #include "PuTTYSprites.h"
+#include "entity.h"
 #include "PuttyLCDConverter.h"
 
 #define CONE_VIEW_WIDTH 32
@@ -116,9 +117,9 @@ void con_draw_putty_to_lcd(enemyManager_t *enemMan, player_t *player,uint8_t * L
 	{
 		if(enemMan->enemyArray[i]->entity->isActive)
 		{
-			if(con_inCone(offsetBulletCoordX(player),offsetBulletCoordY(player),getXint(&(enemMan->enemyArray[i]->entity->pos)),getYint(&(enemMan->enemyArray[i]->entity->pos)),player->gunSide))
+			if(con_inCone(offsetBulletCoordXCone(player),offsetBulletCoordY(player),centeredXPOS(enemMan->enemyArray[i]->entity) >> 14,getYint(&(enemMan->enemyArray[i]->entity->pos))+2,player->gunSide))
 			{
-				lcd_draw_sprite(LCDbuffer,con_posToSlice(offsetBulletCoordX(player),offsetBulletCoordY(player),getXint(&(enemMan->enemyArray[i]->entity->pos)),getYint(&(enemMan->enemyArray[i]->entity->pos)),player->gunSide),enemMan->enemyArray[i]->entity->height,(enemMan->enemyArray[i]->type ? enemMan->enemyArray[i]->type : 10)+1+con_getDistanceX(offsetBulletCoordX(player),getXint(&(enemMan->enemyArray[i]->entity->pos))),player->gunSide == 1 ? 1 : 0); //plus 1 for baseSize
+				lcd_draw_sprite(LCDbuffer,con_posToSlice(offsetBulletCoordXCone(player),offsetBulletCoordY(player),centeredXPOS(enemMan->enemyArray[i]->entity) >> 14,getYint(&(enemMan->enemyArray[i]->entity->pos))+2,player->gunSide),enemMan->enemyArray[i]->entity->height,(enemMan->enemyArray[i]->type ? enemMan->enemyArray[i]->type : 10)+1+con_getDistanceX(offsetBulletCoordXCone(player),centeredXPOS(enemMan->enemyArray[i]->entity) >> 14),player->gunSide == 1 ? 1 : 0);
 			}
 		}
 	}

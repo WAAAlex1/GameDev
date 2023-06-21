@@ -137,43 +137,48 @@ void calculateGravity(entity_t * bullet, entity_t * solidObj){
 	bullet->vel.y += deltaY;
 }
 
-int32_t centeredXPOS(entity_t * ptr){
-	switch(ptr->spriteIndex){
+int32_t centeredXPOS(entity_t * ptr)
+{
+	switch(ptr->spriteIndex)
+	{
 		case(0): //add 2
 		case(1): //add 2
+		case(2): //add 2
 			return ptr->pos.x + (2 << 14);
-		case(2): //add 1.5
-		case(5): //add 1.5
+		case(5): //add 3.5
+			return ptr->pos.x + (7 << 13);
+		case(3): //add 1.5
 			return ptr->pos.x + (3 << 13);
-		case(3): //add 0
-		case(6): //add 0
-			return ptr->pos.x + (0 << 14);
-		case(4): //add 0.5
+		case(6): //add 0.5
 			return ptr->pos.x + (1 << 13);
+		case(4): //add 2.5
+			return ptr->pos.x + (5 << 13);
 		case(7): //add 1
 			return ptr->pos.x + (1 << 14);
 		default:
 			return ptr->pos.x;
-		}
+	}
 }
 
-int32_t centeredYPOS(entity_t * ptr){
-	switch(ptr->spriteIndex){
-		case(0): //add 1.5
-		case(1): //add 1.5
+int32_t centeredYPOS(entity_t * ptr)
+{
+	switch(ptr->spriteIndex)
+	{
+		case(0): //add 2
+		case(1): //add 2
+		case(5): //add 2
+			return ptr->pos.y + (2 << 14);
+		case(2): //add 1.5
+		case(4): //add 1.5
 			return ptr->pos.y + (3 << 13);
-		case(2): //add 1
-		case(5): //add 1
+		case(3): //add 1
+		case(7): //add 1
 			return ptr->pos.y + (1 << 14);
-		case(3): //add 0
-		case(6): //add 0
-		case(7): //add 0
-			return ptr->pos.y + (0 << 14);
-		case(4): //add 0.5
+		case(6): //add 0.5
 			return ptr->pos.y + (1 << 13);
 		default:
 			return ptr->pos.y;
-		}
+	}
 }
 
 
