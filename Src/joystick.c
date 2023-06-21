@@ -51,9 +51,6 @@ void setLED(uint8_t x1, uint8_t x2, uint8_t x3){
 void turnOffLED(){
 	static uint16_t counter = 0;
 
-	gotoxy(1, 2);
-	printf("%04d", counter);
-
 	if(!(GPIOB->ODR & (0x0001 << 4)) || !(GPIOB->ODR & (0x0001 << 7)) || !(GPIOB->ODR & (0x0001 << 9))){ //If any LED is on
 		counter++;
 	}

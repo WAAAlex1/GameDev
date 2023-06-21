@@ -51,6 +51,11 @@ void initProgram(gameStruct_t * gs_p){
 	initLCD();
 	initLED();
 	setLED(0, 0, 0);
+
+	//INIT TOP LEVEL STRUCTS
+	init_entityHandler(&(gs_p->entHan),gs_p->entityArray);
+	initBulletManager(&(gs_p->bulMan),gs_p->bulletArray);
+	initEnemyManager(&(gs_p->enemMan),gs_p->enemyArray);
 }
 
 void modeSelect(gameStruct_t * gs_p)
@@ -139,11 +144,6 @@ void initializeGame(gameStruct_t * gs_p){
 	gs_p->gameInitialized = 1;
 	initScore(&(gs_p->score));
 
-	//INIT TOP LEVEL STRUCTS
-	init_entityHandler(&(gs_p->entHan),gs_p->entityArray);
-	initBulletManager(&(gs_p->bulMan),gs_p->bulletArray);
-	initEnemyManager(&(gs_p->enemMan),gs_p->enemyArray);
-
 	//ADD PLAYER - WITH SET NUMBER OF PLAYERS.
 	initEntity(&(gs_p->entityArray[0]),0,40,23,0,0,0,0);
 	gs_p->entityArray[0].isActive = 1;
@@ -152,6 +152,11 @@ void initializeGame(gameStruct_t * gs_p){
 	//INIT LCD
 	lcd_clear_all(gs_p->LCDbuffer,0x00);
 	lcd_push_buffer(gs_p->LCDbuffer);
+
+	for(uint8_t i = 1; i < ENTITY_ARR_LEN; i++)
+	{
+		gs_p->entityArray[i].isActive = 0;
+	}
 
 }
 
@@ -195,7 +200,7 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 			if(input == 'h') return 3;
 			else if(input == 0x1B){ //ESC
 				gs_p->gameInitialized = 0;
-				freeMallocEntities(gs_p);
+				//freeMallocEntities(gs_p);
 				return 0;
 			} else if(input == 'b' || input == 'B') return 4;
 			if(gs_p->player.HP <= 0) return 5;
@@ -203,14 +208,12 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 		case 3: //HELP MENU
 			if(input == 'm'){
 				if(gs_p->gameInitialized){
-					freeMallocEntities(gs_p);
+					//freeMallocEntities(gs_p);
 				}
 				gs_p->gameInitialized = 0;
 				return 0;
 			} else if(input == 0x1B && gs_p->gameInitialized){ //ESC
 				return gs_p->playerNum;
-			} else if(input == 't'){
-				return 5;
 			} else if(input == 0x2A){ //'*'
 				highscoreFlush();
 			}
@@ -223,7 +226,11 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 		case 5: //GAME OVER
 			gameOverScreen(gs_p, input);
 			if(input == ' '){
-				freeMallocEntities(gs_p);
+				gotoxy(1, 2);
+				printf("TEST1");
+				//freeMallocEntities(gs_p);
+				gotoxy(1, 3);
+				printf("TEST2");
 				gs_p->gameInitialized = 0;
 				return 0;
 			}
@@ -249,8 +256,6 @@ void runGame(gameStruct_t * gs_p, char input)
 	//Clear
 	clearPlayer(&(gs_p->player));
 	lcd_clear_all(gs_p->LCDbuffer,0x00);
-	gotoxy(1, 3);
-	printf("%04d", gs_p->cooldownCounter);
 
 	//update playeractions based on inputs:
 	if(gs_p->playerNum == 2) updateCrosshair(&(gs_p->player),readJoystick());
