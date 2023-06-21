@@ -163,7 +163,7 @@ void usePowerUp(player_t * ptr, bulletManager_t * bulletManager,entityHandler_t 
 			ptr->powerUp = 0;
 			break;
 		case(2): //add shield
-			ptr->HP = ptr->HP < 4 ? ptr->HP++ : ptr->HP;
+			ptr->HP += (ptr->HP < 4 ? 1 : 0);
 			ptr->powerUp = 0;
 			break;
 		case(3): //spawn megabullet in front of player with velocity -2.

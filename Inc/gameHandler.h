@@ -3,9 +3,9 @@
 
 #define MODE_CHANGE gs_p->prevMode != gs_p->mode
 
-#define ENTITY_ARR_LEN 128
-#define BULLET_ARR_LENGTH 64
-#define ENEMY_ARR_LENGTH 63
+#define ENTITY_ARR_LEN 64
+#define BULLET_ARR_LENGTH 32
+#define ENEMY_ARR_LENGTH 31
 
 #include "entityHandler.h"
 #include "bulletManager.h"
@@ -47,7 +47,6 @@ void clearGame(gameStruct_t * gs_p);
 void updateGameFromInputs(gameStruct_t * gs_p, char input);
 void drawGame(gameStruct_t * gs_p);
 uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p);
-void freeMallocEntities(gameStruct_t * gs_p);
 void runGame(gameStruct_t * gs_p, char input);
 
 #endif	// _INITGAME_

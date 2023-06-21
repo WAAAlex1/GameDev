@@ -149,15 +149,15 @@ void lcd_scroll_vertical(uint8_t slice1,uint8_t slice2,uint8_t *LCDbuffer_p, uin
 /*
  * See lcd_sprites for the sprites that the type parameter pick between
  */
-void lcd_draw_sprite(uint8_t * LCDbuffer,int16_t slice, int16_t line, uint8_t type)
+void lcd_draw_sprite(uint8_t * LCDbuffer,int16_t slice, int16_t line, uint8_t type, uint8_t mirror)
 {
-	for(int i = 0; i < 4; i++)
+	for(uint8_t i = 0; i < 4; i++)
 	{
-		for(int j = 0; j < 40; j++)
+		for(int16_t j = (mirror ? 39 : 0); (mirror ? j >= 0 : j < 40); j += (mirror ? -1 : 1))
 		{
-			if(lcd_sprites[type][i][j] != 0x00 && i+line < 4 && slice+j < 128 && i+line >= 0 && slice+j >= 0)
+			if(lcd_sprites[type][i][j] != 0x00 && i+line < 4 && slice+(mirror ? 39-j : j) < 128 && i+line >= 0 && slice+j >= 0)
 			{
-				*(LCDbuffer + slice + (line+i)*128 + j) |= lcd_sprites[type][i][j];
+				*(LCDbuffer + slice + (line+i)*128 + (mirror ? 39-j : j)) |= lcd_sprites[type][i][j];
 			}
 		}
 	}

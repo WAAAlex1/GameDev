@@ -46,9 +46,9 @@ void spawnEnemy(enemyManager_t *enemyManager,entityHandler_t *entHan, uint8_t xP
 }
 
 
-void spawnRandom(enemyManager_t * enemMan, entityHandler_t * entHan)
+void spawnRandom(enemyManager_t * enemMan, entityHandler_t * entHan, uint8_t maxHeight)
 {
-	spawnEnemy(enemMan,entHan,getRandomInterval(0,70),-2,0,1 << 12,getRandomInterval(0,4),getRandomInterval(0,3),1);
+	spawnEnemy(enemMan,entHan,getRandomInterval(0,70),-2,0,1 << 12,getRandomInterval(0,4),getRandomInterval(0, maxHeight+1),1);
 }
 
 

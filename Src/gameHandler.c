@@ -49,6 +49,8 @@ void initProgram(gameStruct_t * gs_p){
 	initController();
 	//srand( (unsigned)(lutSin(readPot1()) + lutCos(readPot2())) ); //comment to debug same seed
 	initLCD();
+	lcd_clear_all(gs_p->LCDbuffer,0x00);
+	lcd_push_buffer(gs_p->LCDbuffer);
 	initLED();
 	setLED(0, 0, 0);
 
@@ -129,6 +131,10 @@ void modeSelect(gameStruct_t * gs_p)
 		if(MODE_CHANGE){
 			initGameOverScreen(gs_p);
 			gs_p->prevMode = gs_p->mode;
+			lcd_clear_all(gs_p->LCDbuffer,0x00);
+			uint8_t temp[512];
+			lcd_write_string("Game Over!",40,1,gs_p->LCDbuffer,temp);
+			lcd_push_buffer(gs_p->LCDbuffer);
 		}
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 		break;
@@ -198,18 +204,16 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 		case 1: //SINGLEPLAYER
 		case 2: //MULTIPLAYER
 			if(input == 'h') return 3;
-			else if(input == 0x1B){ //ESC
+			else if(input == 0x1B)
+			{ //ESC
 				gs_p->gameInitialized = 0;
-				//freeMallocEntities(gs_p);
 				return 0;
 			} else if(input == 'b' || input == 'B') return 4;
 			if(gs_p->player.HP <= 0) return 5;
 			break;
 		case 3: //HELP MENU
-			if(input == 'm'){
-				if(gs_p->gameInitialized){
-					//freeMallocEntities(gs_p);
-				}
+			if(input == 'm')
+			{
 				gs_p->gameInitialized = 0;
 				return 0;
 			} else if(input == 0x1B && gs_p->gameInitialized){ //ESC
@@ -225,12 +229,8 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 			break;
 		case 5: //GAME OVER
 			gameOverScreen(gs_p, input);
-			if(input == ' '){
-				gotoxy(1, 2);
-				printf("TEST1");
-				//freeMallocEntities(gs_p);
-				gotoxy(1, 3);
-				printf("TEST2");
+			if(input == ' ')
+			{
 				gs_p->gameInitialized = 0;
 				return 0;
 			}
@@ -239,16 +239,6 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 	}
 
 	return mode;
-}
-
-void freeMallocEntities(gameStruct_t * gs_p){
-	for(uint8_t i = 0; i < ENEMY_ARR_LENGTH; i++){
-		free(gs_p->enemMan.enemyArray[i]->entity);
-	}
-
-	for(int i = 0; i < BULLET_ARR_LENGTH; i++) {
-		free(gs_p->bulMan.bulletArray[i]->entity);
-	}
 }
 
 void runGame(gameStruct_t * gs_p, char input)
@@ -268,7 +258,7 @@ void runGame(gameStruct_t * gs_p, char input)
 			if(!(gs_p->cooldownCounter) && (input == ',' || input == '.')){
 				gs_p->cooldownCounter = 10;
 				setLED(0, 1, 0);
-				playerShoot(&(gs_p->player),&(gs_p->bulMan),&(gs_p->entHan),0,gs_p->player.crosshairY);
+				playerShoot(&(gs_p->player),&(gs_p->bulMan),&(gs_p->entHan),0,0);
 			}
 			break;
 		case 2:
@@ -294,7 +284,7 @@ void runGame(gameStruct_t * gs_p, char input)
 	//Create new entities
 	enemiesShoot(&(gs_p->bulMan),&(gs_p->entHan),&(gs_p->enemMan));
 	if(gs_p->spawnCounter == 20) {
-		spawnRandom(&(gs_p->enemMan),&(gs_p->entHan));
+		spawnRandom(&(gs_p->enemMan),&(gs_p->entHan),gs_p->playerNum == 2 ? 4 : 0);
 		gs_p->spawnCounter = 0;
 	}
 	incrementCounter(&(gs_p->spawnCounter), 1);

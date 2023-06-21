@@ -26,28 +26,20 @@ void updateEntities(entityHandler_t * ptr)
 
 	applyGravity(ptr);
 
-	for(i = 0; i < ENTITY_ARR_LEN; i++){
+	for(i = 0; i < ENTITY_ARR_LEN; i++)
+	{
 		if(ptr->entityArray[i]->isActive)
 		{
 			ptr->entityArray[i]->preX = getXint(&(ptr->entityArray[i]->pos));
 			ptr->entityArray[i]->preY = getYint(&(ptr->entityArray[i]->pos));
+
+			if(i == 0) //make sure player cant move outside the edges
+			{
+				if(withinBoundry(ptr->entityArray[0])) move(ptr->entityArray[0]);
+				continue;
+			}
 			move(ptr->entityArray[i]);
 			checkEntityPos(ptr->entityArray[i]);
-		}
-	}
-}
-
-//Overwrites the first inactive entity found in our entityArray with a new entity
-//where setActive = 1 and spriteIndex can be set.
-void pushEntity(entityHandler_t * ptr, entity_t * temp, uint8_t spriteIndex, uint8_t xPos, uint8_t yPos,uint8_t xVel, uint8_t yVel,uint8_t fixedVel,uint8_t height){
-	uint8_t i;
-	initEntity(temp, spriteIndex, xPos, yPos,xVel,yVel,fixedVel,height);
-	for(i = 0; i < ENTITY_ARR_LEN; i++){
-		if(ptr->entityArray[i]->isActive == 0){
-			temp->entityIndex = i;
-			ptr->entityArray[i] = temp;
-			//(*temp) = &(ptr->entityArray[i]); //comment this out because its not needed anymore (probably not anyway)
-			break;
 		}
 	}
 }
@@ -92,5 +84,11 @@ void applyGravity(entityHandler_t * ptr)
 			}
 		}
 	}
+}
+
+uint8_t withinBoundry(entity_t *ptr)
+{
+	if(getXint(&(ptr->pos))+getXint(&(ptr->vel)) > 76 || getXint(&(ptr->pos))+getXint(&(ptr->vel)) < 1 || getYint(&(ptr->pos))+getYint(&(ptr->vel)) < 1 || getYint(&(ptr->pos))+getYint(&(ptr->vel)) > 42) return 0;
+	else return 1;
 }
 

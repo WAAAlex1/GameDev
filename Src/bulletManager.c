@@ -68,8 +68,8 @@ void checkBulletCollision(bulletManager_t *bulletManager, entityHandler_t *entit
 						{
 							if(bulletManager->bulletArray[w]->entity->height >= entityHandler->entityArray[v]->height && bulletManager->bulletArray[w]->entity->height <= entityHandler->entityArray[v]->height + 2)
 							{
-
-								if(bulletManager->bulletArray[w]->friendly){
+								if(bulletManager->bulletArray[w]->friendly)
+								{
 									if(entityHandler->entityArray[v]->spriteIndex == 2) incrementScore(score, 2222);
 									else incrementScore(score, 1111);
 								}

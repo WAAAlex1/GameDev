@@ -19,7 +19,6 @@ typedef struct{
 	uint8_t height;
 	uint8_t spriteIndex;
 	uint8_t isActive;
-	uint8_t entityIndex;
 	uint8_t preX;
 	uint8_t preY;
 } entity_t;

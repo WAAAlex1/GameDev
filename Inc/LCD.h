@@ -19,7 +19,7 @@ void lcd_write_string(char s[], uint8_t slice, uint8_t line,uint8_t *LCDbuffer_p
 uint8_t lcd_update();
 void lcd_scrolling_text(uint8_t *LCDbuffer_p, uint8_t line, uint8_t *remainBytes_p,uint8_t right);
 void lcd_scroll_vertical(uint8_t slice1,uint8_t slice2,uint8_t *LCDbuffer_p, uint8_t *remainBytes_p, uint8_t up);
-void lcd_draw_sprite(uint8_t * LCDbuffer,int16_t slice, int16_t line, uint8_t type);
+void lcd_draw_sprite(uint8_t * LCDbuffer,int16_t slice, int16_t line, uint8_t type, uint8_t mirror);
 void lcd_draw_crosshair(uint8_t * LCDbuffer, uint8_t slice, uint8_t line);
 void lcd_clear_all(uint8_t * LCDbuffer,uint8_t byte);
 
