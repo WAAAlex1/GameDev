@@ -48,7 +48,7 @@ void initProgram(gameStruct_t * gs_p){
 	gs_p->cooldownCounter = 3;
 	initTimerStuff(); //Comment to debug
 	initController();
-	//srand( (unsigned)(lutSin(readPot1()) + lutCos(readPot2())) ); //comment to debug same seed
+	srand( (unsigned)(lutSin(readPot1()) + lutCos(readPot2())) ); //comment to debug same seed
 	initLCD();
 	lcd_clear_all(gs_p->LCDbuffer,0x00);
 	lcd_push_buffer(gs_p->LCDbuffer);
