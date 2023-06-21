@@ -14,5 +14,6 @@
 
 void initBuzz();
 void setFreq(uint16_t freq);
+void turnOffBuzz();
 
 #endif /* BUZZ_H_ */

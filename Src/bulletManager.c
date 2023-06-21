@@ -11,6 +11,7 @@
 #include "entityHandler.h"
 #include <stdlib.h>
 #include "scoreCalc.h"
+#include "buzz.h"
 #include "bulletManager.h"
 
 void initBulletManager(bulletManager_t *bulletManager, bullet_t *bulArr)
@@ -72,6 +73,7 @@ void checkBulletCollision(bulletManager_t *bulletManager, entityHandler_t *entit
 								{
 									if(entityHandler->entityArray[v]->spriteIndex == 2) incrementScore(score, 2222);
 									else incrementScore(score, 1111);
+									setFreq(100);
 								}
 								destroyEntity(bulletManager->bulletArray[w]->entity);
 								destroyEntity(entityHandler->entityArray[v]);

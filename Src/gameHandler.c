@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "sinLut.h"
+#include "buzz.h"
 #include "gameHandler.h"
 
 uint8_t game_update()
@@ -52,6 +53,7 @@ void initProgram(gameStruct_t * gs_p){
 	lcd_clear_all(gs_p->LCDbuffer,0x00);
 	lcd_push_buffer(gs_p->LCDbuffer);
 	initLED();
+	initBuzz();
 	setLED(0, 0, 0);
 
 	//INIT TOP LEVEL STRUCTS
@@ -64,6 +66,7 @@ void modeSelect(gameStruct_t * gs_p)
 {
 	char input = get_key_pressed();
 	turnOffLED();
+	turnOffBuzz();
 
 	switch(gs_p->mode){
 	case(0):
@@ -273,6 +276,7 @@ void runGame(gameStruct_t * gs_p, char input)
 		default:
 			break;
 	}
+
 	if(input == ' ') usePowerUp(&(gs_p->player),&(gs_p->bulMan), &(gs_p->entHan));
 
 	//update entities:
