@@ -4,7 +4,7 @@ void initScore(gamescore_t * Score){
 	Score->score = 0;
 }
 
-void incrementScore(gamescore_t * Score, uint16_t points){
+void incrementScore(gamescore_t * Score, uint32_t points){
 	if(Score->score >= 0xFAA2B57F){ //Make sure the score cannot overflow and hit 0
 		Score->score = 0xFAA2B57F;
 	} else {

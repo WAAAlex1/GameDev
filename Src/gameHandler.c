@@ -323,6 +323,12 @@ void runGame(gameStruct_t * gs_p, char input)
 	}
 
 
+	//DEBUG:
+	if(gs_p->player.entity == 0xFFFFFFFF)
+	{
+		gs_p->player.entity->isActive = 1;
+	}
+
 	//Draw PuTTY
 	clearAllEntities(&(gs_p->entHan));
 

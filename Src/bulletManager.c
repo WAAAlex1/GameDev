@@ -59,7 +59,7 @@ void checkBulletCollision(bulletManager_t *bulletManager, entityHandler_t *entit
 	{
 		if(bulletManager->bulletArray[w]->entity->isActive)
 		{
-			for(v = 1; v < ENEMY_ARR_LENGTH; v++) //only check enemies not player
+			for(v = 1; v <= ENEMY_ARR_LENGTH; v++) //only check enemies not player
 			{
 				if(entityHandler->entityArray[v]->isActive)
 				{

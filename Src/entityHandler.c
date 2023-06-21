@@ -77,7 +77,7 @@ void applyGravity(entityHandler_t * ptr)
 		{
 			for(j = 1; j <= ENEMY_ARR_LENGTH; j++) //access the enemy part of entityarray
 			{
-				if(ptr->entityArray[j]->spriteIndex >= 3 && ptr->entityArray[j]->spriteIndex <= 5)
+				if(ptr->entityArray[j]->isActive && (ptr->entityArray[j]->spriteIndex >= 3 && ptr->entityArray[j]->spriteIndex <= 5))
 				{
 					calculateGravity(ptr->entityArray[i], ptr->entityArray[j]);
 				}
