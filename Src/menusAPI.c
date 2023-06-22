@@ -80,43 +80,46 @@ void printScores(){
 }
 
 void drawMenuSprites(){
-	ui_draw_sprite(0, 15, 0, 12, 28);
-	ui_draw_sprite(1, 15, 0, 20, 28);
-	ui_draw_sprite(2, 15, 0, 28, 29);
-	ui_draw_sprite(3, 15, 0, 36, 30);
-	ui_draw_sprite(4, 15, 0, 43, 29);
-	ui_draw_sprite(5, 15, 0, 50, 28);
-	ui_draw_sprite(6, 15, 0, 61, 30);
-	ui_draw_sprite(7, 15, 0, 68, 30);
+	ui_draw_sprite(0, 15, 0, 12, 30);
+	ui_draw_sprite(1, 15, 0, 20, 30);
+	ui_draw_sprite(2, 15, 0, 28, 31);
+	ui_draw_sprite(3, 15, 0, 36, 32);
+	ui_draw_sprite(4, 15, 0, 43, 31);
+	ui_draw_sprite(5, 15, 0, 50, 30);
+	ui_draw_sprite(6, 15, 0, 61, 32);
+	ui_draw_sprite(7, 15, 0, 68, 32);
 
 	color(15, 0);
-	gotoxy(74, 29);
+	gotoxy(74, 32);
 	inverse(1);
-	printf(" Sprites ");
+	printf(" Entities ");
 	inverse(0);
 
-	gotoxy(10, 32);
+	gotoxy(10, 28);
+	printf("%c%c%c%c%cPlayer%c%c%c%c%c%c", 0xDA, 0xC4, 0xC4, 0xC4, 0xC4, 0xC4, 0xC4, 0xC4, 0xC4, 0xC4, 0xBF);
+
+	gotoxy(10, 34);
 	printf("Gun left");
 
-	gotoxy(18, 33);
+	gotoxy(18, 35);
 	printf("Gun right");
 
-	gotoxy(26, 32);
+	gotoxy(26, 34);
 	printf(" Enemy");
 
-	gotoxy(34, 33);
+	gotoxy(34, 35);
 	printf("S asteroid");
 
-	gotoxy(42, 32);
+	gotoxy(42, 34);
 	printf("M asteroid");
 
-	gotoxy(50, 33);
+	gotoxy(50, 35);
 	printf("L asteroid");
 
-	gotoxy(58, 32);
+	gotoxy(58, 34);
 	printf("Bullet");
 
-	gotoxy(66, 33);
+	gotoxy(66, 35);
 	printf("Mega bullet");
 }
 

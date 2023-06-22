@@ -97,136 +97,54 @@ void inverse(uint8_t on){
 	}
 }
 
-void window(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, char title[], uint8_t style){
-	if(style == 1)
+void window(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, char title[]){
+	//Top left corner
+	gotoxy(x1,y1);
+	printf("%c",201);
+	//Top right corner
+	gotoxy(x2,y1);
+	printf("%c",187);
+	//Bottom right corner
+	gotoxy(x2,y2);
+	printf("%c",188);
+	//Bottom left corner
+	gotoxy(x1,y2);
+	printf("%c",200);
+
+	// Borders for title:
+	gotoxy(x1+1,y1);
+	printf("%c",185);
+
+
+	char windowTekst[] = " ";
+	strcat(windowTekst, title);
+	strcat(windowTekst, " ");
+
+	inverse(1);
+	for(int i = 0; i < x2-x1-2; i++)
 	{
-		//Top left corner
-		gotoxy(x1,y1);
-		printf("%c",201);
-		//Top right corner
-		gotoxy(x2,y1);
-		printf("%c",187);
-		//Bottom right corner
-		gotoxy(x2,y2);
-		printf("%c",188);
-		//Bottom left corner
-		gotoxy(x1,y2);
-		printf("%c",200);
-
-		// Borders for title:
-		gotoxy(x1+1,y1);
-		printf("%c",185);
-
-
-		char windowTekst[] = " Window ";
-		strcat(windowTekst, title);
-		strcat(windowTekst, " ");
-
-		inverse(1);
-		for(int i = 0; i < x2-x1-2; i++)
-		{
-			gotoxy(x1+2+i,y1);
-			if(i < strlen(windowTekst)){
-				printf("%c",windowTekst[i]);
-			}
-			else if(i == strlen(windowTekst)){
-				inverse(0);
-				printf("%c",204);
-			}
-			else{
-				printf("%c",205);
-			}
+		gotoxy(x1+2+i,y1);
+		if(i < strlen(windowTekst)){
+			printf("%c",windowTekst[i]);
 		}
-		inverse(0);
-		for(int i = x1+1; i < x2; i++){
-			gotoxy(i,y2);
+		else if(i == strlen(windowTekst)){
+			inverse(0);
+			printf("%c",204);
+		}
+		else{
 			printf("%c",205);
-		}
-		for(int i = y1+1; i < y2; i++){
-			gotoxy(x1,i);
-			printf("%c",186);
-			gotoxy(x2,i);
-			printf("%c",186);
 		}
 	}
-	else if(style == 2)
-	{
-		//Top left corner
-		gotoxy(x1,y1);
-		printf("%c",218);
-		//Top right corner
-		gotoxy(x2,y1);
-		printf("%c",191);
-		//Bottom right corner
-		gotoxy(x2,y2);
-		printf("%c",217);
-		//Bottom left corner
-		gotoxy(x1,y2);
-		printf("%c",192);
-
-		//Borders for title:
-		gotoxy(x1+1,y1);
-		printf("%c",180);
-		gotoxy(x2-1,y1);
-		printf("%c",195	);
-
-		char windowTekst[] = " Window ";
-		strcat(windowTekst, title);
-		strcat(windowTekst, " ");
-
-		inverse(1);
-		for(int i = 0; i < x2-x1-3; i++)
-		{
-			gotoxy(x1+2+i,y1);
-			if(i < strlen(windowTekst)){
-				printf("%c",windowTekst[i]);
-			}
-			else{
-				printf(" ");
-			}
-		}
-		inverse(0);
-		for(int i = x1+1; i < x2; i++){
-			gotoxy(i,y2);
-			printf("%c",196);
-		}
-		for(int i = y1+1; i < y2; i++){
-			gotoxy(x1,i);
-			printf("%c",179);
-			gotoxy(x2,i);
-			printf("%c",179);
-		}
+	inverse(0);
+	for(int i = x1+1; i < x2; i++){
+		gotoxy(i,y2);
+		printf("%c",205);
 	}
-	else if(style == 3)
-	{
-		//Top left corner
-		gotoxy(x1,y1);
-		printf("%c",201);
-		//Top right corner
-		gotoxy(x2,y1);
-		printf("%c",187);
-		//Bottom right corner
-		gotoxy(x2,y2);
-		printf("%c",188);
-		//Bottom left corner
-		gotoxy(x1,y2);
-		printf("%c",200);
-
-		for(int i = x1+1; i < x2; i++)
-		{
-			gotoxy(i,y2);
-			printf("%c",205);
-			gotoxy(i,y1);
-			printf("%c",205);
-		}
-
-		for(int i = y1+1; i < y2; i++)
-		{
-			gotoxy(x1,i);
-			printf("%c",186);
-			gotoxy(x2,i);
-			printf("%c",186);
-		}
+	for(int i = y1+1; i < y2; i++){
+		gotoxy(x1,i);
+		printf("%c",186);
+		gotoxy(x2,i);
+		printf("%c",186);
 	}
 }
 
