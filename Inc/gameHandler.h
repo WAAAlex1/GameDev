@@ -31,7 +31,7 @@ typedef struct{
 	uint8_t tickCounter;
 	uint8_t spawnCounter;
 	uint8_t cooldownCounter;
-	int32_t gameSpeed; //goes from 0 to 15 over a long lasting game
+	uint8_t gameSpeed; //goes from 0 to 15 over a long lasting game
 	uint32_t ticks; //counts number of ticks since game launch
 
 	uint8_t mode;
