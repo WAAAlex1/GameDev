@@ -10,7 +10,7 @@
 
 #include "scoreCalc.h"
 
-void initGameUI();
+void initGameUI(player_t *player);
 void updateGameUI(player_t *player, gamescore_t *score);
 void showPlayerHealth(player_t *player);
 void showPlayerPowerUp(player_t *player);
