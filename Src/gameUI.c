@@ -12,7 +12,7 @@
 #include "scoreCalc.h"
 #include "gameUI.h"
 
-void initGameUI(){
+void initGameUI(player_t *player){
 	color(15, 7);
 
 	for(uint8_t i = 1; i <= 46; i++){
@@ -24,8 +24,10 @@ void initGameUI(){
 	color(0, 7);
 	gotoxy(90, 2);
 	printf("HP");
+	showPlayerHealth(player);
 
 	//POWERUP
+	color(0, 7);
 	gotoxy(88, 15);
 	printf("POWER");
 	gotoxy(88, 20);

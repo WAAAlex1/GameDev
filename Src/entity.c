@@ -227,14 +227,16 @@ uint8_t detectEntityCollision(entity_t * obj1, entity_t * obj2)
 			minY2 = 3 << 13; //1.5
 			break;
 		case(6): //1x1
-			minX1 = 1 << 13; //0.5
-			minY1 = 1 << 13; //0.5
+			minX2 = 1 << 13; //0.5
+			minY2 = 1 << 13; //0.5
 			break;
 		default:
 			return 0;
 	}
 
-	if(absolute(x2_C - x1_C) <= minX1+minX2 && absolute(y2_C - y1_C) <= minY1+minY2) return 1;
+	if(absolute(x2_C - x1_C) <= minX1+minX2 && absolute(y2_C - y1_C) <= minY1+minY2) {
+		return 1;
+	}
 	else return 0;
 }
 

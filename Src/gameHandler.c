@@ -87,7 +87,7 @@ void modeSelect(gameStruct_t * gs_p)
 			setLED(0, 0, 0);
 			color(15, 0);
 			clrscr();
-			initGameUI();
+			initGameUI(&(gs_p->player));
 			gs_p->prevMode = gs_p->mode;
 			gs_p->playerNum = gs_p->mode;
 		}
@@ -103,7 +103,7 @@ void modeSelect(gameStruct_t * gs_p)
 			setLED(0, 0, 0);
 			color(15, 0);
 			clrscr();
-			initGameUI();
+			initGameUI(&(gs_p->player));
 			gs_p->prevMode = gs_p->mode;
 			gs_p->playerNum = gs_p->mode;
 		}
