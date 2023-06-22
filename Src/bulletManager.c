@@ -14,6 +14,10 @@
 #include "buzz.h"
 #include "bulletManager.h"
 
+/*
+ * use malloc to allocate space for initial entity references.
+ * This only happens once on startup of program so it shouldnt be a problem that we dont free it
+ */
 void initBulletManager(bulletManager_t *bulletManager, bullet_t *bulArr)
 {
 	for(int i = 0; i < BULLET_ARR_LENGTH; i++)
@@ -25,6 +29,10 @@ void initBulletManager(bulletManager_t *bulletManager, bullet_t *bulArr)
 
 }
 
+/*
+ * instantiates a bullet by finding a nonactive entity in the bullet indexes and
+ * using that entity with a nonactive bullet that it finds to make the new bullet
+ */
 void spawnBullet(bulletManager_t *bulletManager,entityHandler_t *entHan,int16_t xPos, int16_t yPos,int32_t xVel,int32_t yVel,uint8_t fixedVel,uint8_t bulletType, uint8_t height, uint8_t friendly)
 {
 	for(uint8_t i = BULLET_ARR_LENGTH; i < ENTITY_ARR_LEN; i++)
@@ -77,9 +85,13 @@ void checkBulletCollision(bulletManager_t *bulletManager, entityHandler_t *entit
 								{
 									incrementScore(score, 1111);
 								}
-								setFreq(100);
+								setFreq(100); //buzzer noise
+
+								//give powerup
 								if(entityHandler->entityArray[v]->powerType) *playerPowerUp = entityHandler->entityArray[v]->powerType;
 							}
+
+							//mega bullets pierce (they dont destroy themselves)
 							if(bulletManager->bulletArray[w]->type == 0) destroyEntity(bulletManager->bulletArray[w]->entity);
 							destroyEntity(entityHandler->entityArray[v]);
 						}

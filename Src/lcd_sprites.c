@@ -8,9 +8,8 @@
 
 #include "lcdSprites.h"
 
-/* 0xF0 vil tegne en streg der er tom i de top 4 bits og fuld i de nederste 4. Det nederste er altså MSB
- *
- * Lav 4x4 færdig og lav også 1x1 og 1/2 * 1/2. Måske 1/4 * 1/4
+/*
+ * This is sprites for the LCD. The bytes represent vertical strips in the LCD
 */
 const uint8_t lcd_sprites[14][4][40] = {
 		{ // 1/4 x 1/4 Asteroid

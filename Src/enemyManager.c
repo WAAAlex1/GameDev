@@ -11,6 +11,10 @@
 #include "enemyManager.h"
 #include "bulletManager.h"
 
+/*
+ * use malloc to allocate space for initial entity references.
+ * This only happens once on startup of program so it shouldnt be a problem that we dont free it
+ */
 void initEnemyManager(enemyManager_t *enemyManager,enemy_t *enemArr)
 {
 	for(uint8_t i = 0; i < ENEMY_ARR_LENGTH; i++)
@@ -21,6 +25,10 @@ void initEnemyManager(enemyManager_t *enemyManager,enemy_t *enemArr)
 	}
 }
 
+/*
+ * instantiates an enemy by finding a nonactive entity in the enemy indexes and
+ * using that entity with a nonactive enemy that it finds to make the new enemy
+ */
 void spawnEnemy(enemyManager_t *enemyManager,entityHandler_t *entHan, uint8_t xPos, int16_t yPos,int32_t xVel, int32_t yVel,uint8_t enemyType, uint8_t height, uint8_t fixedVel, uint8_t powerType)
 {
 	for(uint8_t i = 1; i <= ENEMY_ARR_LENGTH; i++)
@@ -53,7 +61,9 @@ void spawnRandom(enemyManager_t * enemMan, entityHandler_t * entHan, uint8_t max
 	spawnEnemy(enemMan,entHan,getRandomInterval(0,80),-2,0,fixedSpeed,getRandomInterval(0,4),getRandomInterval(0, maxHeight+1),1,powerType);
 }
 
-
+/*
+ * every active enemy spaceship attemps to shoot
+ */
 void enemiesShoot(bulletManager_t *bulMan, entityHandler_t *entHan, enemyManager_t *enemMan, int32_t bulletSpeed)
 {
 	for(int i = 0; i < ENEMY_ARR_LENGTH;i++)

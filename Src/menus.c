@@ -147,7 +147,7 @@ void bossScreen(){
 	printf("Technical Information:");
 
 	gotoxy(5, 42);
-	printf("*** STOP: 0x5448414E (0x4B594F55, 0x464F5250, 0x4C415949, 0x4E473A29)");
+	printf("*** STOP: 0x5448414E (0x4B594F55, 0x464F5250, 0x4C415949, 0x4E473A29)"); //Easter egg
 }
 
 void initGameOverScreen(gameStruct_t * gs_p){

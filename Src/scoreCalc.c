@@ -5,7 +5,7 @@ void initScore(gamescore_t * Score){
 }
 
 void incrementScore(gamescore_t * Score, uint32_t points){
-	if(Score->score >= 0xFAA2B57F){ //Make sure the score cannot overflow and hit 0
+	if(Score->score >= 0xFAA2B57F){ //Make sure the score cannot overflow and hit 0 (optimistic to hit this score)
 		Score->score = 0xFAA2B57F;
 	} else {
 		Score->score += points;

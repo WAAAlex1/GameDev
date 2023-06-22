@@ -46,7 +46,7 @@ void initProgram(gameStruct_t * gs_p){
 	gs_p->gameInitialized = 0;
 	gs_p->playerNum = 0;
 	gs_p->cooldownCounter = 3;
-	initTimerStuff();
+	initTimer();
 	initController();
 	srand( (unsigned)(lutSin(readPot1()) + lutCos(readPot2())) ); //comment to debug same seed
 	initLCD();
@@ -144,10 +144,7 @@ void modeSelect(gameStruct_t * gs_p)
 			uart_clear();
 			initGameOverScreen(gs_p);
 			gs_p->prevMode = gs_p->mode;
-			lcd_clear_all(gs_p->LCDbuffer,0x00);
-			uint8_t temp[512];
-			lcd_write_string("Game Over!",40,1,gs_p->LCDbuffer,temp);
-			lcd_push_buffer(gs_p->LCDbuffer);
+			lcd_game_over(gs_p->LCDbuffer);
 		}
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 		break;
@@ -179,29 +176,6 @@ void initializeGame(gameStruct_t * gs_p){
 		gs_p->entityArray[i].isActive = 0;
 	}
 
-}
-
-void clearGame(gameStruct_t * gs_p){
-	if(gs_p->playerNum == 2) lcd_clear_all(gs_p->LCDbuffer,0x00);
-	clearAllEntities(&(gs_p->entHan));
-	clearPlayer(&(gs_p->player));
-}
-
-void updateGameFromInputs(gameStruct_t * gs_p, char input){
-	updatePlayerVel(&(gs_p->player), input);
-	if(gs_p->playerNum == 2) updateCrosshair(&(gs_p->player),readJoystick());
-	updateEntities(&(gs_p->entHan));
-}
-
-void drawGame(gameStruct_t * gs_p){
-	//LCD
-	if(gs_p->playerNum == 2){
-		con_draw_putty_to_lcd(&(gs_p->enemMan),&(gs_p->player),gs_p->LCDbuffer);
-		lcd_push_buffer(gs_p->LCDbuffer);
-	}
-	//Putty
-	drawAllEntities(&(gs_p->entHan));
-	drawPlayer(&(gs_p->player));
 }
 
 uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){

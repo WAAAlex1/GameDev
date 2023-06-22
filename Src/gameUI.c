@@ -12,6 +12,7 @@
 #include "scoreCalc.h"
 #include "gameUI.h"
 
+//called when the screen changes to the game
 void initGameUI(player_t *player, uint8_t gameLevel)
 {
 	color(15, 7);
@@ -59,6 +60,7 @@ void initGameUI(player_t *player, uint8_t gameLevel)
 	printf("'h' - Help menu");
 }
 
+//updates the part of the UI that changed
 void updateGameUI(player_t *player, gamescore_t *score,uint8_t gameLevel)
 {
 	static uint8_t prevHealth = 0;

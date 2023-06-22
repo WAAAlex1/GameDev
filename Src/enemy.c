@@ -22,7 +22,7 @@ void initEnemy(entity_t * entity, enemy_t * enemy, uint8_t type)
 
 void enemyShoot(bulletManager_t *bulletManager,entityHandler_t *entHan,enemy_t * enemy,int32_t bulletSpeed)
 {
-	if(getRandomInterval(0,100) >= 98)
+	if(getRandomInterval(0,100) >= 98) //2% chance at shooting each tick
 	{
 		spawnBullet(bulletManager, entHan, getXint(&(enemy->entity->pos))+1, getYint(&(enemy->entity->pos))+4,0,bulletSpeed,1,0,enemy->entity->height, 0);
 	}

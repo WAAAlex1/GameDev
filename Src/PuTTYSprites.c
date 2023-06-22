@@ -15,6 +15,7 @@
  *
 */
 
+//we use 0x3F as 'blank'
 const char spriteArray[8][6][7] = {
 
 		//0 PLAYER WITH LEFT GUN (4x4)
@@ -79,6 +80,7 @@ const char spriteArray[8][6][7] = {
 void ui_draw_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t y){
 	uint8_t i,j,subX,subY;
 
+	//optimizes by ignoring the blank space of smaller sprites
 	switch(index){
 	case(0):
 		subX = 3;
@@ -118,9 +120,11 @@ void ui_draw_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t 
 	for(i = 0; i <= 5-subY; i++){
 		for(j = 0; j <= 6-subX; j++){
 			color(FGC, BGC);
-			if(spriteArray[index][i][j] == 0xBE){color(11,0);}
+			if(spriteArray[index][i][j] == 0xBE){color(11,0);} //thruster colors
 			if(spriteArray[index][i][j] == 0xCF){color(1,0);}
-			if(x+j > 0 && x+j < 81 && y+i > 0 && y+i < 47){
+			if(x+j > 0 && x+j < 81 && y+i > 0 && y+i < 47)
+			{
+				//doesn't draw blank spots
 				spriteArray[index][i][j] == 0x3F ? moveCursorX(1,1) : printf("%c", spriteArray[index][i][j]);
 			} else {
 				moveCursorX(1,1);
@@ -131,6 +135,7 @@ void ui_draw_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t 
 	}
 }
 
+//almost same as draw sprite
 void ui_clear_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t y){
 	uint8_t i, j, subX, subY;
 	switch(index){
@@ -183,6 +188,7 @@ void ui_clear_sprite(uint8_t index, uint8_t FGC, uint8_t BGC, uint8_t x, uint8_t
 	}
 }
 
+//x coordinate for the char infront of the player gun
 int16_t offsetBulletCoordX(player_t *player)
 {
 	if(player->gunSide == 1){
@@ -192,6 +198,7 @@ int16_t offsetBulletCoordX(player_t *player)
 	}
 }
 
+//x coordinate to start the cone
 int16_t offsetBulletCoordXCone(player_t *player)
 {
 	if(player->gunSide == 1){
@@ -201,6 +208,7 @@ int16_t offsetBulletCoordXCone(player_t *player)
 	}
 }
 
+//y coordinate for the char infront of the player gun
 int16_t offsetBulletCoordY(player_t *player)
 {
 	return getYint(&(player->entity->pos)) + 1;

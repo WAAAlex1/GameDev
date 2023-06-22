@@ -35,7 +35,6 @@ void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, int16_t yPos,
 void destroyEntity(entity_t * ptr);
 void clearEntity(entity_t * ptr);
 void drawEntity(entity_t * ptr, uint8_t powerType);
-void setSpriteIndex(entity_t * ptr, uint8_t index);
 void calculateGravity(entity_t * bullet, entity_t * solidObj);
 uint8_t detectEntityCollision(entity_t * player, entity_t * obj2);
 void checkEntityPos(entity_t * ptr);

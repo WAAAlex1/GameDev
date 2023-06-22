@@ -17,7 +17,6 @@
 
 #define CONE_VIEW_WIDTH 32
 #define CONE_VIEW_LENGTH 40
-#define CONE_VIEW_ANGLE 44
 
 /*
  * Returns the fixed point 18.14 y coordinate for the unitvector in the direction given by the LCD slice
@@ -103,14 +102,17 @@ int16_t con_posToSlice(uint8_t playerX, uint8_t playerY, uint8_t entX, uint8_t e
 	int16_t temp = ((CONE_VIEW_WIDTH * (absolute(playerX - entX))) / (2*CONE_VIEW_LENGTH));
 	int16_t coneY =  (temp == 0 ? 1 : temp); //to avoid div by zero
 
-	//try without -2/+2 on the coneY's
+	//padding on the coneY value allows enemies to be drawn on the edge of the LCD
 	return mapInterval(-coneY-2,coneY+2,(gunside < 0 ? -(256/coneY) : (128)+(256/coneY)),(gunside < 0 ? (128)+(256/coneY) : -(256/coneY)),(entY-playerY));
-	//return mapInterval(-coneY,coneY,(gunside < 0 ? 0 : 127),(gunside < 0 ? 127 : 0),(entY-playerY));
 	/*-2 on minOld to allow ships slightly outside to be drawn smoothly in
 	 * same reason for -256/coneY and the same for the max
 	*/
 }
 
+
+/*
+ * Translates an enemy from putty space to LCD space. The enemy is drawn on the LCD if its inside the defined cone
+ */
 void con_draw_putty_to_lcd(enemyManager_t *enemMan, player_t *player,uint8_t * LCDbuffer)
 {
 	for(int i = 0; i < ENEMY_ARR_LENGTH; i++)
@@ -119,6 +121,7 @@ void con_draw_putty_to_lcd(enemyManager_t *enemMan, player_t *player,uint8_t * L
 		{
 			if(con_inCone(offsetBulletCoordXCone(player),offsetBulletCoordY(player),centeredXPOS(enemMan->enemyArray[i]->entity) >> 14,getYint(&(enemMan->enemyArray[i]->entity->pos))+2,player->gunSide))
 			{
+				//Perhaps this should be split into more lines
 				lcd_draw_sprite(LCDbuffer,con_posToSlice(offsetBulletCoordXCone(player),offsetBulletCoordY(player),centeredXPOS(enemMan->enemyArray[i]->entity) >> 14,getYint(&(enemMan->enemyArray[i]->entity->pos))+2,player->gunSide),enemMan->enemyArray[i]->entity->height,(enemMan->enemyArray[i]->type ? enemMan->enemyArray[i]->type : 10)+1+con_getDistanceX(offsetBulletCoordXCone(player),centeredXPOS(enemMan->enemyArray[i]->entity) >> 14),player->gunSide == 1 ? 1 : 0);
 			}
 		}

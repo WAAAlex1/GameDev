@@ -74,6 +74,7 @@ uint16_t readPot2(){
 	return ADC_GetConversionValue(ADC1); // Read the ADC value
 }
 
+//used for debugging
 void potsToString(char array[]){
 	sprintf(array, "Pot1: %04hd | Pot2: %04hd\n", readPot1(), readPot2());
 }

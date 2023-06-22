@@ -37,7 +37,7 @@ void setFreq(uint16_t freq) {
 	uint32_t reload;
 
 	if(!freq){
-		reload = 64e6;
+		reload = 64e6; //64*10^6
 	} else {
 		reload = ((64e6 / freq) / (2000 + 1)) - 1;
 	}

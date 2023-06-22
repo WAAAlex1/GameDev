@@ -2,9 +2,6 @@
 #include "util.h"
 #include "entity.h"
 
-// API - generic functions for manipulating and controlling our entity_t struct.
-
-
 //moves a given entity by its velocity. (both in fixed point so easy to add).
 void move(entity_t * ptr){
 	ptr->pos.x += ptr->vel.x;
@@ -16,9 +13,7 @@ void updateVel(entity_t * ptr, int8_t x, int8_t y){
 	updateVectorInt(&(ptr->vel),x,y);
 }
 
-// MAINLY USED FOR INIT: --------------------------------------------------
-
-//function to initialize the values of an entity struct and set its spriteindex.
+//function to initialize the values of an entity struct
 void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, int16_t yPos,int32_t xVel,int32_t yVel, uint8_t fixedVel, uint8_t height,uint8_t powerType){
 	setEntityPos(ptr,xPos,yPos);
 	if(fixedVel)
@@ -29,8 +24,8 @@ void initEntity(entity_t * ptr, uint8_t spriteIndex, uint8_t xPos, int16_t yPos,
 	{
 		setEntityVel(ptr,xVel,yVel);
 	}
-	setSpriteIndex(ptr, spriteIndex);
-	if(height >= 0 && height <= 3) ptr->height = height;
+	ptr->height = capInterval(height,0,3);
+	ptr->spriteIndex = capInterval(spriteIndex,0,7);
 	ptr->isActive = 0;
 	ptr->preX = getXint(&(ptr->pos));
 	ptr->preY = getYint(&(ptr->pos));
@@ -52,14 +47,6 @@ void setEntityPos(entity_t * ptr, int16_t x, int16_t y)
 	setVectorInt(&(ptr->pos),x,y);
 }
 
-//function for setting an entity's spriteindex to a passed value.
-void setSpriteIndex(entity_t * ptr, uint8_t index){
-	if(index >= 0 && index <= 7){ptr->spriteIndex = index;}
-}
-
-//-------------------------------------------------------------------------
-
-
 //function to "destroy" an entity by setting it inactive.
 void destroyEntity(entity_t * ptr)
 {
@@ -67,6 +54,7 @@ void destroyEntity(entity_t * ptr)
 	ptr->isActive = 0;
 }
 
+//draws the entity in PuTTY
 void drawEntity(entity_t * ptr, uint8_t powerType)
 {
 	uint8_t color = 15;
@@ -86,6 +74,7 @@ void drawEntity(entity_t * ptr, uint8_t powerType)
 	ui_draw_sprite(ptr->spriteIndex, color, 0, getXint(&(ptr->pos)), getYint(&(ptr->pos)));
 }
 
+//Clears the exact PuTTY chars that make up the entity
 void clearEntity(entity_t * ptr)
 {
 	ui_clear_sprite(ptr->spriteIndex, 15, 0, ptr->preX, ptr->preY);
@@ -126,9 +115,9 @@ void calculateGravity(entity_t * bullet, entity_t * solidObj){
 	if(x1 == x2 && y1 == y2) return;
 
 	dist = getManDistance(x1>>14, y1>>14, x2>>14, y2>>14); //int dist
-	if(dist > 20) return;
-	dist = (dist < 2 ? 2 : dist);
-	// SKALER DELTAX OG DELTAY med konstant/dist^2
+	if(dist > 20) return; //max range = 20
+	dist = (dist < 2 ? 2 : dist); //shouldnt be able to get too close
+
 	deltaX = ((norm(x2-x1)<<14) * ( ((G*massObj) << 28) / (dist*dist << 14) )) >> 14;
 	deltaY = ((norm(y2-y1)<<14) * ( ((G*massObj) << 28) / (dist*dist << 14) )) >> 14;
 
@@ -137,6 +126,7 @@ void calculateGravity(entity_t * bullet, entity_t * solidObj){
 	bullet->vel.y += deltaY;
 }
 
+//Returns the x coordinate for the center of the entities sprite
 int32_t centeredXPOS(entity_t * ptr)
 {
 	switch(ptr->spriteIndex)
@@ -160,6 +150,7 @@ int32_t centeredXPOS(entity_t * ptr)
 	}
 }
 
+//Returns the y coordinate for the center of the entities sprite
 int32_t centeredYPOS(entity_t * ptr)
 {
 	switch(ptr->spriteIndex)
@@ -181,14 +172,16 @@ int32_t centeredYPOS(entity_t * ptr)
 	}
 }
 
-
+/*
+ *
+ */
 uint8_t detectEntityCollision(entity_t * obj1, entity_t * obj2)
 {
 	int32_t x1_C = centeredXPOS(obj1);
 	int32_t y1_C = centeredYPOS(obj1);
 	int32_t x2_C = centeredXPOS(obj2);
 	int32_t y2_C = centeredYPOS(obj2);
-	int32_t minX1, minY1, minX2, minY2;
+	int32_t minX1, minY1, minX2, minY2; //radius
 
 	//switch statement to set minX1 and minY1 values
 	switch(obj1->spriteIndex){
@@ -234,12 +227,14 @@ uint8_t detectEntityCollision(entity_t * obj1, entity_t * obj2)
 			return 0;
 	}
 
+	//if the peripherys collide
 	if(absolute(x2_C - x1_C) <= minX1+minX2 && absolute(y2_C - y1_C) <= minY1+minY2) {
 		return 1;
 	}
 	else return 0;
 }
 
+//Destroys entities out of bounds
 void checkEntityPos(entity_t * ptr){
 	int32_t x = ptr->pos.x >> 14;
 	int32_t y = ptr->pos.y >> 14;

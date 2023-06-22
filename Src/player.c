@@ -80,7 +80,6 @@ void drawPlayer(player_t *player)
 	}
 }
 
-
 void clearPlayer(player_t *player)
 {
 	if(player->gunSide == 1)
@@ -95,8 +94,6 @@ void isAlive(player_t * player){
 	if(player->HP < 1) player->entity->isActive = 0;
 }
 
-//function to deal damage to an entity
-//can also be used to "heal" an entity
 void damagePlayer(player_t *ptr, int8_t x){
 	ptr->HP -= x;
 	ptr->HP = ptr->HP > 0 ? ptr->HP : 0;
@@ -128,6 +125,9 @@ void updatePlayerVel(player_t *player, char input){
 	}
 }
 
+/*
+ * uses PuttyLCDConverter functions to get the direction of the crosshair on the LCD converted to putty then spawns bullet
+ */
 void playerShoot(player_t *ptr, bulletManager_t *bulletManager,entityHandler_t *entHan, uint8_t bulletType, uint8_t height)
 {
 	spawnBullet(bulletManager,entHan,offsetBulletCoordX(ptr),offsetBulletCoordY(ptr),con_getVecX(ptr->gunSide),con_getVecY(ptr->crosshairX,ptr->gunSide),1,0,ptr->crosshairY, 1);

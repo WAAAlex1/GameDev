@@ -79,6 +79,7 @@ void printScores(){
 	free(highName4);
 }
 
+//for the help screen
 void drawMenuSprites(){
 	ui_draw_sprite(0, 15, 0, 12, 30);
 	ui_draw_sprite(1, 15, 0, 20, 30);
