@@ -50,7 +50,7 @@ void spawnRandom(enemyManager_t * enemMan, entityHandler_t * entHan, uint8_t max
 {
 	//10% chance for a powerup that can be 1 of 3 different types
 	uint8_t powerType = (getRandomInterval(0,10) == 0 ? getRandomInterval(1,4) : 0);
-	spawnEnemy(enemMan,entHan,getRandomInterval(0,72),-2,0,fixedSpeed,getRandomInterval(0,4),getRandomInterval(0, maxHeight+1),1,powerType);
+	spawnEnemy(enemMan,entHan,getRandomInterval(0,80),-2,0,fixedSpeed,getRandomInterval(0,4),getRandomInterval(0, maxHeight+1),1,powerType);
 }
 
 

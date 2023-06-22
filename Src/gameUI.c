@@ -33,6 +33,7 @@ void initGameUI(player_t *player, uint8_t gameLevel)
 	gotoxy(88, 26);
 	printf("LEVEL");
 	showGameLevel(gameLevel);
+	printf("/15");
 
 	//POWERUP
 	color(0, 7);
