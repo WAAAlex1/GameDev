@@ -1,5 +1,5 @@
 #include "LCD.h"
-#include "joystick.h"
+#include "LED.h"
 
 void initLED(){
 	RCC->AHBENR |= RCC_AHBPeriph_GPIOA; // Enable clock for GPIO Port A

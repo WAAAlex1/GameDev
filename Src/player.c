@@ -144,7 +144,7 @@ void checkPlayerCollision(player_t * ptr, entityHandler_t * array)
 		{
 			if(detectEntityCollision(ptr->entity, array->entityArray[v]))
 			{
-				(ptr->HP)--;
+				damagePlayer(ptr,1);
 				destroyEntity(array->entityArray[v]);
 			}
 		}
