@@ -108,7 +108,7 @@ void newMode(gameStruct_t * gs_p){
 		break;
 	case(5): // GAME OVER
 		initGameOverScreen(gs_p);
-		lcd_game_over(gs_p->LCDbuffer);
+		//lcd_game_over(gs_p->LCDbuffer);
 		break;
 	default:
 		break;
