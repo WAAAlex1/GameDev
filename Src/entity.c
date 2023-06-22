@@ -227,8 +227,8 @@ uint8_t detectEntityCollision(entity_t * obj1, entity_t * obj2)
 			minY2 = 3 << 13; //1.5
 			break;
 		case(6): //1x1
-			minX1 = 1 << 13; //0.5
-			minY1 = 1 << 13; //0.5
+			minX2 = 1 << 13; //0.5
+			minY2 = 1 << 13; //0.5
 			break;
 		default:
 			return 0;
