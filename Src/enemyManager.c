@@ -46,21 +46,21 @@ void spawnEnemy(enemyManager_t *enemyManager,entityHandler_t *entHan, uint8_t xP
 }
 
 
-void spawnRandom(enemyManager_t * enemMan, entityHandler_t * entHan, uint8_t maxHeight)
+void spawnRandom(enemyManager_t * enemMan, entityHandler_t * entHan, uint8_t maxHeight, int32_t fixedSpeed)
 {
 	//10% chance for a powerup that can be 1 of 3 different types
 	uint8_t powerType = (getRandomInterval(0,10) == 0 ? getRandomInterval(1,4) : 0);
-	spawnEnemy(enemMan,entHan,getRandomInterval(0,70),-2,0,1 << 12,getRandomInterval(0,4),getRandomInterval(0, maxHeight+1),1,powerType);
+	spawnEnemy(enemMan,entHan,getRandomInterval(0,72),-2,0,fixedSpeed,getRandomInterval(0,4),getRandomInterval(0, maxHeight+1),1,powerType);
 }
 
 
-void enemiesShoot(bulletManager_t *bulMan, entityHandler_t *entHan, enemyManager_t *enemMan)
+void enemiesShoot(bulletManager_t *bulMan, entityHandler_t *entHan, enemyManager_t *enemMan, int32_t bulletSpeed)
 {
 	for(int i = 0; i < ENEMY_ARR_LENGTH;i++)
 	{
 		if(enemMan->enemyArray[i]->entity->isActive && enemMan->enemyArray[i]->type == 0) //only active spaceships
 		{
-			enemyShoot(bulMan,entHan,enemMan->enemyArray[i]);
+			enemyShoot(bulMan,entHan,enemMan->enemyArray[i],bulletSpeed);
 		}
 	}
 }
