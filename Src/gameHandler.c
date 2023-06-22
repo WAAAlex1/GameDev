@@ -80,7 +80,6 @@ void modeSelect(gameStruct_t * gs_p)
 			initMainMenu();
 			gs_p->prevMode = gs_p->mode;
 		}
-		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 		break;
 	case(1): //Singleplayer
 		if(gs_p->gameInitialized == 0) initializeGame(gs_p);
@@ -93,11 +92,10 @@ void modeSelect(gameStruct_t * gs_p)
 			gs_p->prevMode = gs_p->mode;
 			gs_p->playerNum = gs_p->mode;
 		}
-		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 
 		runGame(gs_p, input);
-
 		updateGameUI(&(gs_p->player), &(gs_p->score),gs_p->gameSpeed);
+
 		break;
 	case(2): //Multiplayer
 		if(gs_p->gameInitialized == 0) initializeGame(gs_p);
@@ -110,11 +108,10 @@ void modeSelect(gameStruct_t * gs_p)
 			gs_p->prevMode = gs_p->mode;
 			gs_p->playerNum = gs_p->mode;
 		}
-		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 
 		runGame(gs_p, input);
-
 		updateGameUI(&(gs_p->player), &(gs_p->score),gs_p->gameSpeed);
+
 		break;
 
 	case(3):
@@ -126,9 +123,8 @@ void modeSelect(gameStruct_t * gs_p)
 			helpMenu(gs_p->gameInitialized);
 			gs_p->prevMode = gs_p->mode;
 		}
-		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
-		break;
 
+		break;
 	case(4):
 		//Boss key
 		if(MODE_CHANGE){
@@ -136,7 +132,7 @@ void modeSelect(gameStruct_t * gs_p)
 			bossScreen();
 			gs_p->prevMode = gs_p->mode;
 		}
-		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
+		//gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 		break;
 	case(5):
 		//game over
@@ -146,12 +142,12 @@ void modeSelect(gameStruct_t * gs_p)
 			gs_p->prevMode = gs_p->mode;
 			lcd_game_over(gs_p->LCDbuffer);
 		}
-		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
+
 		break;
 	default:
 		gs_p->mode = 0;
 	}
-
+	gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 }
 
 void initializeGame(gameStruct_t * gs_p){
