@@ -44,6 +44,7 @@ typedef struct{
 uint8_t game_update();
 void initProgram(gameStruct_t * gs_p);
 void modeSelect(gameStruct_t * gs_p);
+void newMode(gameStruct_t * gs_p);
 void initializeGame(gameStruct_t * gs_p);
 uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p);
 void updateGameSpeed(gameStruct_t * gs_p);

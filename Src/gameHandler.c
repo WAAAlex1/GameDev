@@ -35,17 +35,14 @@ uint8_t game_update()
 }
 
 void initProgram(gameStruct_t * gs_p){
+	//Initialize UART
 	uart_init(1024000);
 	invisibleCursor();
 	uart_clear();
 	color(15, 0);
 	clrscr();
-	gs_p->tickCounter = 0;
-	gs_p->mode = 0;
-	gs_p->prevMode = 1;
-	gs_p->gameInitialized = 0;
-	gs_p->playerNum = 0;
-	gs_p->cooldownCounter = 3;
+
+	//Initialize HARDWARE
 	initTimer();
 	initController();
 	srand( (unsigned)(lutSin(readPot1()) + lutCos(readPot2())) ); //comment to debug same seed
@@ -55,6 +52,15 @@ void initProgram(gameStruct_t * gs_p){
 	initLED();
 	initBuzz();
 	setLED(0, 0, 0);
+
+	//Initialize gamestruct values
+	gs_p->tickCounter = 0;
+	gs_p->mode = 0;
+	gs_p->prevMode = 1;
+	gs_p->gameInitialized = 0;
+	gs_p->playerNum = 0;
+	gs_p->cooldownCounter = 3;
+
 
 	//INIT TOP LEVEL STRUCTS
 	init_entityHandler(&(gs_p->entHan),gs_p->entityArray);
@@ -67,87 +73,46 @@ void modeSelect(gameStruct_t * gs_p)
 	char input = get_key_pressed();
 	if(uart_get_count() >= 3) uart_clear();
 	turnOffBuzz();
-
-	if(gs_p->gameInitialized) setLEDSide(gs_p);
-
-	switch(gs_p->mode){
-	case(0):
-		//Functions for main menu
-		if(MODE_CHANGE){
-			setLED(0, 0, 0);
-			color(15, 0);
-			clrscr();
-			initMainMenu();
-			gs_p->prevMode = gs_p->mode;
-		}
-		break;
-	case(1): //Singleplayer
+	if(MODE_CHANGE){
+		newMode(gs_p);
+	}
+	if(gs_p->mode == 1 || gs_p->mode == 2){
 		if(gs_p->gameInitialized == 0) initializeGame(gs_p);
-		if(MODE_CHANGE)
-		{
-			setLED(0, 0, 0);
-			color(15, 0);
-			clrscr();
-			initGameUI(&(gs_p->player),gs_p->gameSpeed);
-			gs_p->prevMode = gs_p->mode;
-			gs_p->playerNum = gs_p->mode;
-		}
-
+		setLEDSide(gs_p);
 		runGame(gs_p, input);
 		updateGameUI(&(gs_p->player), &(gs_p->score),gs_p->gameSpeed);
-
-		break;
-	case(2): //Multiplayer
-		if(gs_p->gameInitialized == 0) initializeGame(gs_p);
-		if(MODE_CHANGE)
-		{
-			setLED(0, 0, 0);
-			color(15, 0);
-			clrscr();
-			initGameUI(&(gs_p->player),gs_p->gameSpeed);
-			gs_p->prevMode = gs_p->mode;
-			gs_p->playerNum = gs_p->mode;
-		}
-
-		runGame(gs_p, input);
-		updateGameUI(&(gs_p->player), &(gs_p->score),gs_p->gameSpeed);
-
-		break;
-
-	case(3):
-		//Help menu
-		if(MODE_CHANGE){
-			setLED(0, 0, 0);
-			color(15, 0);
-			clrscr();
-			helpMenu(gs_p->gameInitialized);
-			gs_p->prevMode = gs_p->mode;
-		}
-
-		break;
-	case(4):
-		//Boss key
-		if(MODE_CHANGE){
-			setLED(0, 0, 0);
-			bossScreen();
-			gs_p->prevMode = gs_p->mode;
-		}
-		//gs_p->mode = modePicker(gs_p->mode, input, gs_p);
-		break;
-	case(5):
-		//game over
-		if(MODE_CHANGE){
-			uart_clear();
-			initGameOverScreen(gs_p);
-			gs_p->prevMode = gs_p->mode;
-			lcd_game_over(gs_p->LCDbuffer);
-		}
-
-		break;
-	default:
-		gs_p->mode = 0;
 	}
 	gs_p->mode = modePicker(gs_p->mode, input, gs_p);
+}
+
+void newMode(gameStruct_t * gs_p){
+	setLED(0, 0, 0);
+	color(15, 0);
+	uart_clear();
+	clrscr();
+	gs_p->prevMode = gs_p->mode;
+	switch(gs_p->mode){
+	case(0):
+		initMainMenu();
+		break;
+	case(1):
+	case(2):
+		initGameUI(&(gs_p->player),gs_p->gameSpeed);
+		gs_p->playerNum = gs_p->mode;
+		break;
+	case(3):
+		helpMenu(gs_p->gameInitialized);
+		break;
+	case(4): // BOSS SCREEN
+		bossScreen();
+		break;
+	case(5): // GAME OVER
+		initGameOverScreen(gs_p);
+		lcd_game_over(gs_p->LCDbuffer);
+		break;
+	default:
+		break;
+	}
 }
 
 void initializeGame(gameStruct_t * gs_p){
@@ -171,7 +136,6 @@ void initializeGame(gameStruct_t * gs_p){
 	{
 		gs_p->entityArray[i].isActive = 0;
 	}
-
 }
 
 uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
@@ -223,7 +187,6 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 		default :
 			return mode;
 	}
-
 	return mode;
 }
 
@@ -240,8 +203,6 @@ void runGame(gameStruct_t * gs_p, char input)
 	lcd_clear_all(gs_p->LCDbuffer,0x00);
 
 	//update playeractions based on inputs:
-	if(gs_p->playerNum == 2) updateCrosshair(&(gs_p->player),readJoystick());
-
 	switch(gs_p->playerNum){
 		case 1:
 			if(input == ',')
@@ -264,6 +225,7 @@ void runGame(gameStruct_t * gs_p, char input)
 			}
 			break;
 		case 2:
+			updateCrosshair(&(gs_p->player),readJoystick());
 			if(readButton2())
 			{
 				changeGunside(&(gs_p->player));
@@ -285,7 +247,6 @@ void runGame(gameStruct_t * gs_p, char input)
 		default:
 			break;
 	}
-
 	if(input == ' ') usePowerUp(&(gs_p->player),&(gs_p->bulMan), &(gs_p->entHan));
 
 	//update entities:

@@ -151,9 +151,6 @@ void bossScreen(){
 }
 
 void initGameOverScreen(gameStruct_t * gs_p){
-	color(15, 0);
-	clrscr();
-
 	gotoxy(46, 5);
 	printf("GAME OVER");
 
