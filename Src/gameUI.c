@@ -28,6 +28,19 @@ void initGameUI(player_t *player, uint8_t gameLevel)
 	printf("HP");
 	showPlayerHealth(player);
 
+	//POWERUP
+	color(0, 7);
+	gotoxy(88, 12);
+	printf("POWER");
+	gotoxy(88, 17);
+	printf(" NONE ");
+	color(0, 0);
+	gotoxy(88, 14);
+	printf("      ");
+	gotoxy(88, 15);
+	printf("      ");
+	color(0, 7);
+
 	//Game level
 	color(0, 7);
 	gotoxy(88, 26);
@@ -35,21 +48,8 @@ void initGameUI(player_t *player, uint8_t gameLevel)
 	showGameLevel(gameLevel);
 	printf("/15");
 
-	//POWERUP
-	color(0, 7);
-	gotoxy(88, 15);
-	printf("POWER");
-	gotoxy(88, 20);
-	printf(" NONE ");
-	color(0, 0);
-	gotoxy(88, 17);
-	printf("     ");
-	gotoxy(88, 18);
-	printf("     ");
-	color(0, 7);
-
 	//SCORE
-	gotoxy(88, 30);
+	gotoxy(88, 34);
 	printf("SCORE");
 
 	//MENU NAVIGATION
@@ -143,35 +143,35 @@ void showPlayerPowerUp(player_t *player)
 
 	switch(player->powerUp){
 		case 1: //MEDKIT
-			gotoxy(88, 20);
+			gotoxy(88, 17);
 			printf(" HEAL ");
 			color(0, 2);
 			break;
 		case 2: //SHIELD
-			gotoxy(88, 20);
+			gotoxy(88, 17);
 			printf("SHIELD");
 			color(0, 4);
 			break;
 		case 3: //MEGA BULLET
-			gotoxy(88, 20);
+			gotoxy(88, 17);
 			printf(" MEGA ");
 			color(0, 1);
 			break;
 		default: //NONE
-			gotoxy(88, 20);
+			gotoxy(88, 17);
 			printf(" NONE ");
 			color(0, 0);
 			break;
 	}
 
-	gotoxy(88, 17);
-	printf("     ");
-	gotoxy(88, 18);
-	printf("     ");
+	gotoxy(88, 14);
+	printf("      ");
+	gotoxy(88, 15);
+	printf("      ");
 }
 
 void showPlayerScore(gamescore_t *score){
-	gotoxy(86, 32);
+	gotoxy(86, 35);
 	color(0, 7);
 	printf("%010lu", score->score);
 }

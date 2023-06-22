@@ -249,6 +249,7 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 				gs_p->gameInitialized = 0;
 				return 0;
 			}
+			break;
 		default :
 			return mode;
 	}
