@@ -18,7 +18,7 @@ typedef struct{
 } stopwatch_t;
 
 extern volatile stopwatch_t stopwatch;
-extern volatile uint8_t LCD_Flag;
+extern volatile uint8_t timer_Flag;
 
 void initTimerStuff();
 void updateTimer();

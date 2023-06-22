@@ -1,3 +1,4 @@
+#include <LED.h>
 #include "PuttyLCDConverter.h"
 #include "stdint.h"
 #include "ansi.h"
@@ -13,7 +14,6 @@
 #include "scoreCalc.h"
 #include "menus.h"
 #include "menusAPI.h"
-#include "joystick.h"
 #include "serialRead.h"
 #include "highscore.h"
 #include "gameUI.h"
@@ -25,9 +25,9 @@
 
 uint8_t game_update()
 {
-	if(LCD_Flag == 1)
+	if(timer_Flag == 1)
 	{
-		LCD_Flag = 0;
+		timer_Flag = 0;
 		return 1;
 	}
 
