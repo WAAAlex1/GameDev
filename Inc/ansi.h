@@ -21,7 +21,7 @@ void gotoxy(uint8_t x, uint8_t y);
 void underline(uint8_t on);
 void blink(uint8_t on);
 void inverse(uint8_t on);
-void window(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, char title[], uint8_t style);
+void window(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, char title[]);
 void moveCursorX(uint8_t X, uint8_t UP);
 void moveCursorY(uint8_t Y, uint8_t UP);
 void invisibleCursor();

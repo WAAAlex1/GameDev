@@ -139,6 +139,7 @@ void modeSelect(gameStruct_t * gs_p)
 	case(5):
 		//game over
 		if(MODE_CHANGE){
+			uart_clear();
 			initGameOverScreen(gs_p);
 			gs_p->prevMode = gs_p->mode;
 			lcd_clear_all(gs_p->LCDbuffer,0x00);

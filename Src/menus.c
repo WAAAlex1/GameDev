@@ -33,10 +33,16 @@ void initMainMenu(){
 }
 
 void helpMenu(uint8_t bool){
+	char *objective = "Objective";
+
 	color(15, 0);
 
-	gotoxy(46, 5);
-	printf("Controls");
+	window(25, 2, 75, 7, objective);
+	gotoxy(30, 4);
+	printf("Your goal is to survive and destroy as");
+	gotoxy(30, 5);
+	printf("many asteroids and enemies as possible.");
+
 
 	gotoxy(10, 10);
 	inverse(1);
