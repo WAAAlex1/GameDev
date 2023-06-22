@@ -258,6 +258,7 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 
 void updateGameSpeed(gameStruct_t * gs_p)
 {
+	//tick up every minute:
 	gs_p->gameSpeed = capInterval(gs_p->ticks / 600,0,15);
 }
 
@@ -324,7 +325,7 @@ void runGame(gameStruct_t * gs_p, char input)
 
 	//Create new entities
 	enemiesShoot(&(gs_p->bulMan),&(gs_p->entHan),&(gs_p->enemMan),(1 << 14) + ((gs_p->gameSpeed << 14)*(9 << 7) >> 14)); //bulletSpeed is 1 + 0.07*gameSpeed
-	if(gs_p->spawnCounter == 20-gs_p->gameSpeed)
+	if(gs_p->spawnCounter >= 20-gs_p->gameSpeed)
 	{
 		spawnRandom(&(gs_p->enemMan),&(gs_p->entHan),gs_p->playerNum == 2 ? 2 : 0, (1 << 12) + ((gs_p->gameSpeed << 14)*(13 << 6) >> 14)); //enemySpeed is 1/4 + 0.051*gameSpeed
 		gs_p->spawnCounter = 0;
