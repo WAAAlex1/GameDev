@@ -12,10 +12,12 @@
 #include "scoreCalc.h"
 #include "gameUI.h"
 
-void initGameUI(player_t *player){
+void initGameUI(player_t *player, uint8_t gameLevel)
+{
 	color(15, 7);
 
-	for(uint8_t i = 1; i <= 46; i++){
+	for(uint8_t i = 1; i <= 46; i++)
+	{
 		gotoxy(81, i);
 		printf("                    ");
 	}
@@ -25,6 +27,13 @@ void initGameUI(player_t *player){
 	gotoxy(90, 2);
 	printf("HP");
 	showPlayerHealth(player);
+
+	//Game level
+	color(0, 7);
+	gotoxy(88, 26);
+	printf("LEVEL");
+	showGameLevel(gameLevel);
+	printf("/15");
 
 	//POWERUP
 	color(0, 7);
@@ -50,19 +59,24 @@ void initGameUI(player_t *player){
 	printf("'h' - Help menu");
 }
 
-void updateGameUI(player_t *player, gamescore_t *score){
+void updateGameUI(player_t *player, gamescore_t *score,uint8_t gameLevel)
+{
 	static uint8_t prevHealth = 0;
 	static uint8_t prevPowerUp = 0;
+	static uint8_t prevLevel = 0;
 
 	if(player->HP != prevHealth) showPlayerHealth(player);
 	if(player->powerUp != prevPowerUp) showPlayerPowerUp(player);
+	if(gameLevel != prevLevel) showGameLevel(gameLevel);
 	showPlayerScore(score);
 
 	prevHealth = player->HP;
 	prevPowerUp = player->powerUp;
+	prevLevel = gameLevel;
 }
 
-void showPlayerHealth(player_t *player){
+void showPlayerHealth(player_t *player)
+{
 	color(7, 1);
 	switch(player->HP){
 		case 4:
@@ -123,7 +137,8 @@ void showPlayerHealth(player_t *player){
 	}
 }
 
-void showPlayerPowerUp(player_t *player){
+void showPlayerPowerUp(player_t *player)
+{
 	color(0, 7);
 
 	switch(player->powerUp){
@@ -159,6 +174,13 @@ void showPlayerScore(gamescore_t *score){
 	gotoxy(86, 32);
 	color(0, 7);
 	printf("%010lu", score->score);
+}
+
+void showGameLevel(uint8_t gameLevel)
+{
+	gotoxy(88,27);
+	color(0, 7);
+	printf("%02d",gameLevel);
 }
 
 

@@ -245,5 +245,5 @@ void checkEntityPos(entity_t * ptr){
 	int32_t y = ptr->pos.y >> 14;
 
 	//should create a bit of a bufferzone around our actual screen, making sure that the objects can pass seamlessly.
-	if(x < -5 || x > 81 || y > 47 || y < -5) destroyEntity(ptr);
+	if(x < 0 || x > 81 || y > 47 || y < -3) destroyEntity(ptr);
 }

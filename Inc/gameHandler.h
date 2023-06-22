@@ -31,6 +31,8 @@ typedef struct{
 	uint8_t tickCounter;
 	uint8_t spawnCounter;
 	uint8_t cooldownCounter;
+	uint8_t gameSpeed; //goes from 0 to 15 over a long lasting game
+	uint32_t ticks; //counts number of ticks since game launch
 
 	uint8_t mode;
 	uint8_t prevMode;
@@ -47,6 +49,7 @@ void clearGame(gameStruct_t * gs_p);
 void updateGameFromInputs(gameStruct_t * gs_p, char input);
 void drawGame(gameStruct_t * gs_p);
 uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p);
+void updateGameSpeed(gameStruct_t * gs_p);
 void runGame(gameStruct_t * gs_p, char input);
 
 #endif	// _INITGAME_

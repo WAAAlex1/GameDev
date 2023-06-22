@@ -46,7 +46,7 @@ void initProgram(gameStruct_t * gs_p){
 	gs_p->gameInitialized = 0;
 	gs_p->playerNum = 0;
 	gs_p->cooldownCounter = 3;
-	initTimerStuff(); //Comment to debug
+	initTimerStuff();
 	initController();
 	srand( (unsigned)(lutSin(readPot1()) + lutCos(readPot2())) ); //comment to debug same seed
 	initLCD();
@@ -83,36 +83,38 @@ void modeSelect(gameStruct_t * gs_p)
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 		break;
 	case(1): //Singleplayer
-		if(MODE_CHANGE){
+		if(gs_p->gameInitialized == 0) initializeGame(gs_p);
+		if(MODE_CHANGE)
+		{
 			setLED(0, 0, 0);
 			color(15, 0);
 			clrscr();
-			initGameUI(&(gs_p->player));
+			initGameUI(&(gs_p->player),gs_p->gameSpeed);
 			gs_p->prevMode = gs_p->mode;
 			gs_p->playerNum = gs_p->mode;
 		}
-		if(gs_p->gameInitialized == 0) initializeGame(gs_p);
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 
 		runGame(gs_p, input);
 
-		updateGameUI(&(gs_p->player), &(gs_p->score));
+		updateGameUI(&(gs_p->player), &(gs_p->score),gs_p->gameSpeed);
 		break;
 	case(2): //Multiplayer
-		if(MODE_CHANGE){
+		if(gs_p->gameInitialized == 0) initializeGame(gs_p);
+		if(MODE_CHANGE)
+		{
 			setLED(0, 0, 0);
 			color(15, 0);
 			clrscr();
-			initGameUI(&(gs_p->player));
+			initGameUI(&(gs_p->player),gs_p->gameSpeed);
 			gs_p->prevMode = gs_p->mode;
 			gs_p->playerNum = gs_p->mode;
 		}
-		if(gs_p->gameInitialized == 0) initializeGame(gs_p);
 		gs_p->mode = modePicker(gs_p->mode, input, gs_p);
 
 		runGame(gs_p, input);
 
-		updateGameUI(&(gs_p->player), &(gs_p->score));
+		updateGameUI(&(gs_p->player), &(gs_p->score),gs_p->gameSpeed);
 		break;
 
 	case(3):
@@ -159,6 +161,8 @@ void initializeGame(gameStruct_t * gs_p){
 	//INIT CONTROL VARIABLES
 	gs_p->spawnCounter = 0;
 	gs_p->gameInitialized = 1;
+	gs_p->gameSpeed = 0;
+	gs_p->ticks = 0;
 	initScore(&(gs_p->score));
 
 	//ADD PLAYER - WITH SET NUMBER OF PLAYERS.
@@ -252,6 +256,11 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 	return mode;
 }
 
+void updateGameSpeed(gameStruct_t * gs_p)
+{
+	gs_p->gameSpeed = capInterval(gs_p->ticks / 600,0,15);
+}
+
 void runGame(gameStruct_t * gs_p, char input)
 {
 	//Clear
@@ -263,7 +272,8 @@ void runGame(gameStruct_t * gs_p, char input)
 
 	switch(gs_p->playerNum){
 		case 1:
-			if(input == ','){
+			if(input == ',')
+			{
 				gs_p->player.gunSide = 1;
 				setLED(1, 0, 0);
 			}
@@ -274,23 +284,27 @@ void runGame(gameStruct_t * gs_p, char input)
 			else {
 				gs_p->player.gunSide = gs_p->player.gunSide;
 			}
-			if(!(gs_p->cooldownCounter) && (input == ',' || input == '.')){
+			if(!(gs_p->cooldownCounter) && (input == ',' || input == '.'))
+			{
 				gs_p->cooldownCounter = 10;
 				setLED(0, 1, 0);
 				playerShoot(&(gs_p->player),&(gs_p->bulMan),&(gs_p->entHan),0,0);
 			}
 			break;
 		case 2:
-			if(readButton2()){
+			if(readButton2())
+			{
 				changeGunside(&(gs_p->player));
-				if(gs_p->player.gunSide == 1){
+				if(gs_p->player.gunSide == 1)
+				{
 					setLED(1, 0, 0);
 				} else if(gs_p->player.gunSide == -1){
 					setLED(0, 0, 1);
 				}
 			}
 
-			if(readButton1() && !(gs_p->cooldownCounter)){
+			if(readButton1() && !(gs_p->cooldownCounter))
+			{
 				gs_p->cooldownCounter = 10;
 				setLED(0, 1, 0);
 				playerShoot(&(gs_p->player),&(gs_p->bulMan),&(gs_p->entHan),0,gs_p->player.crosshairY);
@@ -309,15 +323,17 @@ void runGame(gameStruct_t * gs_p, char input)
 	checkPlayerCollision(&(gs_p->player),&(gs_p->entHan));
 
 	//Create new entities
-	enemiesShoot(&(gs_p->bulMan),&(gs_p->entHan),&(gs_p->enemMan));
-	if(gs_p->spawnCounter == 20) {
-		spawnRandom(&(gs_p->enemMan),&(gs_p->entHan),gs_p->playerNum == 2 ? 3 : 0);
+	enemiesShoot(&(gs_p->bulMan),&(gs_p->entHan),&(gs_p->enemMan),(1 << 14) + ((gs_p->gameSpeed << 14)*(9 << 7) >> 14)); //bulletSpeed is 1 + 0.07*gameSpeed
+	if(gs_p->spawnCounter == 20-gs_p->gameSpeed)
+	{
+		spawnRandom(&(gs_p->enemMan),&(gs_p->entHan),gs_p->playerNum == 2 ? 2 : 0, (1 << 12) + ((gs_p->gameSpeed << 14)*(13 << 6) >> 14)); //enemySpeed is 1/4 + 0.051*gameSpeed
 		gs_p->spawnCounter = 0;
 	}
 	incrementCounter(&(gs_p->spawnCounter), 1);
 
 	//Draw LCD
-	if(gs_p->playerNum == 2){
+	if(gs_p->playerNum == 2)
+	{
 		lcd_draw_crosshair(gs_p->LCDbuffer,gs_p->player.crosshairX,gs_p->player.crosshairY);
 		con_draw_putty_to_lcd(&(gs_p->enemMan), &(gs_p->player),gs_p->LCDbuffer);
 		lcd_push_buffer(gs_p->LCDbuffer);
@@ -337,54 +353,6 @@ void runGame(gameStruct_t * gs_p, char input)
 	drawPlayer(&(gs_p->player));
 
 	incrementScore(&(gs_p->score), 100);
+	(gs_p->ticks)++;
+	updateGameSpeed(gs_p);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
