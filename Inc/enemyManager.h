@@ -8,7 +8,7 @@
 #ifndef ENEMYMANAGER_H_
 #define ENEMYMANAGER_H_
 
-#define ENEMY_ARR_LENGTH 31
+#define ENEMY_ARR_LENGTH 15
 
 #include "entity.h"
 #include "enemy.h"

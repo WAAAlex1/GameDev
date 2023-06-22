@@ -8,7 +8,7 @@
 #ifndef BULLETMANAGER_H_
 #define BULLETMANAGER_H_
 
-#define BULLET_ARR_LENGTH 32
+#define BULLET_ARR_LENGTH 16
 
 #include "entityHandler.h"
 #include "entity.h"

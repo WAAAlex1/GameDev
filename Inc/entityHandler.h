@@ -6,7 +6,7 @@
 
 // DEFINES
 
-#define ENTITY_ARR_LEN 64
+#define ENTITY_ARR_LEN 32
 
 typedef struct{
 	entity_t *entityArray[ENTITY_ARR_LEN];
