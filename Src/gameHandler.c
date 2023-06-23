@@ -59,7 +59,7 @@ void initProgram(gameStruct_t * gs_p){
 	gs_p->prevMode = 1;
 	gs_p->gameInitialized = 0;
 	gs_p->playerNum = 0;
-	gs_p->cooldownCounter = 3;
+	gs_p->cooldownCounter = 0;
 
 
 	//INIT TOP LEVEL STRUCTS
@@ -135,6 +135,7 @@ void initializeGame(gameStruct_t * gs_p){
 	{
 		gs_p->entityArray[i].isActive = 0;
 	}
+	return;
 }
 
 uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
@@ -152,8 +153,8 @@ uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p){
 		case 1: //SINGLEPLAYER
 		case 2: //MULTIPLAYER
 			if(input == 'h') return 3;
-			else if(input == 0x1B)
-			{ //ESC
+			else if(input == 0x1B) //ESC
+			{
 				gs_p->gameInitialized = 0;
 				return 0;
 			} else if(input == 'b' || input == 'B') return 4;
@@ -239,6 +240,7 @@ void runGame(gameStruct_t * gs_p, char input)
 	drawAllEntities(&(gs_p->entHan));
 	drawPlayer(&(gs_p->player));
 
+	//update score and difficulty
 	incrementScore(&(gs_p->score), 100);
 	(gs_p->ticks)++;
 	updateGameSpeed(gs_p);
