@@ -1,10 +1,3 @@
-/*
- * player.c
- *
- *  Created on: 14. jun. 2023
- *      Author: frede
- */
-
 #include <stdint.h>
 #include "ansi.h"
 #include "PuTTYSprites.h"

@@ -1,10 +1,3 @@
-/*
- * enemy.c
- *
- *  Created on: 16. jun. 2023
- *      Author: georg
- */
-
 #include "bullet.h"
 #include "util.h"
 #include "entity.h"

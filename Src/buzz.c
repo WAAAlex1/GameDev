@@ -1,10 +1,3 @@
-/*
- * buzz.c
- *
- *  Created on: 8. jun. 2023
- *      Author: frede
- */
-
 #include "buzz.h"
 
 void initBuzz(){

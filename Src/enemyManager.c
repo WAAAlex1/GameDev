@@ -1,10 +1,3 @@
-/*
- * enemyManager.c
- *
- *  Created on: 19. jun. 2023
- *      Author: frede
- */
-
 #include "enemy.h"
 #include "entity.h"
 #include <stdlib.h>

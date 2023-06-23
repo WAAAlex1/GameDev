@@ -1,10 +1,3 @@
-/*
- * gameUI.c
- *
- *  Created on: 19. jun. 2023
- *      Author: frede
- */
-
 #include <stdint.h>
 #include <stdio.h>
 #include "ansi.h"

@@ -148,15 +148,6 @@ void window(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, char title[]){
 	}
 }
 
-void printTime(uint8_t hours, uint8_t minutes, uint8_t seconds, uint8_t hundredsthsOfSeconds,uint8_t x, uint8_t y, char title[])
-{
-	gotoxy(x,y);
-	printf("%s:",title);
-	gotoxy(x+20,y);
-	printf("%d:%02d:%02d:%02d",hours,minutes,seconds,hundredsthsOfSeconds);
-
-}
-
 void moveCursorX(uint8_t X, uint8_t UP){ //GOING RIGHT/LEFT
     printf("%c[%d%c", ESC, X,  UP ? 'C' : 'D');
 }

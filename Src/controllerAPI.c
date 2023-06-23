@@ -1,10 +1,3 @@
-/*
- * controllerAPI.c
- *
- *  Created on: 14. jun. 2023
- *      Author: frede
- */
-
 #include "controller.h"
 #include "controllerAPI.h"
 
