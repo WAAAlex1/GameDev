@@ -49,5 +49,6 @@ void initializeGame(gameStruct_t * gs_p);
 uint8_t modePicker(uint8_t mode, char input, gameStruct_t * gs_p);
 void updateGameSpeed(gameStruct_t * gs_p);
 void runGame(gameStruct_t * gs_p, char input);
+void usePlayerActionsFromInput(gameStruct_t * gs_p, char input);
 
 #endif	// _INITGAME_

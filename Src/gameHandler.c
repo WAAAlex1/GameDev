@@ -71,7 +71,6 @@ void initProgram(gameStruct_t * gs_p){
 void modeSelect(gameStruct_t * gs_p)
 {
 	char input = get_key_pressed();
-	if(uart_get_count() >= 3) uart_clear();
 	turnOffBuzz();
 	if(MODE_CHANGE){
 		newMode(gs_p);
@@ -203,51 +202,7 @@ void runGame(gameStruct_t * gs_p, char input)
 	lcd_clear_all(gs_p->LCDbuffer,0x00);
 
 	//update playeractions based on inputs:
-	switch(gs_p->playerNum){
-		case 1:
-			if(input == ',')
-			{
-				gs_p->player.gunSide = 1;
-				setLED(1, 0, 0);
-			}
-			else if(input == '.'){
-				gs_p->player.gunSide = -1;
-				setLED(0, 0, 1);
-			}
-			else {
-				gs_p->player.gunSide = gs_p->player.gunSide;
-			}
-			if(!(gs_p->cooldownCounter) && (input == ',' || input == '.'))
-			{
-				gs_p->cooldownCounter = 10;
-				setLED(0, 1, 0);
-				playerShoot(&(gs_p->player),&(gs_p->bulMan),&(gs_p->entHan),0,0);
-			}
-			break;
-		case 2:
-			updateCrosshair(&(gs_p->player),readJoystick());
-			if(readButton2())
-			{
-				changeGunside(&(gs_p->player));
-				if(gs_p->player.gunSide == 1)
-				{
-					setLED(1, 0, 0);
-				} else if(gs_p->player.gunSide == -1){
-					setLED(0, 0, 1);
-				}
-			}
-
-			if(readButton1() && !(gs_p->cooldownCounter))
-			{
-				gs_p->cooldownCounter = 10;
-				setLED(0, 1, 0);
-				playerShoot(&(gs_p->player),&(gs_p->bulMan),&(gs_p->entHan),0,gs_p->player.crosshairY);
-			}
-			break;
-		default:
-			break;
-	}
-	if(input == ' ') usePowerUp(&(gs_p->player),&(gs_p->bulMan), &(gs_p->entHan));
+	usePlayerActionsFromInput(gs_p, input);
 
 	//update entities:
 	updatePlayerVel(&(gs_p->player), input);
@@ -272,7 +227,6 @@ void runGame(gameStruct_t * gs_p, char input)
 		lcd_push_buffer(gs_p->LCDbuffer);
 	}
 
-
 	//DEBUG:
 	if(gs_p->player.entity == 0xFFFFFFFF)
 	{
@@ -289,3 +243,57 @@ void runGame(gameStruct_t * gs_p, char input)
 	(gs_p->ticks)++;
 	updateGameSpeed(gs_p);
 }
+
+void usePlayerActionsFromInput(gameStruct_t * gs_p, char input){
+	switch(gs_p->playerNum){
+		case 1: //SINGLEPLAYER
+			//SHOOTING AND CHANGING GUNSIDE
+			if(input == ',')
+			{
+				gs_p->player.gunSide = 1;
+				if(!(gs_p->cooldownCounter)){
+					gs_p->cooldownCounter = 10;
+					setLED(0, 1, 0);
+					playerShoot(&(gs_p->player),&(gs_p->bulMan),&(gs_p->entHan),0,0);
+				}
+				else setLED(1, 0, 0);
+			}
+			else if(input == '.'){
+				gs_p->player.gunSide = -1;
+				if(!(gs_p->cooldownCounter)){
+					gs_p->cooldownCounter = 10;
+					setLED(0, 1, 0);
+					playerShoot(&(gs_p->player),&(gs_p->bulMan),&(gs_p->entHan),0,0);
+				}
+				else setLED(0, 0, 1);
+			}
+			break;
+		case 2: //MULTIPLAYER
+			//SHOOTING AND CHANGING GUNSIDE
+			updateCrosshair(&(gs_p->player),readJoystick());
+			if(readButton2())
+			{
+				changeGunside(&(gs_p->player));
+				if(gs_p->player.gunSide == 1)
+				{
+					setLED(1, 0, 0);
+				} else if(gs_p->player.gunSide == -1){
+					setLED(0, 0, 1);
+				}
+			}
+			if(readButton1() && !(gs_p->cooldownCounter))
+			{
+				gs_p->cooldownCounter = 10;
+				setLED(0, 1, 0);
+				playerShoot(&(gs_p->player),&(gs_p->bulMan),&(gs_p->entHan),0,gs_p->player.crosshairY);
+			}
+			break;
+		default:
+			break;
+	}
+	//USING POWERUP
+	if(input == ' ') usePowerUp(&(gs_p->player),&(gs_p->bulMan), &(gs_p->entHan));
+}
+
+
+
