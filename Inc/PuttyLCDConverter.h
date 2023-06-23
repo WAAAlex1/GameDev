@@ -1,10 +1,3 @@
-/*
- * PuttyLCDConverter.h
- *
- *  Created on: 14. jun. 2023
- *      Author: georg
- */
-
 #ifndef PUTTYLCDCONVERTER_H_
 #define PUTTYLCDCONVERTER_H_
 

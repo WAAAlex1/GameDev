@@ -1,10 +1,3 @@
-/*
- * menusAPI.h
- *
- *  Created on: 13. jun. 2023
- *      Author: frede
- */
-
 #ifndef MENUSAPI_H_
 #define MENUSAPI_H_
 

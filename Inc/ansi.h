@@ -1,10 +1,3 @@
-/*
- * ansi.h
- *
- *  Created on: 1. jun. 2023
- *      Author: georg
- */
-
 #ifndef ANSI_H_
 #define ANSI_H_
 

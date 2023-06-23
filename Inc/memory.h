@@ -1,10 +1,3 @@
-/*
- * memory.h
- *
- *  Created on: 9. jun. 2023
- *      Author: frede
- */
-
 #ifndef MEMORY_H_
 #define MEMORY_H_
 

@@ -1,10 +1,3 @@
-/*
- * controller.h
- *
- *  Created on: 14. jun. 2023
- *      Author: frede
- */
-
 #ifndef CONTROLLER_H_
 #define CONTROLLER_H_
 

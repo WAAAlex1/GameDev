@@ -1,10 +1,3 @@
-/*
- * bulletManager.h
- *
- *  Created on: 16. jun. 2023
- *      Author: georg
- */
-
 #ifndef BULLETMANAGER_H_
 #define BULLETMANAGER_H_
 

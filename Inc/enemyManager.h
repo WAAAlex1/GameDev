@@ -1,10 +1,3 @@
-/*
- * enemyManager.h
- *
- *  Created on: 19. jun. 2023
- *      Author: frede
- */
-
 #ifndef ENEMYMANAGER_H_
 #define ENEMYMANAGER_H_
 

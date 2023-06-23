@@ -1,10 +1,3 @@
-/*
- * util.h
- *
- *  Created on: 14. jun. 2023
- *      Author: georg
- */
-
 #ifndef UTIL_H_
 #define UTIL_H_
 

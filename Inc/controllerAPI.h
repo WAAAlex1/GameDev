@@ -1,10 +1,3 @@
-/*
- * controllerAPI.h
- *
- *  Created on: 14. jun. 2023
- *      Author: frede
- */
-
 #ifndef CONTROLLERAPI_H_
 #define CONTROLLERAPI_H_
 

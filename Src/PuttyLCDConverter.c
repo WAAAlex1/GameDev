@@ -37,7 +37,7 @@ int32_t con_getVecY(uint8_t slice, int8_t gunside)
  */
 int32_t con_getVecX(int8_t gunside)
 {
-	return (-gunside + 0x80000000) << 14; //plus with 0x80000000 to convert to a 32bit int for fixed point
+	return (-gunside + 0x80000000) << 14; //plus with 0x80000000 to convert to a 32bit int for fixed point. Probably not needed
 }
 
 /*
@@ -127,5 +127,4 @@ void con_draw_putty_to_lcd(enemyManager_t *enemMan, player_t *player,uint8_t * L
 		}
 	}
 }
-
 

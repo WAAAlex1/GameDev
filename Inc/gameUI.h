@@ -1,10 +1,3 @@
-	/*
- * gameUI.h
- *
- *  Created on: 19. jun. 2023
- *      Author: frede
- */
-
 #ifndef GAMEUI_H_
 #define GAMEUI_H_
 

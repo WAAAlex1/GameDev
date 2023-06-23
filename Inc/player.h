@@ -1,10 +1,3 @@
-/*
- * player.h
- *
- *  Created on: 14. jun. 2023
- *      Author: frede
- */
-
 #ifndef PLAYER_H_
 #define PLAYER_H_
 

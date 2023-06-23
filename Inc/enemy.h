@@ -1,10 +1,3 @@
-/*
- * enemy.h
- *
- *  Created on: 16. jun. 2023
- *      Author: georg
- */
-
 #ifndef ENEMY_H_
 #define ENEMY_H_
 

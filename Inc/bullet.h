@@ -1,10 +1,3 @@
-/*
- * bullet.h
- *
- *  Created on: 16. jun. 2023
- *      Author: georg
- */
-
 #ifndef BULLET_H_
 #define BULLET_H_
 

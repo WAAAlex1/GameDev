@@ -1,10 +1,3 @@
-/*
- * buzz.h
- *
- *  Created on: 8. jun. 2023
- *      Author: frede
- */
-
 #ifndef BUZZ_H_
 #define BUZZ_H_
 
